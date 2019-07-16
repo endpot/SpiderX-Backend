@@ -1,0 +1,70 @@
+stages:
+  - build
+  - deploy
+
+build-dev:
+  stage: build
+  only:
+    - develop
+  image: docker:stable
+  services:
+    - docker:dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_DRIVER: overlay2
+    CONTAINER_RELEASE_IMAGE: registry.github.com/endpot/spiderx-backend:dev
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
+    - docker info
+    - docker build -f ./docker/Dockerfile -t $CONTAINER_RELEASE_IMAGE .
+    - docker push $CONTAINER_RELEASE_IMAGE
+    
+build-master:
+  stage: build
+  only:
+    - master
+  image: docker:stable
+  services:
+    - docker:dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_DRIVER: overlay2
+    CONTAINER_RELEASE_IMAGE: registry.github.com/endpot/spiderx-backend:latest
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
+    - docker info
+    - docker build -f ./docker/Dockerfile -t $CONTAINER_RELEASE_IMAGE .
+    - docker push $CONTAINER_RELEASE_IMAGE
+    
+build-tag:
+  stage: build
+  only:
+    - tags
+  except:
+    - branches
+  image: docker:stable
+  services:
+    - docker:dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_DRIVER: overlay2
+    CONTAINER_RELEASE_IMAGE: registry.github.com/endpot/spiderx-backend:$CI_COMMIT_TAG
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
+    - docker info
+    - docker build -f ./docker/Dockerfile -t $CONTAINER_RELEASE_IMAGE .
+    - docker push $CONTAINER_RELEASE_IMAGE
+
+deploy-dev:
+  stage: deploy
+  only:
+    - develop
+  script:
+    - curl $DEV_DEPLOY_URL -X POST
+    
+deploy-stage:
+  stage: deploy
+  only:
+    - master
+  script:
+    - curl $STAGE_DEPLOY_URL -X POST

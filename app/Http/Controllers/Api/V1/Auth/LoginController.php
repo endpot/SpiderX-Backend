@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Api\V1\Controllers;
+namespace App\Http\Controllers\Api\V1\Auth;
 
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Tymon\JWTAuth\JWTAuth;
-use App\Http\Controllers\Controller;
-use App\Api\V1\Requests\LoginRequest;
+use App\Http\Controllers\Api\Controller;
+use App\Http\Requests\Api\V1\Auth\LoginRequest;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Auth;
@@ -21,12 +21,20 @@ class LoginController extends Controller
      */
     public function login(LoginRequest $request, JWTAuth $JWTAuth)
     {
-        $credentials = $request->only(['email', 'password']);
-
+        $credentials = $request->only(['login_name', 'password']);
         try {
-            $token = Auth::guard()->attempt($credentials);
+            $token = Auth::guard()->attempt([
+                'name' => $credentials['login_name'],
+                'password' => $credentials['password'],
+            ]);
 
-            if(!$token) {
+            if (!$token) {
+                $token = Auth::guard()->attempt([
+                    'email' => $credentials['login_name'],
+                    'password' => $credentials['password'],
+                ]);
+            }
+            if (!$token) {
                 throw new AccessDeniedHttpException();
             }
 
@@ -34,11 +42,11 @@ class LoginController extends Controller
             throw new HttpException(500);
         }
 
-        return response()
-            ->json([
-                'status' => 'ok',
+        return $this->response->array([
+            'data' => [
                 'token' => $token,
                 'expires_in' => Auth::guard()->factory()->getTTL() * 60
-            ]);
+            ]
+        ])->setStatusCode(200);
     }
 }

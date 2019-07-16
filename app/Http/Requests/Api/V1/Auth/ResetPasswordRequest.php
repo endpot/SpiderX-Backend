@@ -1,15 +1,18 @@
 <?php
 
-namespace App\Api\V1\Requests;
+namespace App\Http\Requests\Api\V1\Auth;
 
-use Config;
 use Dingo\Api\Http\FormRequest;
 
 class ResetPasswordRequest extends FormRequest
 {
     public function rules()
     {
-        return Config::get('boilerplate.reset_password.validation_rules');
+        return [
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|confirmed'
+        ];
     }
 
     public function authorize()

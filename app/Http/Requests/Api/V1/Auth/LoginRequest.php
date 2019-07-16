@@ -1,15 +1,17 @@
 <?php
 
-namespace App\Api\V1\Requests;
+namespace App\Http\Requests\Api\V1\Auth;
 
-use Config;
 use Dingo\Api\Http\FormRequest;
 
 class LoginRequest extends FormRequest
 {
     public function rules()
     {
-        return Config::get('boilerplate.login.validation_rules');
+        return [
+            'login_name' => 'required',
+            'password' => 'required'
+        ];
     }
 
     public function authorize()

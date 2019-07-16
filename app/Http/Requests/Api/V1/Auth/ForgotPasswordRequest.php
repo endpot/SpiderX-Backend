@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Api\V1\Requests;
+namespace App\Http\Requests\Api\V1\Auth;
 
-use Config;
 use Dingo\Api\Http\FormRequest;
 
 class ForgotPasswordRequest extends FormRequest
 {
     public function rules()
     {
-        return Config::get('boilerplate.forgot_password.validation_rules');
+        return [
+            'email' => 'required|email'
+        ];
     }
 
     public function authorize()

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Api\V1\Controllers;
+namespace App\Http\Controllers\Api\V1\Auth;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\Controller;
 use Auth;
 
 class LogoutController extends Controller
@@ -20,13 +20,12 @@ class LogoutController extends Controller
     /**
      * Log the user out (Invalidate the token)
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Dingo\Api\Http\Response
      */
     public function logout()
     {
         Auth::guard()->logout();
 
-        return response()
-            ->json(['message' => 'Successfully logged out']);
+        return $this->response->noContent()->setStatusCode(200);
     }
 }

@@ -19,3 +19,5 @@ Route::get('reset_password/{token}', ['as' => 'password.reset', function($token)
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::any('/wechat-serve', 'WeChatServeController@serve');

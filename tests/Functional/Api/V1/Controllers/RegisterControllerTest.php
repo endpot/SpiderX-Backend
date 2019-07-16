@@ -6,13 +6,13 @@ use Config;
 use App\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class SignUpControllerTest extends TestCase
+class RegisterControllerTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function testSignUpSuccessfully()
+    public function testRegisterSuccessfully()
     {
-        $this->post('api/auth/signup', [
+        $this->post('api/auth/register', [
             'name' => 'Test User',
             'email' => 'test@email.com',
             'password' => '123456'
@@ -21,11 +21,11 @@ class SignUpControllerTest extends TestCase
         ])->assertStatus(201);
     }
 
-    public function testSignUpSuccessfullyWithTokenRelease()
+    public function testRegisterSuccessfullyWithTokenRelease()
     {
-        Config::set('boilerplate.sign_up.release_token', true);
+        Config::set('boilerplate.register.release_token', true);
 
-        $this->post('api/auth/signup', [
+        $this->post('api/auth/register', [
             'name' => 'Test User',
             'email' => 'test@email.com',
             'password' => '123456'
@@ -36,9 +36,9 @@ class SignUpControllerTest extends TestCase
         ])->assertStatus(201);
     }
 
-    public function testSignUpReturnsValidationError()
+    public function testRegisterReturnsValidationError()
     {
-        $this->post('api/auth/signup', [
+        $this->post('api/auth/register', [
             'name' => 'Test User',
             'email' => 'test@email.com'
         ])->assertJsonStructure([

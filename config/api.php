@@ -1,6 +1,5 @@
 <?php
 
-
 return [
 
     /*
@@ -138,13 +137,11 @@ return [
     */
 
     'errorFormat' => [
-        'error' => [
-            'message' => ':message',
-            'errors' => ':errors',
-            'code' => ':code',
-            'status_code' => ':status_code',
-            'debug' => ':debug'
-        ]
+        'message' => ':message',
+        'errors' => ':errors',
+        'code' => ':code',
+        'status_code' => ':status_code',
+        'debug' => ':debug',
     ],
 
     /*
@@ -171,7 +168,7 @@ return [
     */
 
     'auth' => [
-        'jwt' => 'Dingo\Api\Auth\Provider\JWT',
+
     ],
 
     /*
@@ -210,7 +207,7 @@ return [
     |
     | Responses can be returned in multiple formats by registering different
     | response formatters. You can also customize an existing response
-    | formatter.
+    | formatter with a number of options to configure its output.
     |
     */
 
@@ -219,6 +216,16 @@ return [
     'formats' => [
 
         'json' => Dingo\Api\Http\Response\Format\Json::class,
+
+    ],
+
+    'formatsOptions' => [
+
+        'json' => [
+            'pretty_print' => env('API_JSON_FORMAT_PRETTY_PRINT_ENABLED', false),
+            'indent_style' => env('API_JSON_FORMAT_INDENT_STYLE', 'space'),
+            'indent_size' => env('API_JSON_FORMAT_INDENT_SIZE', 2),
+        ],
 
     ],
 
