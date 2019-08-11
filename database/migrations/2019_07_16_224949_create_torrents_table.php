@@ -26,13 +26,16 @@ class CreateTorrentsTable extends Migration
             $table->unsignedInteger('view_count')->default(0);
             $table->unsignedInteger('seeder_count')->default(0);
             $table->unsignedInteger('leecher_count')->default(0);
-            $table->unsignedInteger('completer_count')->default(0);
+            $table->unsignedInteger('snatcher_count')->default(0);
 
             $table->binary('nfo');
-            $table->unsignedInteger('reward_bonus')->default(0);
+            $table->unsignedInteger('reward_bonus')->default(0)->comment('');
             $table->unsignedTinyInteger('is_anonymous')->default(0);
             $table->unsignedTinyInteger('position_level')->default(0);
-            $table->unsignedInteger('user_id')->default(0);
+            $table->unsignedInteger('uploader_id')->default(0)->comment('发布者ID');
+            $table->unsignedInteger('owner_id')->default(0)->comment('所有者ID');
+            $table->unsignedTinyInteger('is_inactive')->default(0)->comment('是否断种');
+
             $table->timestamps();
             $table->softDeletes();
         });
