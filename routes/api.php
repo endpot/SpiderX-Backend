@@ -18,6 +18,14 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\Api\V1'], function (Ro
         $api->get('me', 'UserController@me');
     });
 
+    $api->group([], function (Router $api) {
+        $api->get('announcements', 'AnnouncementController@getAnnouncementList');
+        $api->post('announcements', 'AnnouncementController@createAnnouncement');
+        $api->get('announcements/{id}', 'AnnouncementController@getAnnouncement');
+        $api->put('announcements/{id}', 'AnnouncementController@updateAnnouncement');
+        $api->delete('announcements/{id}', 'AnnouncementController@deleteAnnouncement');
+    });
+
     $api->group(['prefix' => 'actions'], function (Router $api) {
         // 健康检测
         $api->get('ping', function () {

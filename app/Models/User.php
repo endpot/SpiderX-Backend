@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Hash;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
@@ -100,10 +101,15 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereWarnedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereWarnedType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereWarnedUntil($value)
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\User onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\User withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\User withoutTrashed()
  */
 class User extends Authenticatable implements JWTSubject
 {
-    use Notifiable, HasRoles;
+    use SoftDeletes, Notifiable, HasRoles;
 
     protected $guard_name = 'api';
 
