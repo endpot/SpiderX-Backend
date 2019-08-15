@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Auth;
 
 use App\Models\User;
+use Illuminate\Support\Str;
 use Tymon\JWTAuth\JWTAuth;
 use App\Http\Controllers\Api\Controller;
 use App\Http\Requests\Api\V1\Auth\RegisterRequest;
@@ -21,6 +22,7 @@ class RegisterController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = $request->password;
+        $user->passkey = md5($user->name . $user->email . Str::random(32) . time());
 
         if (!$user->save()) {
             throw new HttpException(500);
