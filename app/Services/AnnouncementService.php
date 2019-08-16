@@ -27,7 +27,7 @@ class AnnouncementService
 
         if ($currentUser) {
             $announcement = new Announcement();
-            $announcement->user_id = $currentUser->id;
+            $announcement->user_id = $currentUser->getAuthIdentifier();
             $announcement->title = $data['title'] ?? '';
             $announcement->content = $data['content'] ?? '';
 

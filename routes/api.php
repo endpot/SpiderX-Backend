@@ -24,6 +24,11 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\Api\V1'], function (Ro
         $api->get('announcements/{id}', 'AnnouncementController@getAnnouncement');
         $api->put('announcements/{id}', 'AnnouncementController@updateAnnouncement');
         $api->delete('announcements/{id}', 'AnnouncementController@deleteAnnouncement');
+
+        $api->get('chats', 'ChatController@getChatList');
+        $api->post('chats', 'ChatController@createChat');
+        $api->get('chats/{id}', 'ChatController@getChat');
+        $api->delete('chats/{id}', 'ChatController@deleteChat');
     });
 
     $api->group(['prefix' => 'actions'], function (Router $api) {

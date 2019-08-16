@@ -233,7 +233,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'AnnouncementService' => \App\Facades\AnnouncementService::class,
-
+        'ChatService' => \App\Facades\ChatService::class,
     ],
 
 ];
