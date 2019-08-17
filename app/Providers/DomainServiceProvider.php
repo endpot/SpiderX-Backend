@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Services\AnnouncementService;
 use App\Services\ChatService;
+use App\Services\ForumService;
 use Illuminate\Support\ServiceProvider;
 
 class DomainServiceProvider extends ServiceProvider
@@ -31,6 +32,10 @@ class DomainServiceProvider extends ServiceProvider
 
         $this->app->bind('ChatService', function () {
             return new ChatService();
+        });
+
+        $this->app->bind('ForumService', function () {
+            return new ForumService();
         });
     }
 }
