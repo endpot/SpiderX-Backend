@@ -3,17 +3,20 @@
 namespace App\Http\Controllers\Api\V1;
 
 use AnnouncementService;
+use App\Carriers\DataCarrier;
+use App\Filters\QueryFilter;
 use App\Http\Controllers\Api\Controller;
 use App\Http\Requests\Api\V1\Announcement\CreateAnnouncementRequest;
+use App\Http\Requests\Api\V1\Announcement\QueryAnnouncementRequest;
 use App\Http\Requests\Api\V1\Announcement\UpdateAnnouncementRequest;
 use App\Transformers\BasicTransformer;
 use Illuminate\Contracts\Pagination\Paginator;
 
 class AnnouncementController extends Controller
 {
-    public function getAnnouncementList()
+    public function getAnnouncementList(QueryAnnouncementRequest $request)
     {
-        $result = AnnouncementService::getAnnouncementList();
+        $result = AnnouncementService::getAnnouncementList(new QueryFilter($request->all()));
 
         if ($result->getStatus() && $result->getData() instanceof Paginator) {
             return $this->response->paginator($result->getData(), new BasicTransformer());
@@ -24,7 +27,9 @@ class AnnouncementController extends Controller
 
     public function createAnnouncement(CreateAnnouncementRequest $request)
     {
-        $result = AnnouncementService::createAnnouncement($request->all());
+        $result = AnnouncementService::createAnnouncement(
+            new DataCarrier($request->all())
+        );
 
         if ($result->getStatus()) {
             return $this->response->item($result->getData(), new BasicTransformer());
@@ -46,7 +51,10 @@ class AnnouncementController extends Controller
 
     public function updateAnnouncement(UpdateAnnouncementRequest $request, $id)
     {
-        $result = AnnouncementService::updateAnnouncement($id, $request->all());
+        $result = AnnouncementService::updateAnnouncement(
+            $id,
+            new DataCarrier($request->all())
+        );
 
         if ($result->getStatus()) {
             return $this->response->item($result->getData(), new BasicTransformer());

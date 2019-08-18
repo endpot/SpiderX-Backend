@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Carriers\DataCarrierInterface;
+use App\Filters\QueryFilterInterface;
 use Exception;
 use App\Models\Chat;
 use App\Results\CommonErrorResult;
@@ -10,9 +12,9 @@ use Auth;
 
 class ChatService
 {
-    public function getChatList($perPage = 15)
+    public function getChatList(QueryFilterInterface $filter)
     {
-        $paginateResult = Chat::paginate($perPage);
+        $paginateResult = Chat::paginate($filter->get('per_page', 15));
 
         if ($paginateResult) {
             return new CommonSuccessResult($paginateResult);
@@ -21,14 +23,14 @@ class ChatService
         return new CommonErrorResult('No data');
     }
 
-    public function createChat($data)
+    public function createChat(DataCarrierInterface $carrier)
     {
         $currentUser = Auth::guard()->user();
 
         if ($currentUser) {
             $chat = new Chat();
             $chat->user_id = $currentUser->getAuthIdentifier();
-            $chat->content = $data['content'] ?? '';
+            $chat->content = $carrier->get('content', '');
 
             if ($chat->save()) {
                 return new CommonSuccessResult($chat);

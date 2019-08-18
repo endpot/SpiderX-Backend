@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Carriers\DataCarrierInterface;
+use App\Filters\QueryFilterInterface;
 use App\Models\Forum;
 use App\Results\CommonErrorResult;
 use App\Results\CommonSuccessResult;
@@ -9,9 +11,9 @@ use Exception;
 
 class ForumService
 {
-    public function getForumList($perPage = 15)
+    public function getForumList(QueryFilterInterface $filter)
     {
-        $paginateResult = Forum::paginate($perPage);
+        $paginateResult = Forum::paginate($filter->get('per_page', 15));
 
         if ($paginateResult) {
             return new CommonSuccessResult($paginateResult);
@@ -20,12 +22,12 @@ class ForumService
         return new CommonErrorResult('No data');
     }
 
-    public function createForum($data)
+    public function createForum(DataCarrierInterface $carrier)
     {
         $forum = new Forum();
-        $forum->name = $data['name'] ?? '';
-        $forum->desc = $data['desc'] ?? '';
-        $forum->sort = $data['sort'] ?? 0;
+        $forum->name = $carrier->get('name', '');
+        $forum->desc = $carrier->get('desc', '');
+        $forum->sort = $carrier->get('sort', 0);
 
         if ($forum->save()) {
             return new CommonSuccessResult($forum);
@@ -45,14 +47,14 @@ class ForumService
         return new CommonErrorResult('Not found');
     }
 
-    public function updateForum($id, $data)
+    public function updateForum($id, DataCarrierInterface $carrier)
     {
         $forum = Forum::find($id);
 
         if ($forum) {
-            $forum->name = $data['name'] ?? '';
-            $forum->desc = $data['desc'] ?? '';
-            $forum->sort = $data['sort'] ?? 0;
+            $forum->name = $carrier->get('name', '');
+            $forum->desc = $carrier->get('desc', '');
+            $forum->sort = $carrier->get('sort', 0);
 
             if ($forum->save()) {
                 return new CommonSuccessResult($forum);

@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Carriers\DataCarrierInterface;
+use App\Filters\QueryFilterInterface;
 use Exception;
 use App\Models\Announcement;
 use App\Results\CommonErrorResult;
@@ -10,9 +12,9 @@ use Auth;
 
 class AnnouncementService
 {
-    public function getAnnouncementList($perPage = 15)
+    public function getAnnouncementList(QueryFilterInterface $filter)
     {
-        $paginateResult = Announcement::paginate($perPage);
+        $paginateResult = Announcement::paginate($filter->get('per_page', 15));
 
         if ($paginateResult) {
             return new CommonSuccessResult($paginateResult);
@@ -21,15 +23,15 @@ class AnnouncementService
         return new CommonErrorResult('No data');
     }
 
-    public function createAnnouncement($data)
+    public function createAnnouncement(DataCarrierInterface $carrier)
     {
         $currentUser = Auth::guard()->user();
 
         if ($currentUser) {
             $announcement = new Announcement();
             $announcement->user_id = $currentUser->getAuthIdentifier();
-            $announcement->title = $data['title'] ?? '';
-            $announcement->content = $data['content'] ?? '';
+            $announcement->title = $carrier->get('title', '');
+            $announcement->content = $carrier->get('content', '');
 
             if ($announcement->save()) {
                 return new CommonSuccessResult($announcement);
@@ -50,15 +52,15 @@ class AnnouncementService
         return new CommonErrorResult('Not found');
     }
 
-    public function updateAnnouncement($id, $data)
+    public function updateAnnouncement($id, DataCarrierInterface $carrier)
     {
         $currentUser = Auth::guard()->user();
 
         $announcement = Announcement::find($id);
 
         if ($currentUser && $announcement) {
-            $announcement->title = $data['title'] ?? '';
-            $announcement->content = $data['content'] ?? '';
+            $announcement->title = $carrier->get('title', '');
+            $announcement->content = $carrier->get('content', '');
 
             if ($announcement->save()) {
                 return new CommonSuccessResult($announcement);
