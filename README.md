@@ -7,7 +7,7 @@
 - [x] Announcement（站点公告）
 - [x] Chat（群聊）
 - [x] Forum（论坛版块）
-- [ ] Topic（论坛主题）
+- [x] Topic（论坛主题）
 - [ ] Post（主题评论）
 - [ ] Torrent（种子）
 - [ ] Comment（种子评论）
@@ -15,6 +15,7 @@
 - [ ] Faq（常见问题）
 - [ ] MessageBox（信箱）
 - [ ] Message（站内信）
+- [ ] Poll（投票）
 
 ### Model Related
 - [ ] Peer

@@ -35,6 +35,12 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\Api\V1'], function (Ro
         $api->get('forums/{id}', 'ForumController@getForum');
         $api->put('forums/{id}', 'ForumController@updateForum');
         $api->delete('forums/{id}', 'ForumController@deleteForum');
+
+        $api->get('topics', 'TopicController@getTopicList');
+        $api->post('topics', 'TopicController@createTopic');
+        $api->get('topics/{id}', 'TopicController@getTopic');
+        $api->put('topics/{id}', 'TopicController@updateTopic');
+        $api->delete('topics/{id}', 'TopicController@deleteTopic');
     });
 
     $api->group(['prefix' => 'actions'], function (Router $api) {
