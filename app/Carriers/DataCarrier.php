@@ -31,4 +31,9 @@ class DataCarrier implements DataCarrierInterface
 
         return false;
     }
+
+    public function all()
+    {
+        return $this->data;
+    }
 }

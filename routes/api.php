@@ -41,6 +41,9 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\Api\V1'], function (Ro
         $api->get('topics/{id}', 'TopicController@getTopic');
         $api->put('topics/{id}', 'TopicController@updateTopic');
         $api->delete('topics/{id}', 'TopicController@deleteTopic');
+
+        $api->get('topics/{id}/posts', 'TopicController@getPostList');
+        $api->post('topics/{id}/posts', 'TopicController@createPost');
     });
 
     $api->group(['prefix' => 'actions'], function (Router $api) {
