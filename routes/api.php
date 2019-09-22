@@ -6,16 +6,16 @@ use Dingo\Api\Routing\Router;
 $api = app(Router::class);
 
 $api->version('v1', ['namespace' => 'App\Http\Controllers\Api\V1'], function (Router $api) {
-    $api->group(['prefix' => 'auth', 'namespace' => 'Auth'], function (Router $api) {
-        $api->post('register', 'RegisterController@register');
-        $api->post('login', 'LoginController@login');
+    $api->group(['prefix' => 'auth'], function (Router $api) {
+        $api->post('register', 'AuthController@register');
+        $api->post('login', 'AuthController@login');
 
-        $api->post('recovery', 'ForgotPasswordController@sendResetEmail');
-        $api->post('reset', 'ResetPasswordController@resetPassword');
+        $api->post('recovery', 'AuthController@sendResetEmail');
+        $api->post('reset', 'AuthController@resetPassword');
 
-        $api->post('logout', 'LogoutController@logout');
-        $api->post('refresh', 'RefreshController@refresh');
-        $api->get('me', 'UserController@me');
+        $api->post('logout', 'AuthController@logout');
+        $api->post('refresh', 'AuthController@refresh');
+        $api->get('me', 'AuthController@me');
     });
 
     $api->group([], function (Router $api) {

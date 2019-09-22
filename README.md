@@ -8,7 +8,7 @@
 - [x] Chat（群聊）
 - [x] Forum（论坛版块）
 - [x] Topic（论坛主题）
-- [ ] Post（主题评论）
+- [x] Post（主题评论）
 - [ ] Torrent（种子）
 - [ ] Comment（种子评论）
 - [ ] Subtitle（字幕）

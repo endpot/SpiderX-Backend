@@ -2,34 +2,31 @@ FORMAT: 1A
 
 # SpiderX-Backend API
 
-# 
-Register Controller
+# Auth [/auth]
+Authentication related api
 
-## Register User [GET /auth/register]
+## Register [GET /auth/register]
 Register one user
 
 + Request (application/json)
     + Body
 
             {
-                "name": "name",
-                "email": "email",
+                "name": "HunterX",
+                "email": "endpot@gmail.com",
                 "password": "password"
             }
 
 + Response 201 (application/json)
 
-# 
-Login Controller
-
-## Log the user in [GET /auth/login]
-Log the user in
+## Login [GET /auth/login]
+Login using name (or email) and password
 
 + Request (application/json)
     + Body
 
             {
-                "name": "name",
+                "login_name": "HunterX",
                 "password": "password"
             }
 
@@ -48,16 +45,13 @@ Log the user in
 
             {
                 "error": {
-                    "username": [
-                        "Username is already taken."
+                    "login_name": [
+                        "Invalid login_name"
                     ]
                 }
             }
 
-# 
-User Controller
-
-## Get the authenticated User [GET /auth/me]
+## Me [GET /auth/me]
 Get the authenticated user
 
 + Response 200 (application/json)
@@ -65,12 +59,77 @@ Get the authenticated user
 
             {
                 "data": {
-                    "id": "id",
-                    "name": "name",
-                    "email": "email",
-                    "title": "title",
-                    "avatar": "avatar",
-                    "gender": "gender",
-                    "roles": "array"
+                    "id": 1,
+                    "name": "HunterX",
+                    "email": "endpot@gmail.com",
+                    "title": "Admin",
+                    "avatar": "https://i.endpot.com/image/avatar/avatar.jpg",
+                    "gender": "M",
+                    "roles": [
+                        "user",
+                        "admin"
+                    ]
                 }
             }
+
+## Logout [POST /auth/logout]
+Log the user out (Invalidate the token)
+
++ Response 200 (application/json)
+
+## Refresh Token [POST /auth/refresh]
+Refresh a token
+
++ Request (application/json)
+    + Headers
+
+            Authorization: Bearer bearTokenExample
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "data": {
+                    "token": "token",
+                    "expires_in": 3600
+                }
+            }
+
+## Forget Password [POST /auth/recovery]
+Send reset password email
+
++ Request (application/json)
+    + Body
+
+            {
+                "email": "endpot@gmail.com"
+            }
+
++ Response 200 (application/json)
+
++ Response 500 (application/json)
+
+## Reset Password [POST /auth/reset]
+Reset password
+
++ Request (application/json)
+    + Body
+
+            {
+                "email": "endpot@gmail.com",
+                "password": "password",
+                "password_confirmation": "password",
+                "token": "token"
+            }
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "data": {
+                    "token": "token",
+                    "expires_in": 3600
+                }
+            }
+
++ Response 500 (application/json)
