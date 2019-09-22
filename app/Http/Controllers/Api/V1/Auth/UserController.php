@@ -5,6 +5,11 @@ namespace App\Http\Controllers\Api\V1\Auth;
 use App\Http\Controllers\Api\Controller;
 use Auth;
 
+/**
+ * User Controller
+ *
+ * @Resource("", uri="")
+ */
 class UserController extends Controller
 {
     /**
@@ -20,7 +25,25 @@ class UserController extends Controller
     /**
      * Get the authenticated User
      *
+     * Get the authenticated user
+     *
      * @return \Illuminate\Http\JsonResponse
+     *
+     * @Get("/auth/me")
+     * @Versions({"v1"})
+     * @Transaction({
+     *      @Response(200, body={
+     *          "data": {
+     *              "id": "id",
+     *              "name": "name",
+     *              "email": "email",
+     *              "title": "title",
+     *              "avatar": "avatar",
+     *              "gender": "gender",
+     *              "roles": "array",
+     *          }
+     *     }),
+     * })
      */
     public function me()
     {

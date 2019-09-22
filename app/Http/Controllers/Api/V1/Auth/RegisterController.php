@@ -9,6 +9,11 @@ use App\Http\Controllers\Api\Controller;
 use App\Http\Requests\Api\V1\Auth\RegisterRequest;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
+/**
+ * Register Controller
+ *
+ * @Resource("", uri="")
+ */
 class RegisterController extends Controller
 {
     public function __construct()
@@ -16,6 +21,22 @@ class RegisterController extends Controller
         //
     }
 
+    /**
+     * Register User
+     *
+     * Register one user
+     *
+     * @param RegisterRequest $request
+     * @param JWTAuth $JWTAuth
+     * @return \Dingo\Api\Http\Response
+     *
+     * @Get("/auth/register")
+     * @Versions({"v1"})
+     * @Transaction({
+     *      @Request({"name": "name", "email": "email", "password": "password"}),
+     *      @Response(201)
+     * })
+     */
     public function register(RegisterRequest $request, JWTAuth $JWTAuth)
     {
         $user = new User();

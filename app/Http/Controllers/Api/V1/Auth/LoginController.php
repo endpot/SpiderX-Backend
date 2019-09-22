@@ -10,14 +10,29 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Auth;
 
+/**
+ * Login Controller
+ *
+ * @Resource("", uri="")
+ */
 class LoginController extends Controller
 {
     /**
      * Log the user in
      *
+     * Log the user in
+     *
      * @param LoginRequest $request
      * @param JWTAuth $JWTAuth
      * @return \Illuminate\Http\JsonResponse
+     *
+     * @Get("/auth/login")
+     * @Versions({"v1"})
+     * @Transaction({
+     *      @Request({"name": "name", "password": "password"}),
+     *      @Response(200, body={"data": {"token": "token", "expires_in": 3600}}),
+     *      @Response(422, body={"error": {"username": {"Username is already taken."}}})
+     * })
      */
     public function login(LoginRequest $request, JWTAuth $JWTAuth)
     {
