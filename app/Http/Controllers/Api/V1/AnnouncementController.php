@@ -12,8 +12,43 @@ use App\Http\Requests\Api\V1\Announcement\UpdateAnnouncementRequest;
 use App\Transformers\BasicTransformer;
 use Illuminate\Contracts\Pagination\Paginator;
 
+/**
+ * Announcement related api
+ *
+ * @package App\Http\Controllers\Api\V1
+ * @Resource("Announcement", uri="/")
+ */
 class AnnouncementController extends Controller
 {
+    /**
+     * Announcement List
+     *
+     * Get announcement list
+     *
+     * @param QueryAnnouncementRequest $request
+     * @return bool|\Dingo\Api\Http\Response|void
+     *
+     * @Get("/announcements")
+     * @Versions({"v1"})
+     * @Parameters({
+     *      @Parameter("page", description="The page of results to view.", default=1),
+     *      @Parameter("per_page", description="The amount of results per page.", default=15)
+     * })
+     * @Response(200, body={
+     *          "data": {
+     *              {
+     *                  "id": 2,
+     *                  "user_id": 1,
+     *                  "title": "admin",
+     *                  "content": "admin@admin.com",
+     *                  "created_at": "2019-08-18 16:33:31",
+     *                  "updated_at": "2019-08-18 16:33:31",
+     *                  "deleted_at": null
+     *              }
+     *          },
+     *          "meta": {"pagination": {"total": 1, "count": 1, "per_page": 15, "current_page": 1, "total_pages": 1}}
+     *      })
+     */
     public function getAnnouncementList(QueryAnnouncementRequest $request)
     {
         $result = AnnouncementService::getAnnouncementList(new QueryFilter($request->all()));
@@ -25,6 +60,21 @@ class AnnouncementController extends Controller
         return $this->response->errorBadRequest() ?? false;
     }
 
+    /**
+     * Create Announcement
+     *
+     * Create an announcement
+     *
+     * @param CreateAnnouncementRequest $request
+     * @return bool|\Dingo\Api\Http\Response|void
+     *
+     * @Post("/announcements")
+     * @Versions({"v1"})
+     * @Transaction({
+     *      @Request({"title": "title", "content": "content"}),
+     *      @Response(200, body={"data": {"id": 1, "title": "", "content": ""}})
+     * })
+     */
     public function createAnnouncement(CreateAnnouncementRequest $request)
     {
         $result = AnnouncementService::createAnnouncement(
@@ -38,6 +88,20 @@ class AnnouncementController extends Controller
         return $this->response->errorBadRequest() ?? false;
     }
 
+    /**
+     * Retrieve Announcement
+     *
+     * Get an announcement
+     *
+     * @param $id
+     * @return bool|\Dingo\Api\Http\Response|void
+     *
+     * @Get("/announcements/{id}")
+     * @Versions({"v1"})
+     * @Transaction({
+     *      @Response(200, body={"data": {"id": 1, "title": "", "content": ""}})
+     * })
+     */
     public function getAnnouncement($id)
     {
         $result = AnnouncementService::getAnnouncementById($id);
@@ -49,6 +113,22 @@ class AnnouncementController extends Controller
         return $this->response->errorNotFound() ?? false;
     }
 
+    /**
+     * Update Announcement
+     *
+     * Update an announcement
+     *
+     * @param UpdateAnnouncementRequest $request
+     * @param $id
+     * @return bool|\Dingo\Api\Http\Response|void
+     *
+     * @Put("/announcements/{id}")
+     * @Versions({"v1"})
+     * @Transaction({
+     *      @Request({"title": "title", "content": "content"}),
+     *      @Response(200, body={"data": {"id": 1, "title": "", "content": ""}})
+     * })
+     */
     public function updateAnnouncement(UpdateAnnouncementRequest $request, $id)
     {
         $result = AnnouncementService::updateAnnouncement(
@@ -63,6 +143,20 @@ class AnnouncementController extends Controller
         return $this->response->errorBadRequest() ?? false;
     }
 
+    /**
+     * Delete Announcement
+     *
+     * Delete announcement
+     *
+     * @param $id
+     * @return bool|\Dingo\Api\Http\Response|void
+     *
+     * @Delete("/announcements/{id}")
+     * @Versions({"v1"})
+     * @Transaction({
+     *      @Response(200)
+     * })
+     */
     public function deleteAnnouncement($id)
     {
         $result = AnnouncementService::deleteAnnouncement($id);
