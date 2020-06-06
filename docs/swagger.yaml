@@ -1,0 +1,426 @@
+basePath: /
+definitions:
+  auth.LoginRequest:
+    properties:
+      display_name:
+        description: 用户名
+        example: spider
+        type: string
+      password:
+        description: 密码
+        example: "123456789"
+        type: string
+    required:
+    - display_name
+    - password
+    type: object
+  auth.Mine:
+    properties:
+      avatar:
+        description: 头像地址
+        example: https://i.endpot.com/x/xxx.jpg
+        type: string
+      display_name:
+        description: 用户名
+        example: spider
+        type: string
+      down_traffic:
+        description: 下载量
+        example: 1
+        type: integer
+      email:
+        description: 邮箱
+        example: spider@spider.com
+        type: string
+      grade:
+        description: 用户等级
+        example: 1
+        type: integer
+      roles:
+        description: 用户角色
+        items:
+          type: string
+        type: array
+      up_traffic:
+        description: 上传量
+        example: 1
+        type: integer
+    type: object
+  auth.RegisterRequest:
+    properties:
+      display_name:
+        description: 用户名
+        example: spider
+        maxLength: 32
+        minLength: 1
+        type: string
+      email:
+        description: 邮箱
+        example: spider@spider.com
+        type: string
+      invite_code:
+        description: 邀请码
+        example: spider
+        type: string
+      password:
+        description: 密码
+        example: "123456789"
+        maxLength: 32
+        minLength: 8
+        type: string
+      password_confirm:
+        description: 密码确认
+        example: "123456789"
+        type: string
+      verify_code:
+        description: 校验码
+        example: spider
+        type: string
+    required:
+    - display_name
+    - email
+    - password
+    - password_confirm
+    type: object
+  auth.ResetRequest:
+    properties:
+      email:
+        description: 邮箱
+        example: spider@spider.com
+        type: string
+      password:
+        description: 密码
+        example: "123456789"
+        maxLength: 32
+        minLength: 8
+        type: string
+      password_confirm:
+        description: 密码确认
+        example: "123456789"
+        type: string
+      verify_code:
+        description: 校验码
+        example: spider
+        type: string
+    required:
+    - email
+    - password
+    - password_confirm
+    type: object
+  auth.SendCodeRequest:
+    properties:
+      email:
+        description: 用户邮箱
+        example: spider@spider.com
+        type: string
+    required:
+    - email
+    type: object
+  response.ErrResponse:
+    properties:
+      code:
+        description: 业务状态码
+        example: 500
+        type: integer
+      message:
+        description: 消息
+        type: string
+    type: object
+  response.Response:
+    properties:
+      code:
+        description: 业务状态码
+        example: 200
+        type: integer
+      data:
+        description: 数据
+        type: object
+    type: object
+host: spiderx.endpot.com
+info:
+  contact:
+    name: EndPot
+    url: https://github.com/endpot
+  description: SpiderX is a private tracker server.
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  title: SpiderX API
+  version: 0.0.1
+paths:
+  /auth.confirm:
+    post:
+      consumes:
+      - application/json
+      description: 重置密码
+      parameters:
+      - description: 重置密码参数
+        in: body
+        name: auth
+        required: true
+        schema:
+          $ref: '#/definitions/auth.ResetRequest'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: 请求成功
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      summary: 重置密码
+      tags:
+      - Auth
+  /auth.getMine:
+    post:
+      consumes:
+      - application/json
+      description: 获取个人信息
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/auth.Mine'
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取个人信息
+      tags:
+      - Auth
+  /auth.login:
+    post:
+      consumes:
+      - application/json
+      description: 用户使用用户名密码登录
+      parameters:
+      - description: 用户登录参数
+        in: body
+        name: auth
+        required: true
+        schema:
+          $ref: '#/definitions/auth.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - type: object
+                  - properties:
+                      token:
+                        type: string
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      summary: 用户登录
+      tags:
+      - Auth
+  /auth.logout:
+    post:
+      consumes:
+      - application/json
+      description: 用户退出登录态
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: 请求成功
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 用户登出
+      tags:
+      - Auth
+  /auth.refreshToken:
+    post:
+      consumes:
+      - application/json
+      description: 刷新登录密钥
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - type: object
+                  - properties:
+                      token:
+                        type: string
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 刷新登录密钥
+      tags:
+      - Auth
+  /auth.register:
+    post:
+      consumes:
+      - application/json
+      description: 用户自主注册
+      parameters:
+      - description: 用户注册参数
+        in: body
+        name: auth
+        required: true
+        schema:
+          $ref: '#/definitions/auth.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: 请求成功
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      summary: 用户注册
+      tags:
+      - Auth
+  /auth.sendCode:
+    post:
+      consumes:
+      - application/json
+      description: 发送校验码
+      parameters:
+      - description: 发送校验码参数
+        in: body
+        name: auth
+        required: true
+        schema:
+          $ref: '#/definitions/auth.SendCodeRequest'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: 请求成功
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      summary: 发送校验码
+      tags:
+      - Auth
+schemes:
+- https
+securityDefinitions:
+  Bearer:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
