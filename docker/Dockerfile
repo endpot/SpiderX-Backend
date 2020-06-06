@@ -7,4 +7,4 @@ COPY . .
 
 RUN go get -v ./...
 
-CMD ["go", "run main.go"]
+CMD ["/bin/sh", "-c", "go run main.go"]
