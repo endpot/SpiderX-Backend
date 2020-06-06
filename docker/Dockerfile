@@ -5,7 +5,7 @@ LABEL maintainer="endpot@gmail.com"
 WORKDIR /go/src/app
 COPY . .
 
-RUN go get -v ./...
+RUN go get -v ./... \
     && swag init
 
 CMD ["go", "run main.go"]
