@@ -31,61 +31,6 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/auth.confirm": {
-            "post": {
-                "description": "重置密码",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "重置密码",
-                "parameters": [
-                    {
-                        "description": "重置密码参数",
-                        "name": "auth",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/auth.ResetRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "请求成功"
-                    },
-                    "400": {
-                        "description": "请求参数异常",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrResponse"
-                        }
-                    },
-                    "401": {
-                        "description": "没有操作权限",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "没有对象",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrResponse"
-                        }
-                    }
-                }
-            }
-        },
         "/auth.getMine": {
             "post": {
                 "security": [
@@ -412,6 +357,61 @@ var doc = `{
                 }
             }
         },
+        "/auth.reset": {
+            "post": {
+                "description": "重置密码",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "重置密码",
+                "parameters": [
+                    {
+                        "description": "重置密码参数",
+                        "name": "auth",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/auth.ResetRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "请求成功"
+                    },
+                    "400": {
+                        "description": "请求参数异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "没有操作权限",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "没有对象",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/auth.sendCode": {
             "post": {
                 "description": "发送校验码",
@@ -439,6 +439,784 @@ var doc = `{
                 "responses": {
                     "204": {
                         "description": "请求成功"
+                    },
+                    "400": {
+                        "description": "请求参数异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "没有操作权限",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "没有对象",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/chats": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "获取群聊消息列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Chat"
+                ],
+                "summary": "获取群聊消息列表",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "页码",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 15,
+                        "description": "每页数量",
+                        "name": "per_page",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "请求成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.PageResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "allOf": [
+                                                    {
+                                                        "$ref": "#/definitions/chat.Chat"
+                                                    },
+                                                    {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "user": {
+                                                                "$ref": "#/definitions/chat.User"
+                                                            }
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "请求参数异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "没有操作权限",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "没有对象",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "创建群聊",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Chat"
+                ],
+                "summary": "创建群聊",
+                "parameters": [
+                    {
+                        "description": "创建聊天消息请求参数",
+                        "name": "chat",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/chat.CreateChatRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "请求成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/chat.Chat"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "user": {
+                                                            "$ref": "#/definitions/chat.User"
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "请求参数异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "没有操作权限",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "没有对象",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/chats/{chat_id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "获取群聊消息",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Chat"
+                ],
+                "summary": "获取群聊消息",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "群聊ID",
+                        "name": "chat_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "请求成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/chat.Chat"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "user": {
+                                                            "$ref": "#/definitions/chat.User"
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "请求参数异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "没有操作权限",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "没有对象",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "删除群聊消息",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Chat"
+                ],
+                "summary": "删除群聊消息",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "群聊ID",
+                        "name": "chat_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "请求成功"
+                    },
+                    "400": {
+                        "description": "请求参数异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "没有操作权限",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "没有对象",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "更新群聊消息",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Chat"
+                ],
+                "summary": "更新群聊消息",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "群聊ID",
+                        "name": "chat_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "更新群聊请求参数",
+                        "name": "chat",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/chat.UpdateChatRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "请求成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/chat.Chat"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "user": {
+                                                            "$ref": "#/definitions/chat.User"
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "请求参数异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "没有操作权限",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "没有对象",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/notices": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "获取站点公告列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Notice"
+                ],
+                "summary": "获取站点公告列表",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "页码",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 15,
+                        "description": "每页数量",
+                        "name": "per_page",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "请求成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.PageResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/notice.Notice"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "请求参数异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "没有操作权限",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "没有对象",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "创建公告",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Notice"
+                ],
+                "summary": "创建公告",
+                "parameters": [
+                    {
+                        "description": "创建公告请求参数",
+                        "name": "notice",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/notice.CreateNoticeRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "请求成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/notice.Notice"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "请求参数异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "没有操作权限",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "没有对象",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/notices/{notice_id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "获取站点公告",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Notice"
+                ],
+                "summary": "获取站点公告",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "公告ID",
+                        "name": "notice_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "请求成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/notice.Notice"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "请求参数异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "没有操作权限",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "没有对象",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "删除公告",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Notice"
+                ],
+                "summary": "删除公告",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "公告ID",
+                        "name": "notice_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "请求成功"
+                    },
+                    "400": {
+                        "description": "请求参数异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "没有操作权限",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "没有对象",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "更新公告",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Notice"
+                ],
+                "summary": "更新公告",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "公告ID",
+                        "name": "notice_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "更新公告请求参数",
+                        "name": "notice",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/notice.UpdateNoticeRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "请求成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/notice.Notice"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
                     },
                     "400": {
                         "description": "请求参数异常",
@@ -507,12 +1285,17 @@ var doc = `{
                     "example": 1
                 },
                 "email": {
-                    "description": "邮箱",
+                    "description": "用户邮箱",
                     "type": "string",
                     "example": "spider@spider.com"
                 },
                 "grade": {
                     "description": "用户等级",
+                    "type": "integer",
+                    "example": 1
+                },
+                "id": {
+                    "description": "ID",
                     "type": "integer",
                     "example": 1
                 },
@@ -620,6 +1403,142 @@ var doc = `{
                 }
             }
         },
+        "chat.Chat": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "description": "聊天内容",
+                    "type": "string",
+                    "example": "This is a notice"
+                },
+                "created_at": {
+                    "description": "创建时间戳（秒）",
+                    "type": "integer",
+                    "example": 1591974665
+                },
+                "id": {
+                    "description": "ID",
+                    "type": "integer",
+                    "example": 1
+                },
+                "updated_at": {
+                    "description": "更新时间戳（秒）",
+                    "type": "integer",
+                    "example": 1591974665
+                },
+                "user": {
+                    "description": "用户",
+                    "type": "object"
+                }
+            }
+        },
+        "chat.CreateChatRequest": {
+            "type": "object",
+            "required": [
+                "content"
+            ],
+            "properties": {
+                "content": {
+                    "description": "聊天内容",
+                    "type": "string",
+                    "example": "This is a chat"
+                }
+            }
+        },
+        "chat.UpdateChatRequest": {
+            "type": "object",
+            "required": [
+                "content"
+            ],
+            "properties": {
+                "content": {
+                    "description": "聊天内容",
+                    "type": "string",
+                    "example": "This is a chat"
+                }
+            }
+        },
+        "chat.User": {
+            "type": "object",
+            "properties": {
+                "display_name": {
+                    "type": "string",
+                    "example": "spider"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
+        "notice.CreateNoticeRequest": {
+            "type": "object",
+            "required": [
+                "content",
+                "title"
+            ],
+            "properties": {
+                "content": {
+                    "description": "公告内容",
+                    "type": "string",
+                    "example": "This is a notice"
+                },
+                "title": {
+                    "description": "公告标题",
+                    "type": "string",
+                    "example": "title"
+                }
+            }
+        },
+        "notice.Notice": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "description": "公告内容",
+                    "type": "string",
+                    "example": "This is a notice"
+                },
+                "created_at": {
+                    "description": "创建时间戳（秒）",
+                    "type": "integer",
+                    "example": 1591974665
+                },
+                "id": {
+                    "description": "ID",
+                    "type": "integer",
+                    "example": 1
+                },
+                "title": {
+                    "description": "公告标题",
+                    "type": "string",
+                    "example": "title"
+                },
+                "updated_at": {
+                    "description": "更新时间戳（秒）",
+                    "type": "integer",
+                    "example": 1591974665
+                }
+            }
+        },
+        "notice.UpdateNoticeRequest": {
+            "type": "object",
+            "required": [
+                "content",
+                "title"
+            ],
+            "properties": {
+                "content": {
+                    "description": "公告内容",
+                    "type": "string",
+                    "example": "This is a notice"
+                },
+                "title": {
+                    "description": "公告标题",
+                    "type": "string",
+                    "example": "title"
+                }
+            }
+        },
         "response.ErrResponse": {
             "type": "object",
             "properties": {
@@ -631,6 +1550,45 @@ var doc = `{
                 "message": {
                     "description": "消息",
                     "type": "string"
+                }
+            }
+        },
+        "response.PageMeta": {
+            "type": "object",
+            "properties": {
+                "page": {
+                    "description": "页码",
+                    "type": "integer",
+                    "example": 1
+                },
+                "per_page": {
+                    "description": "每页数量",
+                    "type": "integer",
+                    "example": 15
+                },
+                "total": {
+                    "description": "总数",
+                    "type": "integer",
+                    "example": 100
+                }
+            }
+        },
+        "response.PageResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "业务状态码",
+                    "type": "integer",
+                    "example": 200
+                },
+                "data": {
+                    "description": "数据",
+                    "type": "object"
+                },
+                "meta": {
+                    "description": "附加信息",
+                    "type": "object",
+                    "$ref": "#/definitions/response.PageMeta"
                 }
             }
         },

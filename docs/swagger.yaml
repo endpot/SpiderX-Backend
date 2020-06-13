@@ -29,11 +29,15 @@ definitions:
         example: 1
         type: integer
       email:
-        description: 邮箱
+        description: 用户邮箱
         example: spider@spider.com
         type: string
       grade:
         description: 用户等级
+        example: 1
+        type: integer
+      id:
+        description: ID
         example: 1
         type: integer
       roles:
@@ -116,6 +120,106 @@ definitions:
     required:
     - email
     type: object
+  chat.Chat:
+    properties:
+      content:
+        description: 聊天内容
+        example: This is a notice
+        type: string
+      created_at:
+        description: 创建时间戳（秒）
+        example: 1591974665
+        type: integer
+      id:
+        description: ID
+        example: 1
+        type: integer
+      updated_at:
+        description: 更新时间戳（秒）
+        example: 1591974665
+        type: integer
+      user:
+        description: 用户
+        type: object
+    type: object
+  chat.CreateChatRequest:
+    properties:
+      content:
+        description: 聊天内容
+        example: This is a chat
+        type: string
+    required:
+    - content
+    type: object
+  chat.UpdateChatRequest:
+    properties:
+      content:
+        description: 聊天内容
+        example: This is a chat
+        type: string
+    required:
+    - content
+    type: object
+  chat.User:
+    properties:
+      display_name:
+        example: spider
+        type: string
+      id:
+        example: 1
+        type: integer
+    type: object
+  notice.CreateNoticeRequest:
+    properties:
+      content:
+        description: 公告内容
+        example: This is a notice
+        type: string
+      title:
+        description: 公告标题
+        example: title
+        type: string
+    required:
+    - content
+    - title
+    type: object
+  notice.Notice:
+    properties:
+      content:
+        description: 公告内容
+        example: This is a notice
+        type: string
+      created_at:
+        description: 创建时间戳（秒）
+        example: 1591974665
+        type: integer
+      id:
+        description: ID
+        example: 1
+        type: integer
+      title:
+        description: 公告标题
+        example: title
+        type: string
+      updated_at:
+        description: 更新时间戳（秒）
+        example: 1591974665
+        type: integer
+    type: object
+  notice.UpdateNoticeRequest:
+    properties:
+      content:
+        description: 公告内容
+        example: This is a notice
+        type: string
+      title:
+        description: 公告标题
+        example: title
+        type: string
+    required:
+    - content
+    - title
+    type: object
   response.ErrResponse:
     properties:
       code:
@@ -125,6 +229,35 @@ definitions:
       message:
         description: 消息
         type: string
+    type: object
+  response.PageMeta:
+    properties:
+      page:
+        description: 页码
+        example: 1
+        type: integer
+      per_page:
+        description: 每页数量
+        example: 15
+        type: integer
+      total:
+        description: 总数
+        example: 100
+        type: integer
+    type: object
+  response.PageResponse:
+    properties:
+      code:
+        description: 业务状态码
+        example: 200
+        type: integer
+      data:
+        description: 数据
+        type: object
+      meta:
+        $ref: '#/definitions/response.PageMeta'
+        description: 附加信息
+        type: object
     type: object
   response.Response:
     properties:
@@ -148,42 +281,6 @@ info:
   title: SpiderX API
   version: 0.0.1
 paths:
-  /auth.confirm:
-    post:
-      consumes:
-      - application/json
-      description: 重置密码
-      parameters:
-      - description: 重置密码参数
-        in: body
-        name: auth
-        required: true
-        schema:
-          $ref: '#/definitions/auth.ResetRequest'
-      produces:
-      - application/json
-      responses:
-        "204":
-          description: 请求成功
-        "400":
-          description: 请求参数异常
-          schema:
-            $ref: '#/definitions/response.ErrResponse'
-        "401":
-          description: 没有操作权限
-          schema:
-            $ref: '#/definitions/response.ErrResponse'
-        "404":
-          description: 没有对象
-          schema:
-            $ref: '#/definitions/response.ErrResponse'
-        "500":
-          description: 内部错误
-          schema:
-            $ref: '#/definitions/response.ErrResponse'
-      summary: 重置密码
-      tags:
-      - Auth
   /auth.getMine:
     post:
       consumes:
@@ -380,6 +477,42 @@ paths:
       summary: 用户注册
       tags:
       - Auth
+  /auth.reset:
+    post:
+      consumes:
+      - application/json
+      description: 重置密码
+      parameters:
+      - description: 重置密码参数
+        in: body
+        name: auth
+        required: true
+        schema:
+          $ref: '#/definitions/auth.ResetRequest'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: 请求成功
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      summary: 重置密码
+      tags:
+      - Auth
   /auth.sendCode:
     post:
       consumes:
@@ -416,6 +549,474 @@ paths:
       summary: 发送校验码
       tags:
       - Auth
+  /chats:
+    get:
+      consumes:
+      - application/json
+      description: 获取群聊消息列表
+      parameters:
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 15
+        description: 每页数量
+        in: query
+        name: per_page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.PageResponse'
+            - properties:
+                data:
+                  items:
+                    allOf:
+                    - $ref: '#/definitions/chat.Chat'
+                    - properties:
+                        user:
+                          $ref: '#/definitions/chat.User'
+                      type: object
+                  type: array
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取群聊消息列表
+      tags:
+      - Chat
+    post:
+      consumes:
+      - application/json
+      description: 创建群聊
+      parameters:
+      - description: 创建聊天消息请求参数
+        in: body
+        name: chat
+        required: true
+        schema:
+          $ref: '#/definitions/chat.CreateChatRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/chat.Chat'
+                  - properties:
+                      user:
+                        $ref: '#/definitions/chat.User'
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 创建群聊
+      tags:
+      - Chat
+  /chats/{chat_id}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除群聊消息
+      parameters:
+      - description: 群聊ID
+        in: path
+        name: chat_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: 请求成功
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除群聊消息
+      tags:
+      - Chat
+    get:
+      consumes:
+      - application/json
+      description: 获取群聊消息
+      parameters:
+      - description: 群聊ID
+        in: path
+        name: chat_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/chat.Chat'
+                  - properties:
+                      user:
+                        $ref: '#/definitions/chat.User'
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取群聊消息
+      tags:
+      - Chat
+    patch:
+      consumes:
+      - application/json
+      description: 更新群聊消息
+      parameters:
+      - description: 群聊ID
+        in: path
+        name: chat_id
+        required: true
+        type: integer
+      - description: 更新群聊请求参数
+        in: body
+        name: chat
+        required: true
+        schema:
+          $ref: '#/definitions/chat.UpdateChatRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/chat.Chat'
+                  - properties:
+                      user:
+                        $ref: '#/definitions/chat.User'
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新群聊消息
+      tags:
+      - Chat
+  /notices:
+    get:
+      consumes:
+      - application/json
+      description: 获取站点公告列表
+      parameters:
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 15
+        description: 每页数量
+        in: query
+        name: per_page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.PageResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/notice.Notice'
+                  type: array
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取站点公告列表
+      tags:
+      - Notice
+    post:
+      consumes:
+      - application/json
+      description: 创建公告
+      parameters:
+      - description: 创建公告请求参数
+        in: body
+        name: notice
+        required: true
+        schema:
+          $ref: '#/definitions/notice.CreateNoticeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/notice.Notice'
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 创建公告
+      tags:
+      - Notice
+  /notices/{notice_id}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除公告
+      parameters:
+      - description: 公告ID
+        in: path
+        name: notice_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: 请求成功
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除公告
+      tags:
+      - Notice
+    get:
+      consumes:
+      - application/json
+      description: 获取站点公告
+      parameters:
+      - description: 公告ID
+        in: path
+        name: notice_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/notice.Notice'
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取站点公告
+      tags:
+      - Notice
+    patch:
+      consumes:
+      - application/json
+      description: 更新公告
+      parameters:
+      - description: 公告ID
+        in: path
+        name: notice_id
+        required: true
+        type: integer
+      - description: 更新公告请求参数
+        in: body
+        name: notice
+        required: true
+        schema:
+          $ref: '#/definitions/notice.UpdateNoticeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/notice.Notice'
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新公告
+      tags:
+      - Notice
 schemes:
 - https
 securityDefinitions:

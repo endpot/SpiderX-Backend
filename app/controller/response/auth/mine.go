@@ -1,7 +1,7 @@
 package auth
 
 type Mine struct {
-	ID          int      `json:"id" example:"1"`                                  // ID`
+	ID          int      `json:"id" example:"1"`                                  // ID
 	DisplayName string   `json:"display_name" example:"spider"`                   // 用户名
 	Email       string   `json:"email" example:"spider@spider.com"`               // 用户邮箱
 	Avatar      string   `json:"avatar" example:"https://i.endpot.com/x/xxx.jpg"` // 头像地址

@@ -65,7 +65,7 @@ func Logout(c *gin.Context) {
 // @Failure 401 {object} response.ErrResponse "没有操作权限"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
-// @Router /auth.confirm [post]
+// @Router /auth.reset [post]
 func Reset(c *gin.Context) {
 	//
 }
