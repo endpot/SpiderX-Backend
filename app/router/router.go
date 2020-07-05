@@ -76,11 +76,11 @@ func InitRouter() *gin.Engine {
 
 	{
 		// Topic related API
-		r.GET("/topics", topic.GetTopicList)
-		r.GET("/topics/:topicID", topic.GetTopic)
-		r.POST("/topics", topic.CreateTopic)
-		r.PATCH("/topics/:topicID", topic.UpdateTopic)
-		r.DELETE("/topics/:topicID", topic.DeleteTopic)
+		r.GET("/forums/:forumID/topics", topic.GetTopicList)
+		r.GET("/forums/:forumID/topics/:topicID", topic.GetTopic)
+		r.POST("/forums/:forumID/topics", topic.CreateTopic)
+		r.PATCH("/forums/:forumID/topics/:topicID", topic.UpdateTopic)
+		r.DELETE("/forums/:forumID/topics/:topicID", topic.DeleteTopic)
 	}
 
 	{

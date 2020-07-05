@@ -163,9 +163,11 @@ definitions:
   chat.User:
     properties:
       display_name:
+        description: 用户名
         example: spider
         type: string
       id:
+        description: 用户ID
         example: 1
         type: integer
     type: object
@@ -317,6 +319,99 @@ definitions:
       data:
         description: 数据
         type: object
+    type: object
+  topic.CreateTopicRequest:
+    properties:
+      content:
+        description: 主题内容
+        example: This is a content
+        type: string
+      position:
+        description: 置顶位置
+        example: 0
+        type: integer
+      title:
+        description: 主题标题
+        example: This is a title
+        type: string
+    type: object
+  topic.Forum:
+    properties:
+      id:
+        description: ID
+        example: 1
+        type: integer
+      name:
+        description: 版块名称
+        example: This is a forum name
+        type: string
+    type: object
+  topic.Topic:
+    properties:
+      content:
+        description: 主题内容
+        example: This is a content
+        type: string
+      created_at:
+        description: 创建时间戳（秒）
+        example: 1591974665
+        type: integer
+      forum:
+        description: 论坛版块
+        type: object
+      id:
+        description: ID
+        example: 1
+        type: integer
+      is_hot:
+        description: 是否热门
+        example: false
+        type: boolean
+      position:
+        description: 置顶位置
+        example: 0
+        type: integer
+      title:
+        description: 主题标题
+        example: This is a title
+        type: string
+      updated_at:
+        description: 更新时间戳（秒）
+        example: 1591974665
+        type: integer
+      user:
+        description: 用户
+        type: object
+      view_count:
+        description: 查看次数
+        example: 0
+        type: integer
+    type: object
+  topic.UpdateTopicRequest:
+    properties:
+      content:
+        description: 主题内容
+        example: This is a content
+        type: string
+      position:
+        description: 置顶位置
+        example: 0
+        type: integer
+      title:
+        description: 主题标题
+        example: This is a title
+        type: string
+    type: object
+  topic.User:
+    properties:
+      display_name:
+        description: 用户名
+        example: spider
+        type: string
+      id:
+        description: 用户ID
+        example: 1
+        type: integer
     type: object
 host: spiderx.endpot.com
 info:
@@ -1066,6 +1161,271 @@ paths:
       summary: 更新论坛版块
       tags:
       - Forum
+  /forums/{forum_id}/topics:
+    get:
+      consumes:
+      - application/json
+      description: 获取主题列表
+      parameters:
+      - description: 论坛版块ID
+        in: path
+        name: forum_id
+        required: true
+        type: integer
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 15
+        description: 每页数量
+        in: query
+        name: per_page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.PageResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/topic.Topic'
+                  type: array
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取主题列表
+      tags:
+      - Topic
+    post:
+      consumes:
+      - application/json
+      description: 创建主题
+      parameters:
+      - description: 论坛版块ID
+        in: path
+        name: forum_id
+        required: true
+        type: integer
+      - description: 创建主题请求参数
+        in: body
+        name: chat
+        required: true
+        schema:
+          $ref: '#/definitions/topic.CreateTopicRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/topic.Topic'
+                  - properties:
+                      forum:
+                        $ref: '#/definitions/topic.Forum'
+                      user:
+                        $ref: '#/definitions/topic.User'
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 创建主题
+      tags:
+      - Topic
+  /forums/{forum_id}/topics/{topic_id}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除主题
+      parameters:
+      - description: 论坛版块ID
+        in: path
+        name: forum_id
+        required: true
+        type: integer
+      - description: 主题ID
+        in: path
+        name: topic_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: 请求成功
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除主题
+      tags:
+      - Topic
+    get:
+      consumes:
+      - application/json
+      description: 获取主题信息
+      parameters:
+      - description: 论坛版块ID
+        in: path
+        name: forum_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/topic.Topic'
+                  - properties:
+                      forum:
+                        $ref: '#/definitions/topic.Forum'
+                      user:
+                        $ref: '#/definitions/topic.User'
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取主题信息
+      tags:
+      - Topic
+    patch:
+      consumes:
+      - application/json
+      description: 更新主题
+      parameters:
+      - description: 论坛版块ID
+        in: path
+        name: forum_id
+        required: true
+        type: integer
+      - description: 主题ID
+        in: path
+        name: topic_id
+        required: true
+        type: integer
+      - description: 更新主题请求参数
+        in: body
+        name: chat
+        required: true
+        schema:
+          $ref: '#/definitions/topic.UpdateTopicRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/topic.Topic'
+                  - properties:
+                      forum:
+                        $ref: '#/definitions/topic.Forum'
+                      user:
+                        $ref: '#/definitions/topic.User'
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新主题
+      tags:
+      - Topic
   /notices:
     get:
       consumes:

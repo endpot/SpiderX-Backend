@@ -9,6 +9,6 @@ type Chat struct {
 }
 
 type User struct {
-	ID          int    `json:"id" example:"1"`
-	DisplayName string `json:"display_name" example:"spider"`
+	ID          int    `json:"id" example:"1"`                // 用户ID
+	DisplayName string `json:"display_name" example:"spider"` // 用户名
 }
