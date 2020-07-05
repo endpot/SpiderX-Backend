@@ -169,6 +169,55 @@ definitions:
         example: 1
         type: integer
     type: object
+  forum.CreateForumRequest:
+    properties:
+      name:
+        description: 论坛版块名
+        example: This is a forum
+        type: string
+      sort:
+        description: 排序
+        example: 1
+        type: integer
+    required:
+    - name
+    type: object
+  forum.Forum:
+    properties:
+      created_at:
+        description: 创建时间戳（秒）
+        example: 1591974665
+        type: integer
+      id:
+        description: ID
+        example: 1
+        type: integer
+      name:
+        description: 版块名称
+        example: This is a forum name
+        type: string
+      sort:
+        description: 排序
+        example: 1
+        type: integer
+      updated_at:
+        description: 更新时间戳（秒）
+        example: 1591974665
+        type: integer
+    type: object
+  forum.UpdateForumRequest:
+    properties:
+      name:
+        description: 论坛版块名
+        example: This is a forum
+        type: string
+      sort:
+        description: 排序
+        example: 1
+        type: integer
+    required:
+    - name
+    type: object
   notice.CreateNoticeRequest:
     properties:
       content:
@@ -793,6 +842,230 @@ paths:
       summary: 更新群聊消息
       tags:
       - Chat
+  /forums:
+    get:
+      consumes:
+      - application/json
+      description: 获取论坛版块列表
+      parameters:
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 15
+        description: 每页数量
+        in: query
+        name: per_page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.PageResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/forum.Forum'
+                  type: array
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取论坛版块列表
+      tags:
+      - Forum
+    post:
+      consumes:
+      - application/json
+      description: 创建论坛版块
+      parameters:
+      - description: 创建论坛版块请求参数
+        in: body
+        name: chat
+        required: true
+        schema:
+          $ref: '#/definitions/forum.CreateForumRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/forum.Forum'
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 创建论坛版块
+      tags:
+      - Forum
+  /forums/{forum_id}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除论坛版块
+      parameters:
+      - description: 论坛版块ID
+        in: path
+        name: forum_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: 请求成功
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除论坛版块
+      tags:
+      - Forum
+    get:
+      consumes:
+      - application/json
+      description: 获取论坛版块信息
+      parameters:
+      - description: 论坛版块ID
+        in: path
+        name: forum_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/forum.Forum'
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取论坛版块信息
+      tags:
+      - Forum
+    patch:
+      consumes:
+      - application/json
+      description: 更新论坛版块
+      parameters:
+      - description: 论坛版块ID
+        in: path
+        name: forum_id
+        required: true
+        type: integer
+      - description: 更新论坛版块请求参数
+        in: body
+        name: chat
+        required: true
+        schema:
+          $ref: '#/definitions/forum.UpdateForumRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/forum.Forum'
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新论坛版块
+      tags:
+      - Forum
   /notices:
     get:
       consumes:
