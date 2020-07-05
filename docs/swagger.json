@@ -2513,6 +2513,528 @@
                     }
                 }
             }
+        },
+        "/torrents": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "获取种子列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Torrent"
+                ],
+                "summary": "获取种子列表",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "页码",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 15,
+                        "description": "每页数量",
+                        "name": "per_page",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "请求成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.PageResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "allOf": [
+                                                    {
+                                                        "$ref": "#/definitions/torrent.Torrent"
+                                                    },
+                                                    {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "category": {
+                                                                "$ref": "#/definitions/torrent.Category"
+                                                            },
+                                                            "owner": {
+                                                                "$ref": "#/definitions/torrent.User"
+                                                            },
+                                                            "uploader": {
+                                                                "$ref": "#/definitions/torrent.User"
+                                                            }
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "请求参数异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "没有操作权限",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "没有对象",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "创建种子",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Torrent"
+                ],
+                "summary": "创建种子",
+                "parameters": [
+                    {
+                        "description": "创建种子请求参数",
+                        "name": "torrent",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/torrent.CreateTorrentRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "请求成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/torrent.Torrent"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "category": {
+                                                            "$ref": "#/definitions/torrent.Category"
+                                                        },
+                                                        "owner": {
+                                                            "$ref": "#/definitions/torrent.User"
+                                                        },
+                                                        "uploader": {
+                                                            "$ref": "#/definitions/torrent.User"
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "请求参数异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "没有操作权限",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "没有对象",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/torrents.preUpload": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "预创建种子",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Torrent"
+                ],
+                "summary": "预创建种子",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "种子文件",
+                        "name": "torrent",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "请求成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "type": "object"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "info_hash": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "请求参数异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "没有操作权限",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "没有对象",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/torrents/{torrent_id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "获取种子信息",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Torrent"
+                ],
+                "summary": "获取种子信息",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "种子ID",
+                        "name": "torrent_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "请求成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/torrent.Torrent"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "category": {
+                                                            "$ref": "#/definitions/torrent.Category"
+                                                        },
+                                                        "owner": {
+                                                            "$ref": "#/definitions/torrent.User"
+                                                        },
+                                                        "uploader": {
+                                                            "$ref": "#/definitions/torrent.User"
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "请求参数异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "没有操作权限",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "没有对象",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "删除种子",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Torrent"
+                ],
+                "summary": "删除种子",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "种子ID",
+                        "name": "torrent_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "请求成功"
+                    },
+                    "400": {
+                        "description": "请求参数异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "没有操作权限",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "没有对象",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "更新种子",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Torrent"
+                ],
+                "summary": "更新种子",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "种子ID",
+                        "name": "torrent_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "更新种子请求参数",
+                        "name": "torrent",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/torrent.UpdateTorrentRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "请求成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/torrent.Torrent"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "category": {
+                                                            "$ref": "#/definitions/torrent.Category"
+                                                        },
+                                                        "owner": {
+                                                            "$ref": "#/definitions/torrent.User"
+                                                        },
+                                                        "uploader": {
+                                                            "$ref": "#/definitions/torrent.User"
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "请求参数异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "没有操作权限",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "没有对象",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -2878,6 +3400,9 @@
         },
         "post.CreatePostRequest": {
             "type": "object",
+            "required": [
+                "content"
+            ],
             "properties": {
                 "content": {
                     "description": "回复内容",
@@ -3028,6 +3553,10 @@
         },
         "topic.CreateTopicRequest": {
             "type": "object",
+            "required": [
+                "content",
+                "title"
+            ],
             "properties": {
                 "content": {
                     "description": "主题内容",
@@ -3037,6 +3566,7 @@
                 "position": {
                     "description": "置顶位置",
                     "type": "integer",
+                    "default": 0,
                     "example": 0
                 },
                 "title": {
@@ -3135,6 +3665,225 @@
             }
         },
         "topic.User": {
+            "type": "object",
+            "properties": {
+                "display_name": {
+                    "description": "用户名",
+                    "type": "string",
+                    "example": "spider"
+                },
+                "id": {
+                    "description": "用户ID",
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
+        "torrent.Category": {
+            "type": "object",
+            "properties": {
+                "display_name": {
+                    "description": "分类名",
+                    "type": "string",
+                    "example": "document"
+                },
+                "id": {
+                    "description": "分类ID",
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
+        "torrent.CreateTorrentRequest": {
+            "type": "object",
+            "required": [
+                "category_id",
+                "description",
+                "info_hash",
+                "title"
+            ],
+            "properties": {
+                "category_id": {
+                    "description": "分类ID",
+                    "type": "integer",
+                    "example": 401
+                },
+                "description": {
+                    "description": "种子介绍",
+                    "type": "string",
+                    "example": "long long desc content"
+                },
+                "info_hash": {
+                    "description": "唯一哈希码",
+                    "type": "string",
+                    "example": "001460cb52f9154f4ce2b510eae0dcb705210433"
+                },
+                "is_anonymous": {
+                    "description": "是否匿名",
+                    "type": "boolean",
+                    "default": false,
+                    "example": false
+                },
+                "position_level": {
+                    "description": "置顶位置",
+                    "type": "integer",
+                    "default": 0,
+                    "example": 0
+                },
+                "simple_desc": {
+                    "description": "简介",
+                    "type": "string",
+                    "example": "simple desc"
+                },
+                "title": {
+                    "description": "种子标题",
+                    "type": "string",
+                    "example": "Title"
+                }
+            }
+        },
+        "torrent.Torrent": {
+            "type": "object",
+            "properties": {
+                "category": {
+                    "description": "分类",
+                    "type": "object"
+                },
+                "comment_count": {
+                    "description": "评论数",
+                    "type": "integer",
+                    "example": 0
+                },
+                "created_at": {
+                    "description": "创建时间戳（秒）",
+                    "type": "integer",
+                    "example": 1591974665
+                },
+                "description": {
+                    "description": "种子介绍",
+                    "type": "string",
+                    "example": "long long desc content"
+                },
+                "id": {
+                    "description": "ID",
+                    "type": "integer",
+                    "example": 1
+                },
+                "info_hash": {
+                    "description": "唯一哈希码",
+                    "type": "string",
+                    "example": "001460cb52f9154f4ce2b510eae0dcb705210433"
+                },
+                "is_anonymous": {
+                    "description": "是否匿名",
+                    "type": "boolean",
+                    "example": false
+                },
+                "is_inactive": {
+                    "description": "就否断种",
+                    "type": "boolean",
+                    "example": false
+                },
+                "leecher_count": {
+                    "description": "下载者数量",
+                    "type": "integer",
+                    "example": 0
+                },
+                "owner": {
+                    "description": "拥有者",
+                    "type": "object"
+                },
+                "position_level": {
+                    "description": "置顶位置",
+                    "type": "integer",
+                    "example": 0
+                },
+                "reward_bonus": {
+                    "description": "获赠魔力豆",
+                    "type": "integer",
+                    "example": 0
+                },
+                "seeder_count": {
+                    "description": "做种者数量",
+                    "type": "integer",
+                    "example": 0
+                },
+                "simple_desc": {
+                    "description": "简介",
+                    "type": "string",
+                    "example": "simple desc"
+                },
+                "size": {
+                    "description": "资源体积",
+                    "type": "integer",
+                    "example": 12345
+                },
+                "snacher_count": {
+                    "description": "完成都数量",
+                    "type": "integer",
+                    "example": 0
+                },
+                "title": {
+                    "description": "种子标题",
+                    "type": "string",
+                    "example": "Title"
+                },
+                "updated_at": {
+                    "description": "更新时间戳（秒）",
+                    "type": "integer",
+                    "example": 1591974665
+                },
+                "uploader": {
+                    "description": "发布者",
+                    "type": "object"
+                },
+                "view_count": {
+                    "description": "查看次数",
+                    "type": "integer",
+                    "example": 0
+                }
+            }
+        },
+        "torrent.UpdateTorrentRequest": {
+            "type": "object",
+            "properties": {
+                "category_id": {
+                    "description": "分类ID",
+                    "type": "integer"
+                },
+                "description": {
+                    "description": "种子介绍",
+                    "type": "string",
+                    "example": "long long desc content"
+                },
+                "is_anonymous": {
+                    "description": "是否匿名",
+                    "type": "boolean",
+                    "example": false
+                },
+                "is_inactive": {
+                    "description": "就否断种",
+                    "type": "boolean",
+                    "example": false
+                },
+                "position_level": {
+                    "description": "置顶位置",
+                    "type": "integer",
+                    "example": 0
+                },
+                "simple_desc": {
+                    "description": "简介",
+                    "type": "string",
+                    "example": "simple desc"
+                },
+                "title": {
+                    "description": "种子标题",
+                    "type": "string",
+                    "example": "Title"
+                }
+            }
+        },
+        "torrent.User": {
             "type": "object",
             "properties": {
                 "display_name": {

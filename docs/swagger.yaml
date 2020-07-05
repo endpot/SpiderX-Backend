@@ -277,6 +277,8 @@ definitions:
         description: 回复内容
         example: This is a content
         type: string
+    required:
+    - content
     type: object
   post.Post:
     properties:
@@ -388,6 +390,7 @@ definitions:
         example: This is a content
         type: string
       position:
+        default: 0
         description: 置顶位置
         example: 0
         type: integer
@@ -395,6 +398,9 @@ definitions:
         description: 主题标题
         example: This is a title
         type: string
+    required:
+    - content
+    - title
     type: object
   topic.Forum:
     properties:
@@ -464,6 +470,176 @@ definitions:
         type: string
     type: object
   topic.User:
+    properties:
+      display_name:
+        description: 用户名
+        example: spider
+        type: string
+      id:
+        description: 用户ID
+        example: 1
+        type: integer
+    type: object
+  torrent.Category:
+    properties:
+      display_name:
+        description: 分类名
+        example: document
+        type: string
+      id:
+        description: 分类ID
+        example: 1
+        type: integer
+    type: object
+  torrent.CreateTorrentRequest:
+    properties:
+      category_id:
+        description: 分类ID
+        example: 401
+        type: integer
+      description:
+        description: 种子介绍
+        example: long long desc content
+        type: string
+      info_hash:
+        description: 唯一哈希码
+        example: 001460cb52f9154f4ce2b510eae0dcb705210433
+        type: string
+      is_anonymous:
+        default: false
+        description: 是否匿名
+        example: false
+        type: boolean
+      position_level:
+        default: 0
+        description: 置顶位置
+        example: 0
+        type: integer
+      simple_desc:
+        description: 简介
+        example: simple desc
+        type: string
+      title:
+        description: 种子标题
+        example: Title
+        type: string
+    required:
+    - category_id
+    - description
+    - info_hash
+    - title
+    type: object
+  torrent.Torrent:
+    properties:
+      category:
+        description: 分类
+        type: object
+      comment_count:
+        description: 评论数
+        example: 0
+        type: integer
+      created_at:
+        description: 创建时间戳（秒）
+        example: 1591974665
+        type: integer
+      description:
+        description: 种子介绍
+        example: long long desc content
+        type: string
+      id:
+        description: ID
+        example: 1
+        type: integer
+      info_hash:
+        description: 唯一哈希码
+        example: 001460cb52f9154f4ce2b510eae0dcb705210433
+        type: string
+      is_anonymous:
+        description: 是否匿名
+        example: false
+        type: boolean
+      is_inactive:
+        description: 就否断种
+        example: false
+        type: boolean
+      leecher_count:
+        description: 下载者数量
+        example: 0
+        type: integer
+      owner:
+        description: 拥有者
+        type: object
+      position_level:
+        description: 置顶位置
+        example: 0
+        type: integer
+      reward_bonus:
+        description: 获赠魔力豆
+        example: 0
+        type: integer
+      seeder_count:
+        description: 做种者数量
+        example: 0
+        type: integer
+      simple_desc:
+        description: 简介
+        example: simple desc
+        type: string
+      size:
+        description: 资源体积
+        example: 12345
+        type: integer
+      snacher_count:
+        description: 完成都数量
+        example: 0
+        type: integer
+      title:
+        description: 种子标题
+        example: Title
+        type: string
+      updated_at:
+        description: 更新时间戳（秒）
+        example: 1591974665
+        type: integer
+      uploader:
+        description: 发布者
+        type: object
+      view_count:
+        description: 查看次数
+        example: 0
+        type: integer
+    type: object
+  torrent.UpdateTorrentRequest:
+    properties:
+      category_id:
+        description: 分类ID
+        type: integer
+      description:
+        description: 种子介绍
+        example: long long desc content
+        type: string
+      is_anonymous:
+        description: 是否匿名
+        example: false
+        type: boolean
+      is_inactive:
+        description: 就否断种
+        example: false
+        type: boolean
+      position_level:
+        description: 置顶位置
+        example: 0
+        type: integer
+      simple_desc:
+        description: 简介
+        example: simple desc
+        type: string
+      title:
+        description: 种子标题
+        example: Title
+        type: string
+    type: object
+  torrent.User:
     properties:
       display_name:
         description: 用户名
@@ -1997,6 +2173,315 @@ paths:
       summary: 更新回复
       tags:
       - Post
+  /torrents:
+    get:
+      consumes:
+      - application/json
+      description: 获取种子列表
+      parameters:
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 15
+        description: 每页数量
+        in: query
+        name: per_page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.PageResponse'
+            - properties:
+                data:
+                  items:
+                    allOf:
+                    - $ref: '#/definitions/torrent.Torrent'
+                    - properties:
+                        category:
+                          $ref: '#/definitions/torrent.Category'
+                        owner:
+                          $ref: '#/definitions/torrent.User'
+                        uploader:
+                          $ref: '#/definitions/torrent.User'
+                      type: object
+                  type: array
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取种子列表
+      tags:
+      - Torrent
+    post:
+      consumes:
+      - application/json
+      description: 创建种子
+      parameters:
+      - description: 创建种子请求参数
+        in: body
+        name: torrent
+        required: true
+        schema:
+          $ref: '#/definitions/torrent.CreateTorrentRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/torrent.Torrent'
+                  - properties:
+                      category:
+                        $ref: '#/definitions/torrent.Category'
+                      owner:
+                        $ref: '#/definitions/torrent.User'
+                      uploader:
+                        $ref: '#/definitions/torrent.User'
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 创建种子
+      tags:
+      - Torrent
+  /torrents.preUpload:
+    post:
+      consumes:
+      - multipart/form-data
+      description: 预创建种子
+      parameters:
+      - description: 种子文件
+        in: formData
+        name: torrent
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - type: object
+                  - properties:
+                      info_hash:
+                        type: string
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 预创建种子
+      tags:
+      - Torrent
+  /torrents/{torrent_id}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除种子
+      parameters:
+      - description: 种子ID
+        in: path
+        name: torrent_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: 请求成功
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除种子
+      tags:
+      - Torrent
+    get:
+      consumes:
+      - application/json
+      description: 获取种子信息
+      parameters:
+      - description: 种子ID
+        in: path
+        name: torrent_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/torrent.Torrent'
+                  - properties:
+                      category:
+                        $ref: '#/definitions/torrent.Category'
+                      owner:
+                        $ref: '#/definitions/torrent.User'
+                      uploader:
+                        $ref: '#/definitions/torrent.User'
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取种子信息
+      tags:
+      - Torrent
+    patch:
+      consumes:
+      - application/json
+      description: 更新种子
+      parameters:
+      - description: 种子ID
+        in: path
+        name: torrent_id
+        required: true
+        type: integer
+      - description: 更新种子请求参数
+        in: body
+        name: torrent
+        required: true
+        schema:
+          $ref: '#/definitions/torrent.UpdateTorrentRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/torrent.Torrent'
+                  - properties:
+                      category:
+                        $ref: '#/definitions/torrent.Category'
+                      owner:
+                        $ref: '#/definitions/torrent.User'
+                      uploader:
+                        $ref: '#/definitions/torrent.User'
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新种子
+      tags:
+      - Torrent
 schemes:
 - https
 securityDefinitions:

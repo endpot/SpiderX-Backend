@@ -85,11 +85,11 @@ func InitRouter() *gin.Engine {
 
 	{
 		// Post related API
-		r.GET("/posts", post.GetPostList)
-		r.GET("/posts/:postID", post.GetPost)
-		r.POST("/posts", post.CreatePost)
-		r.PATCH("/posts/:postID", post.UpdatePost)
-		r.DELETE("/posts/:postID", post.DeletePost)
+		r.GET("/topics/:topicID/posts", post.GetPostList)
+		r.GET("/topics/:topicID/posts/:postID", post.GetPost)
+		r.POST("/topics/:topicID/posts", post.CreatePost)
+		r.PATCH("/topics/:topicID/posts/:postID", post.UpdatePost)
+		r.DELETE("/topics/:topicID/posts/:postID", post.DeletePost)
 	}
 
 	{
@@ -106,6 +106,7 @@ func InitRouter() *gin.Engine {
 		r.GET("/torrents", torrent.GetTorrentList)
 		r.GET("/torrents/:torrentID", torrent.GetTorrent)
 		r.POST("/torrents", torrent.CreateTorrent)
+		r.POST("/torrents.preUpload", torrent.PreUploadTorrent)
 		r.PATCH("/torrents/:torrentID", torrent.UpdateTorrent)
 		r.DELETE("/torrents/:torrentID", torrent.DeleteTorrent)
 	}
