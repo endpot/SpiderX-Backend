@@ -19,6 +19,6 @@ type User struct {
 }
 
 type Forum struct {
-	ID   int    `json:"id" example:"1"`                      // ID
+	ID   int    `json:"id" example:"1"`                      // 版块ID
 	Name string `json:"name" example:"This is a forum name"` // 版块名称
 }

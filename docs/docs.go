@@ -982,7 +982,7 @@ var doc = `{
                 "parameters": [
                     {
                         "description": "创建论坛版块请求参数",
-                        "name": "chat",
+                        "name": "forum",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -1191,7 +1191,7 @@ var doc = `{
                     },
                     {
                         "description": "更新论坛版块请求参数",
-                        "name": "chat",
+                        "name": "forum",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -1300,7 +1300,22 @@ var doc = `{
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/topic.Topic"
+                                                "allOf": [
+                                                    {
+                                                        "$ref": "#/definitions/topic.Topic"
+                                                    },
+                                                    {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "forum": {
+                                                                "$ref": "#/definitions/topic.Forum"
+                                                            },
+                                                            "user": {
+                                                                "$ref": "#/definitions/topic.User"
+                                                            }
+                                                        }
+                                                    }
+                                                ]
                                             }
                                         }
                                     }
@@ -1361,7 +1376,7 @@ var doc = `{
                     },
                     {
                         "description": "创建主题请求参数",
-                        "name": "chat",
+                        "name": "topic",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -1614,7 +1629,7 @@ var doc = `{
                     },
                     {
                         "description": "更新主题请求参数",
-                        "name": "chat",
+                        "name": "topic",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -2047,6 +2062,469 @@ var doc = `{
                     }
                 }
             }
+        },
+        "/topics/{topic_id}/posts": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "获取主题回复列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Post"
+                ],
+                "summary": "获取主题回复列表",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "主题ID",
+                        "name": "topic_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "页码",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 15,
+                        "description": "每页数量",
+                        "name": "per_page",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "请求成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.PageResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "allOf": [
+                                                    {
+                                                        "$ref": "#/definitions/post.Post"
+                                                    },
+                                                    {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "topic": {
+                                                                "$ref": "#/definitions/post.Topic"
+                                                            },
+                                                            "user": {
+                                                                "$ref": "#/definitions/post.User"
+                                                            }
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "请求参数异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "没有操作权限",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "没有对象",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "创建回复",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Post"
+                ],
+                "summary": "创建回复",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "主题ID",
+                        "name": "topic_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "创建回复请求参数",
+                        "name": "topic",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/post.CreatePostRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "请求成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/post.Post"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "topic": {
+                                                            "$ref": "#/definitions/post.Topic"
+                                                        },
+                                                        "user": {
+                                                            "$ref": "#/definitions/post.User"
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "请求参数异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "没有操作权限",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "没有对象",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/topics/{topic_id}/posts/{post_id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "获取主题回复",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Post"
+                ],
+                "summary": "获取主题回复",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "主题ID",
+                        "name": "topic_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "回复ID",
+                        "name": "post_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "请求成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "allOf": [
+                                                    {
+                                                        "$ref": "#/definitions/post.Post"
+                                                    },
+                                                    {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "topic": {
+                                                                "$ref": "#/definitions/post.Topic"
+                                                            },
+                                                            "user": {
+                                                                "$ref": "#/definitions/post.User"
+                                                            }
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "请求参数异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "没有操作权限",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "没有对象",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "删除回复",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Post"
+                ],
+                "summary": "删除回复",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "主题ID",
+                        "name": "topic_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "回复ID",
+                        "name": "post_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "请求成功"
+                    },
+                    "400": {
+                        "description": "请求参数异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "没有操作权限",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "没有对象",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "更新回复",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Post"
+                ],
+                "summary": "更新回复",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "主题ID",
+                        "name": "topic_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "回复ID",
+                        "name": "post_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "更新回复请求参数",
+                        "name": "topic",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/post.UpdatePostRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "请求成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/post.Post"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "topic": {
+                                                            "$ref": "#/definitions/post.Topic"
+                                                        },
+                                                        "user": {
+                                                            "$ref": "#/definitions/post.User"
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "请求参数异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "没有操作权限",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "没有对象",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -2410,6 +2888,89 @@ var doc = `{
                 }
             }
         },
+        "post.CreatePostRequest": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "description": "回复内容",
+                    "type": "string",
+                    "example": "This is a content"
+                }
+            }
+        },
+        "post.Post": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "description": "回复内容",
+                    "type": "string",
+                    "example": "This is a content"
+                },
+                "created_at": {
+                    "description": "创建时间戳（秒）",
+                    "type": "integer",
+                    "example": 1591974665
+                },
+                "id": {
+                    "description": "ID",
+                    "type": "integer",
+                    "example": 1
+                },
+                "topic": {
+                    "description": "主题",
+                    "type": "object"
+                },
+                "updated_at": {
+                    "description": "更新时间戳（秒）",
+                    "type": "integer",
+                    "example": 1591974665
+                },
+                "user": {
+                    "description": "用户",
+                    "type": "object"
+                }
+            }
+        },
+        "post.Topic": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "主题ID",
+                    "type": "integer",
+                    "example": 1
+                },
+                "title": {
+                    "description": "主题标题",
+                    "type": "string",
+                    "example": "This is a title"
+                }
+            }
+        },
+        "post.UpdatePostRequest": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "description": "回复内容",
+                    "type": "string",
+                    "example": "This is a content"
+                }
+            }
+        },
+        "post.User": {
+            "type": "object",
+            "properties": {
+                "display_name": {
+                    "description": "用户名",
+                    "type": "string",
+                    "example": "spider"
+                },
+                "id": {
+                    "description": "用户ID",
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
         "response.ErrResponse": {
             "type": "object",
             "properties": {
@@ -2501,7 +3062,7 @@ var doc = `{
             "type": "object",
             "properties": {
                 "id": {
-                    "description": "ID",
+                    "description": "版块ID",
                     "type": "integer",
                     "example": 1
                 },

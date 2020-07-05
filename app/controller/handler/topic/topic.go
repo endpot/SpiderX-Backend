@@ -12,7 +12,7 @@ import "github.com/gin-gonic/gin"
 // @Param forum_id path int true "论坛版块ID"
 // @Param page query int false "页码" default(1)
 // @Param per_page query int false "每页数量" default(15)
-// @Success 200 {object} response.PageResponse{data=[]topic.Topic{}} "请求成功"
+// @Success 200 {object} response.PageResponse{data=[]topic.Topic{user=topic.User,forum=topic.Forum}} "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
 // @Failure 401 {object} response.ErrResponse "没有操作权限"
 // @Failure 404 {object} response.ErrResponse "没有对象"
@@ -48,7 +48,7 @@ func GetTopic(c *gin.Context) {
 // @Produce	json
 // @Security ApiKeyAuth
 // @Param forum_id path int true "论坛版块ID"
-// @Param chat body CreateTopicRequest true "创建主题请求参数"
+// @Param topic body CreateTopicRequest true "创建主题请求参数"
 // @Success 200 {object} response.Response{data=topic.Topic{user=topic.User,forum=topic.Forum}} "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
 // @Failure 401 {object} response.ErrResponse "没有操作权限"
@@ -68,7 +68,7 @@ func CreateTopic(c *gin.Context) {
 // @Security ApiKeyAuth
 // @Param forum_id path int true "论坛版块ID"
 // @Param topic_id path int true "主题ID"
-// @Param chat body UpdateTopicRequest true "更新主题请求参数"
+// @Param topic body UpdateTopicRequest true "更新主题请求参数"
 // @Success 200 {object} response.Response{data=topic.Topic{user=topic.User,forum=topic.Forum}} "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
 // @Failure 401 {object} response.ErrResponse "没有操作权限"

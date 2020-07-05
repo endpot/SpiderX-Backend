@@ -46,7 +46,7 @@ func GetForum(c *gin.Context) {
 // @Accept json
 // @Produce	json
 // @Security ApiKeyAuth
-// @Param chat body CreateForumRequest true "创建论坛版块请求参数"
+// @Param forum body CreateForumRequest true "创建论坛版块请求参数"
 // @Success 200 {object} response.Response{data=forum.Forum{}} "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
 // @Failure 401 {object} response.ErrResponse "没有操作权限"
@@ -65,7 +65,7 @@ func CreateForum(c *gin.Context) {
 // @Produce	json
 // @Security ApiKeyAuth
 // @Param forum_id path int true "论坛版块ID"
-// @Param chat body UpdateForumRequest true "更新论坛版块请求参数"
+// @Param forum body UpdateForumRequest true "更新论坛版块请求参数"
 // @Success 200 {object} response.Response{data=forum.Forum{}} "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
 // @Failure 401 {object} response.ErrResponse "没有操作权限"

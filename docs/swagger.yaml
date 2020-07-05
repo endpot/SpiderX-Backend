@@ -271,6 +271,67 @@ definitions:
     - content
     - title
     type: object
+  post.CreatePostRequest:
+    properties:
+      content:
+        description: 回复内容
+        example: This is a content
+        type: string
+    type: object
+  post.Post:
+    properties:
+      content:
+        description: 回复内容
+        example: This is a content
+        type: string
+      created_at:
+        description: 创建时间戳（秒）
+        example: 1591974665
+        type: integer
+      id:
+        description: ID
+        example: 1
+        type: integer
+      topic:
+        description: 主题
+        type: object
+      updated_at:
+        description: 更新时间戳（秒）
+        example: 1591974665
+        type: integer
+      user:
+        description: 用户
+        type: object
+    type: object
+  post.Topic:
+    properties:
+      id:
+        description: 主题ID
+        example: 1
+        type: integer
+      title:
+        description: 主题标题
+        example: This is a title
+        type: string
+    type: object
+  post.UpdatePostRequest:
+    properties:
+      content:
+        description: 回复内容
+        example: This is a content
+        type: string
+    type: object
+  post.User:
+    properties:
+      display_name:
+        description: 用户名
+        example: spider
+        type: string
+      id:
+        description: 用户ID
+        example: 1
+        type: integer
+    type: object
   response.ErrResponse:
     properties:
       code:
@@ -338,7 +399,7 @@ definitions:
   topic.Forum:
     properties:
       id:
-        description: ID
+        description: 版块ID
         example: 1
         type: integer
       name:
@@ -995,7 +1056,7 @@ paths:
       parameters:
       - description: 创建论坛版块请求参数
         in: body
-        name: chat
+        name: forum
         required: true
         schema:
           $ref: '#/definitions/forum.CreateForumRequest'
@@ -1124,7 +1185,7 @@ paths:
         type: integer
       - description: 更新论坛版块请求参数
         in: body
-        name: chat
+        name: forum
         required: true
         schema:
           $ref: '#/definitions/forum.UpdateForumRequest'
@@ -1193,7 +1254,14 @@ paths:
             - properties:
                 data:
                   items:
-                    $ref: '#/definitions/topic.Topic'
+                    allOf:
+                    - $ref: '#/definitions/topic.Topic'
+                    - properties:
+                        forum:
+                          $ref: '#/definitions/topic.Forum'
+                        user:
+                          $ref: '#/definitions/topic.User'
+                      type: object
                   type: array
               type: object
         "400":
@@ -1229,7 +1297,7 @@ paths:
         type: integer
       - description: 创建主题请求参数
         in: body
-        name: chat
+        name: topic
         required: true
         schema:
           $ref: '#/definitions/topic.CreateTopicRequest'
@@ -1382,7 +1450,7 @@ paths:
         type: integer
       - description: 更新主题请求参数
         in: body
-        name: chat
+        name: topic
         required: true
         schema:
           $ref: '#/definitions/topic.UpdateTopicRequest'
@@ -1650,6 +1718,285 @@ paths:
       summary: 更新公告
       tags:
       - Notice
+  /topics/{topic_id}/posts:
+    get:
+      consumes:
+      - application/json
+      description: 获取主题回复列表
+      parameters:
+      - description: 主题ID
+        in: path
+        name: topic_id
+        required: true
+        type: integer
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 15
+        description: 每页数量
+        in: query
+        name: per_page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.PageResponse'
+            - properties:
+                data:
+                  items:
+                    allOf:
+                    - $ref: '#/definitions/post.Post'
+                    - properties:
+                        topic:
+                          $ref: '#/definitions/post.Topic'
+                        user:
+                          $ref: '#/definitions/post.User'
+                      type: object
+                  type: array
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取主题回复列表
+      tags:
+      - Post
+    post:
+      consumes:
+      - application/json
+      description: 创建回复
+      parameters:
+      - description: 主题ID
+        in: path
+        name: topic_id
+        required: true
+        type: integer
+      - description: 创建回复请求参数
+        in: body
+        name: topic
+        required: true
+        schema:
+          $ref: '#/definitions/post.CreatePostRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/post.Post'
+                  - properties:
+                      topic:
+                        $ref: '#/definitions/post.Topic'
+                      user:
+                        $ref: '#/definitions/post.User'
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 创建回复
+      tags:
+      - Post
+  /topics/{topic_id}/posts/{post_id}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除回复
+      parameters:
+      - description: 主题ID
+        in: path
+        name: topic_id
+        required: true
+        type: integer
+      - description: 回复ID
+        in: path
+        name: post_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: 请求成功
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除回复
+      tags:
+      - Post
+    get:
+      consumes:
+      - application/json
+      description: 获取主题回复
+      parameters:
+      - description: 主题ID
+        in: path
+        name: topic_id
+        required: true
+        type: integer
+      - description: 回复ID
+        in: path
+        name: post_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  items:
+                    allOf:
+                    - $ref: '#/definitions/post.Post'
+                    - properties:
+                        topic:
+                          $ref: '#/definitions/post.Topic'
+                        user:
+                          $ref: '#/definitions/post.User'
+                      type: object
+                  type: array
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取主题回复
+      tags:
+      - Post
+    patch:
+      consumes:
+      - application/json
+      description: 更新回复
+      parameters:
+      - description: 主题ID
+        in: path
+        name: topic_id
+        required: true
+        type: integer
+      - description: 回复ID
+        in: path
+        name: post_id
+        required: true
+        type: integer
+      - description: 更新回复请求参数
+        in: body
+        name: topic
+        required: true
+        schema:
+          $ref: '#/definitions/post.UpdatePostRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/post.Post'
+                  - properties:
+                      topic:
+                        $ref: '#/definitions/post.Topic'
+                      user:
+                        $ref: '#/definitions/post.User'
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新回复
+      tags:
+      - Post
 schemes:
 - https
 securityDefinitions:
