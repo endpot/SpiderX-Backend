@@ -121,21 +121,13 @@ func InitRouter() *gin.Engine {
 	}
 
 	{
-		// Comment related API
-		//r.GET("/comments", comment.GetCommentList)
-		//r.GET("/comments/:commentID", comment.GetComment)
-		//r.POST("/comments", comment.CreateComment)
-		//r.PATCH("/comments/:commentID", comment.UpdateComment)
-		//r.DELETE("/comments/:commentID", comment.DeleteComment)
-	}
-
-	{
 		// Subtitle related API
-		r.GET("/subtitles", subtitle.GetSubtitleList)
-		r.GET("/subtitles/:subtitleID", subtitle.GetSubtitle)
-		r.POST("/subtitles", subtitle.CreateSubtitle)
-		r.PATCH("/subtitles/:subtitleID", subtitle.UpdateSubtitle)
-		r.DELETE("/subtitles/:subtitleID", subtitle.DeleteSubtitle)
+		r.GET("/torrents/:torrentID/subtitles", subtitle.GetSubtitleList)
+		r.GET("/torrents/:torrentID/subtitles/:subtitleID", subtitle.GetSubtitle)
+		r.POST("/torrents/:torrentID/subtitles", subtitle.CreateSubtitle)
+		r.POST("/torrents/:torrentID/comments.preUpload", subtitle.PreUploadTorrent)
+		r.PATCH("/torrents/:torrentID/subtitles/:subtitleID", subtitle.UpdateSubtitle)
+		r.DELETE("/torrents/:torrentID/subtitles/:subtitleID", subtitle.DeleteSubtitle)
 	}
 
 	{

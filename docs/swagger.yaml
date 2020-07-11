@@ -446,6 +446,119 @@ definitions:
         description: 数据
         type: object
     type: object
+  subtitle.CreateSubtitleRequest:
+    properties:
+      hash_code:
+        description: HASH码
+        type: string
+      is_anonymous:
+        default: false
+        description: 是否匿名
+        example: false
+        type: boolean
+      language:
+        description: 语言
+        example: en
+        type: string
+      title:
+        description: 标题
+        example: Title
+        type: string
+    required:
+    - hash_code
+    - language
+    type: object
+  subtitle.Subtitle:
+    properties:
+      created_at:
+        description: 创建时间戳（秒）
+        example: 1591974665
+        type: integer
+      download_count:
+        description: 下载次数
+        example: 0
+        type: integer
+      extension:
+        description: 后缀
+        example: zip
+        type: string
+      filename:
+        description: 文件名
+        example: abc.zip
+        type: string
+      hash_code:
+        description: HASH码
+        type: string
+      id:
+        description: ID
+        example: 1
+        type: integer
+      is_anonymous:
+        description: 是否匿名
+        example: false
+        type: boolean
+      is_available:
+        description: 就否可用
+        example: false
+        type: boolean
+      language:
+        description: 语言
+        example: en
+        type: string
+      title:
+        description: 标题
+        example: Title
+        type: string
+      torrent:
+        description: 种子
+        type: object
+      updated_at:
+        description: 更新时间戳（秒）
+        example: 1591974665
+        type: integer
+      uploader:
+        description: 上传者
+        type: object
+    type: object
+  subtitle.Torrent:
+    properties:
+      id:
+        description: 种子ID
+        example: 1
+        type: integer
+      title:
+        description: 种子标题
+        example: title
+        type: string
+    type: object
+  subtitle.UpdateSubtitleRequest:
+    properties:
+      is_anonymous:
+        description: 是否匿名
+        example: false
+        type: boolean
+      language:
+        description: 语言
+        example: en
+        type: string
+      title:
+        description: 标题
+        example: Title
+        type: string
+    required:
+    - language
+    type: object
+  subtitle.User:
+    properties:
+      display_name:
+        description: 用户名
+        example: spider
+        type: string
+      id:
+        description: 用户ID
+        example: 1
+        type: integer
+    type: object
   topic.CreateTopicRequest:
     properties:
       content:
@@ -2820,6 +2933,332 @@ paths:
       summary: 更新种子评论
       tags:
       - Comment
+  /torrents/{torrent_id}/subtitles:
+    get:
+      consumes:
+      - application/json
+      description: 获取种子字幕列表
+      parameters:
+      - description: 种子ID
+        in: path
+        name: torrent_id
+        required: true
+        type: integer
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 15
+        description: 每页数量
+        in: query
+        name: per_page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.PageResponse'
+            - properties:
+                data:
+                  items:
+                    allOf:
+                    - $ref: '#/definitions/subtitle.Subtitle'
+                    - properties:
+                        torrent:
+                          $ref: '#/definitions/subtitle.Torrent'
+                        uploader:
+                          $ref: '#/definitions/subtitle.User'
+                      type: object
+                  type: array
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取种子字幕列表
+      tags:
+      - Subtitle
+    post:
+      consumes:
+      - application/json
+      description: 创建种子字幕
+      parameters:
+      - description: 种子ID
+        in: path
+        name: torrent_id
+        required: true
+        type: integer
+      - description: 创建种子字幕请求参数
+        in: body
+        name: subtitle
+        required: true
+        schema:
+          $ref: '#/definitions/subtitle.CreateSubtitleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/subtitle.Subtitle'
+                  - properties:
+                      torrent:
+                        $ref: '#/definitions/subtitle.Torrent'
+                      uploader:
+                        $ref: '#/definitions/subtitle.User'
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 创建种子字幕
+      tags:
+      - Subtitle
+  /torrents/{torrent_id}/subtitles.preUpload:
+    post:
+      consumes:
+      - multipart/form-data
+      description: 预创建字幕
+      parameters:
+      - description: 字幕文件
+        in: formData
+        name: subtitle
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - type: object
+                  - properties:
+                      hash_code:
+                        type: string
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 预创建字幕
+      tags:
+      - Subtitle
+  /torrents/{torrent_id}/subtitles/{subtitle_id}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除种子字幕
+      parameters:
+      - description: 种子ID
+        in: path
+        name: torrent_id
+        required: true
+        type: integer
+      - description: 字幕ID
+        in: path
+        name: subtitle_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: 请求成功
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除种子字幕
+      tags:
+      - Subtitle
+    get:
+      consumes:
+      - application/json
+      description: 获取种子字幕
+      parameters:
+      - description: 种子ID
+        in: path
+        name: torrent_id
+        required: true
+        type: integer
+      - description: 字幕ID
+        in: path
+        name: subtitle_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/subtitle.Subtitle'
+                  - properties:
+                      torrent:
+                        $ref: '#/definitions/subtitle.Torrent'
+                      uploader:
+                        $ref: '#/definitions/subtitle.User'
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取种子字幕
+      tags:
+      - Subtitle
+    patch:
+      consumes:
+      - application/json
+      description: 更新种子字幕
+      parameters:
+      - description: 种子ID
+        in: path
+        name: torrent_id
+        required: true
+        type: integer
+      - description: 字幕ID
+        in: path
+        name: subtitle_id
+        required: true
+        type: integer
+      - description: 更新种子字幕请求参数
+        in: body
+        name: subtitle
+        required: true
+        schema:
+          $ref: '#/definitions/subtitle.UpdateSubtitleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/subtitle.Subtitle'
+                  - properties:
+                      torrent:
+                        $ref: '#/definitions/subtitle.Torrent'
+                      uploader:
+                        $ref: '#/definitions/subtitle.User'
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新种子字幕
+      tags:
+      - Subtitle
 schemes:
 - https
 securityDefinitions:
