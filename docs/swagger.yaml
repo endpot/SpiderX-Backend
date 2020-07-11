@@ -171,6 +171,69 @@ definitions:
         example: 1
         type: integer
     type: object
+  comment.Comment:
+    properties:
+      content:
+        description: 回复内容
+        example: This is a content
+        type: string
+      created_at:
+        description: 创建时间戳（秒）
+        example: 1591974665
+        type: integer
+      id:
+        description: ID
+        example: 1
+        type: integer
+      torrent:
+        description: 种子
+        type: object
+      updated_at:
+        description: 更新时间戳（秒）
+        example: 1591974665
+        type: integer
+      user:
+        description: 用户
+        type: object
+    type: object
+  comment.CreateCommentRequest:
+    properties:
+      content:
+        description: 评论内容
+        example: This is a content
+        type: string
+    required:
+    - content
+    type: object
+  comment.Torrent:
+    properties:
+      id:
+        description: 种子ID
+        example: 1
+        type: integer
+      title:
+        description: 种子标题
+        example: This is a title
+        type: string
+    type: object
+  comment.UpdateCommentRequest:
+    properties:
+      content:
+        description: 评论内容
+        example: This is a content
+        type: string
+    type: object
+  comment.User:
+    properties:
+      display_name:
+        description: 用户名
+        example: spider
+        type: string
+      id:
+        description: 用户ID
+        example: 1
+        type: integer
+    type: object
   forum.CreateForumRequest:
     properties:
       name:
@@ -1969,7 +2032,7 @@ paths:
         type: integer
       - description: 创建回复请求参数
         in: body
-        name: topic
+        name: post
         required: true
         schema:
           $ref: '#/definitions/post.CreatePostRequest'
@@ -2080,16 +2143,14 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  items:
-                    allOf:
-                    - $ref: '#/definitions/post.Post'
-                    - properties:
-                        topic:
-                          $ref: '#/definitions/post.Topic'
-                        user:
-                          $ref: '#/definitions/post.User'
-                      type: object
-                  type: array
+                  allOf:
+                  - $ref: '#/definitions/post.Post'
+                  - properties:
+                      topic:
+                        $ref: '#/definitions/post.Topic'
+                      user:
+                        $ref: '#/definitions/post.User'
+                    type: object
               type: object
         "400":
           description: 请求参数异常
@@ -2129,7 +2190,7 @@ paths:
         type: integer
       - description: 更新回复请求参数
         in: body
-        name: topic
+        name: post
         required: true
         schema:
           $ref: '#/definitions/post.UpdatePostRequest'
@@ -2482,6 +2543,283 @@ paths:
       summary: 更新种子
       tags:
       - Torrent
+  /torrents/{torrent_id}/comments:
+    get:
+      consumes:
+      - application/json
+      description: 获取种子评论列表
+      parameters:
+      - description: 种子ID
+        in: path
+        name: torrent_id
+        required: true
+        type: integer
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 15
+        description: 每页数量
+        in: query
+        name: per_page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.PageResponse'
+            - properties:
+                data:
+                  items:
+                    allOf:
+                    - $ref: '#/definitions/comment.Comment'
+                    - properties:
+                        torrent:
+                          $ref: '#/definitions/comment.Torrent'
+                        user:
+                          $ref: '#/definitions/comment.User'
+                      type: object
+                  type: array
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取种子评论列表
+      tags:
+      - Comment
+    post:
+      consumes:
+      - application/json
+      description: 创建种子评论
+      parameters:
+      - description: 种子ID
+        in: path
+        name: torrent_id
+        required: true
+        type: integer
+      - description: 创建种子评论请求参数
+        in: body
+        name: comment
+        required: true
+        schema:
+          $ref: '#/definitions/comment.CreateCommentRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/comment.Comment'
+                  - properties:
+                      torrent:
+                        $ref: '#/definitions/comment.Torrent'
+                      user:
+                        $ref: '#/definitions/comment.User'
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 创建种子评论
+      tags:
+      - Comment
+  /torrents/{torrent_id}/comments/{comment_id}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除种子评论
+      parameters:
+      - description: 种子ID
+        in: path
+        name: torrent_id
+        required: true
+        type: integer
+      - description: 评论ID
+        in: path
+        name: comment_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: 请求成功
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除种子评论
+      tags:
+      - Comment
+    get:
+      consumes:
+      - application/json
+      description: 获取种子评论
+      parameters:
+      - description: 种子ID
+        in: path
+        name: torrent_id
+        required: true
+        type: integer
+      - description: 评论ID
+        in: path
+        name: comment_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/comment.Comment'
+                  - properties:
+                      torrent:
+                        $ref: '#/definitions/comment.Torrent'
+                      user:
+                        $ref: '#/definitions/comment.User'
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取种子评论
+      tags:
+      - Comment
+    patch:
+      consumes:
+      - application/json
+      description: 更新种子评论
+      parameters:
+      - description: 种子ID
+        in: path
+        name: torrent_id
+        required: true
+        type: integer
+      - description: 评论ID
+        in: path
+        name: comment_id
+        required: true
+        type: integer
+      - description: 更新种子评论请求参数
+        in: body
+        name: comment
+        required: true
+        schema:
+          $ref: '#/definitions/comment.UpdateCommentRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/comment.Comment'
+                  - properties:
+                      torrent:
+                        $ref: '#/definitions/comment.Torrent'
+                      user:
+                        $ref: '#/definitions/comment.User'
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新种子评论
+      tags:
+      - Comment
 schemes:
 - https
 securityDefinitions:

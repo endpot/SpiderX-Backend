@@ -31,7 +31,7 @@ func GetPostList(c *gin.Context) {
 // @Security ApiKeyAuth
 // @Param topic_id path int true "主题ID"
 // @Param post_id path int true "回复ID"
-// @Success 200 {object} response.Response{data=[]post.Post{user=post.User,topic=post.Topic}} "请求成功"
+// @Success 200 {object} response.Response{data=post.Post{user=post.User,topic=post.Topic}} "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
 // @Failure 401 {object} response.ErrResponse "没有操作权限"
 // @Failure 404 {object} response.ErrResponse "没有对象"
@@ -49,7 +49,7 @@ func GetPost(c *gin.Context) {
 // @Produce	json
 // @Security ApiKeyAuth
 // @Param topic_id path int true "主题ID"
-// @Param topic body CreatePostRequest true "创建回复请求参数"
+// @Param post body CreatePostRequest true "创建回复请求参数"
 // @Success 200 {object} response.Response{data=post.Post{user=post.User,topic=post.Topic}} "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
 // @Failure 401 {object} response.ErrResponse "没有操作权限"
@@ -69,7 +69,7 @@ func CreatePost(c *gin.Context) {
 // @Security ApiKeyAuth
 // @Param topic_id path int true "主题ID"
 // @Param post_id path int true "回复ID"
-// @Param topic body UpdatePostRequest true "更新回复请求参数"
+// @Param post body UpdatePostRequest true "更新回复请求参数"
 // @Success 200 {object} response.Response{data=post.Post{user=post.User,topic=post.Topic}} "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
 // @Failure 401 {object} response.ErrResponse "没有操作权限"

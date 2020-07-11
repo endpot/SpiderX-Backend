@@ -2194,7 +2194,7 @@ var doc = `{
                     },
                     {
                         "description": "创建回复请求参数",
-                        "name": "topic",
+                        "name": "post",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -2309,25 +2309,22 @@ var doc = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "allOf": [
-                                                    {
-                                                        "$ref": "#/definitions/post.Post"
-                                                    },
-                                                    {
-                                                        "type": "object",
-                                                        "properties": {
-                                                            "topic": {
-                                                                "$ref": "#/definitions/post.Topic"
-                                                            },
-                                                            "user": {
-                                                                "$ref": "#/definitions/post.User"
-                                                            }
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/post.Post"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "topic": {
+                                                            "$ref": "#/definitions/post.Topic"
+                                                        },
+                                                        "user": {
+                                                            "$ref": "#/definitions/post.User"
                                                         }
                                                     }
-                                                ]
-                                            }
+                                                }
+                                            ]
                                         }
                                     }
                                 }
@@ -2457,7 +2454,7 @@ var doc = `{
                     },
                     {
                         "description": "更新回复请求参数",
-                        "name": "topic",
+                        "name": "post",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -3047,6 +3044,466 @@ var doc = `{
                     }
                 }
             }
+        },
+        "/torrents/{torrent_id}/comments": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "获取种子评论列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "获取种子评论列表",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "种子ID",
+                        "name": "torrent_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "页码",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 15,
+                        "description": "每页数量",
+                        "name": "per_page",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "请求成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.PageResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "allOf": [
+                                                    {
+                                                        "$ref": "#/definitions/comment.Comment"
+                                                    },
+                                                    {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "torrent": {
+                                                                "$ref": "#/definitions/comment.Torrent"
+                                                            },
+                                                            "user": {
+                                                                "$ref": "#/definitions/comment.User"
+                                                            }
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "请求参数异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "没有操作权限",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "没有对象",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "创建种子评论",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "创建种子评论",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "种子ID",
+                        "name": "torrent_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "创建种子评论请求参数",
+                        "name": "comment",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/comment.CreateCommentRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "请求成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/comment.Comment"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "torrent": {
+                                                            "$ref": "#/definitions/comment.Torrent"
+                                                        },
+                                                        "user": {
+                                                            "$ref": "#/definitions/comment.User"
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "请求参数异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "没有操作权限",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "没有对象",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/torrents/{torrent_id}/comments/{comment_id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "获取种子评论",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "获取种子评论",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "种子ID",
+                        "name": "torrent_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "评论ID",
+                        "name": "comment_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "请求成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/comment.Comment"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "torrent": {
+                                                            "$ref": "#/definitions/comment.Torrent"
+                                                        },
+                                                        "user": {
+                                                            "$ref": "#/definitions/comment.User"
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "请求参数异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "没有操作权限",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "没有对象",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "删除种子评论",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "删除种子评论",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "种子ID",
+                        "name": "torrent_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "评论ID",
+                        "name": "comment_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "请求成功"
+                    },
+                    "400": {
+                        "description": "请求参数异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "没有操作权限",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "没有对象",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "更新种子评论",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "更新种子评论",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "种子ID",
+                        "name": "torrent_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "评论ID",
+                        "name": "comment_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "更新种子评论请求参数",
+                        "name": "comment",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/comment.UpdateCommentRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "请求成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/comment.Comment"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "torrent": {
+                                                            "$ref": "#/definitions/comment.Torrent"
+                                                        },
+                                                        "user": {
+                                                            "$ref": "#/definitions/comment.User"
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "请求参数异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "没有操作权限",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "没有对象",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -3262,6 +3719,92 @@ var doc = `{
             }
         },
         "chat.User": {
+            "type": "object",
+            "properties": {
+                "display_name": {
+                    "description": "用户名",
+                    "type": "string",
+                    "example": "spider"
+                },
+                "id": {
+                    "description": "用户ID",
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
+        "comment.Comment": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "description": "回复内容",
+                    "type": "string",
+                    "example": "This is a content"
+                },
+                "created_at": {
+                    "description": "创建时间戳（秒）",
+                    "type": "integer",
+                    "example": 1591974665
+                },
+                "id": {
+                    "description": "ID",
+                    "type": "integer",
+                    "example": 1
+                },
+                "torrent": {
+                    "description": "种子",
+                    "type": "object"
+                },
+                "updated_at": {
+                    "description": "更新时间戳（秒）",
+                    "type": "integer",
+                    "example": 1591974665
+                },
+                "user": {
+                    "description": "用户",
+                    "type": "object"
+                }
+            }
+        },
+        "comment.CreateCommentRequest": {
+            "type": "object",
+            "required": [
+                "content"
+            ],
+            "properties": {
+                "content": {
+                    "description": "评论内容",
+                    "type": "string",
+                    "example": "This is a content"
+                }
+            }
+        },
+        "comment.Torrent": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "种子ID",
+                    "type": "integer",
+                    "example": 1
+                },
+                "title": {
+                    "description": "种子标题",
+                    "type": "string",
+                    "example": "This is a title"
+                }
+            }
+        },
+        "comment.UpdateCommentRequest": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "description": "评论内容",
+                    "type": "string",
+                    "example": "This is a content"
+                }
+            }
+        },
+        "comment.User": {
             "type": "object",
             "properties": {
                 "display_name": {

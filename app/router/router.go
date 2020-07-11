@@ -113,11 +113,11 @@ func InitRouter() *gin.Engine {
 
 	{
 		// Comment related API
-		r.GET("/comments", comment.GetCommentList)
-		r.GET("/comments/:commentID", comment.GetComment)
-		r.POST("/comments", comment.CreateComment)
-		r.PATCH("/comments/:commentID", comment.UpdateComment)
-		r.DELETE("/comments/:commentID", comment.DeleteComment)
+		r.GET("/torrents/:torrentID/comments", comment.GetCommentList)
+		r.GET("/torrents/:torrentID/comments/:commentID", comment.GetComment)
+		r.POST("/torrents/:torrentID/comments", comment.CreateComment)
+		r.PATCH("/torrents/:torrentID/comments/:commentID", comment.UpdateComment)
+		r.DELETE("/torrents/:torrentID/comments/:commentID", comment.DeleteComment)
 	}
 
 	{
