@@ -17,7 +17,7 @@ import "github.com/gin-gonic/gin"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /notices [get]
-func GetNoticeList(c *gin.Context) {
+func GetNoticeList(ctx *gin.Context) {
 	//
 }
 
@@ -35,7 +35,7 @@ func GetNoticeList(c *gin.Context) {
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /notices/{notice_id} [get]
-func GetNotice(c *gin.Context) {
+func GetNotice(ctx *gin.Context) {
 	//
 }
 
@@ -53,7 +53,7 @@ func GetNotice(c *gin.Context) {
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /notices [post]
-func CreateNotice(c *gin.Context) {
+func CreateNotice(ctx *gin.Context) {
 	//
 }
 
@@ -72,7 +72,7 @@ func CreateNotice(c *gin.Context) {
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /notices/{notice_id} [patch]
-func UpdateNotice(c *gin.Context) {
+func UpdateNotice(ctx *gin.Context) {
 	//
 }
 
@@ -90,6 +90,6 @@ func UpdateNotice(c *gin.Context) {
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /notices/{notice_id} [delete]
-func DeleteNotice(c *gin.Context) {
+func DeleteNotice(ctx *gin.Context) {
 	//
 }

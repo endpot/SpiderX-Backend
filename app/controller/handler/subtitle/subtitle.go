@@ -18,7 +18,7 @@ import "github.com/gin-gonic/gin"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /torrents/{torrent_id}/subtitles [get]
-func GetSubtitleList(c *gin.Context) {
+func GetSubtitleList(ctx *gin.Context) {
 	//
 }
 
@@ -37,7 +37,7 @@ func GetSubtitleList(c *gin.Context) {
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /torrents/{torrent_id}/subtitles/{subtitle_id} [get]
-func GetSubtitle(c *gin.Context) {
+func GetSubtitle(ctx *gin.Context) {
 	//
 }
 
@@ -56,7 +56,7 @@ func GetSubtitle(c *gin.Context) {
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /torrents/{torrent_id}/subtitles [post]
-func CreateSubtitle(c *gin.Context) {
+func CreateSubtitle(ctx *gin.Context) {
 	//
 }
 
@@ -74,7 +74,7 @@ func CreateSubtitle(c *gin.Context) {
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /torrents/{torrent_id}/subtitles.preUpload [post]
-func PreUploadTorrent(c *gin.Context) {
+func PreUploadTorrent(ctx *gin.Context) {
 	//
 }
 
@@ -94,7 +94,7 @@ func PreUploadTorrent(c *gin.Context) {
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /torrents/{torrent_id}/subtitles/{subtitle_id} [patch]
-func UpdateSubtitle(c *gin.Context) {
+func UpdateSubtitle(ctx *gin.Context) {
 	//
 }
 
@@ -113,6 +113,6 @@ func UpdateSubtitle(c *gin.Context) {
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /torrents/{torrent_id}/subtitles/{subtitle_id} [delete]
-func DeleteSubtitle(c *gin.Context) {
+func DeleteSubtitle(ctx *gin.Context) {
 	//
 }

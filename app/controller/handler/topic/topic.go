@@ -18,7 +18,7 @@ import "github.com/gin-gonic/gin"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /forums/{forum_id}/topics [get]
-func GetTopicList(c *gin.Context) {
+func GetTopicList(ctx *gin.Context) {
 	//
 }
 
@@ -36,7 +36,7 @@ func GetTopicList(c *gin.Context) {
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /forums/{forum_id}/topics/{topic_id} [get]
-func GetTopic(c *gin.Context) {
+func GetTopic(ctx *gin.Context) {
 	//
 }
 
@@ -55,7 +55,7 @@ func GetTopic(c *gin.Context) {
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /forums/{forum_id}/topics [post]
-func CreateTopic(c *gin.Context) {
+func CreateTopic(ctx *gin.Context) {
 	//
 }
 
@@ -75,7 +75,7 @@ func CreateTopic(c *gin.Context) {
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /forums/{forum_id}/topics/{topic_id} [patch]
-func UpdateTopic(c *gin.Context) {
+func UpdateTopic(ctx *gin.Context) {
 	//
 }
 
@@ -94,6 +94,6 @@ func UpdateTopic(c *gin.Context) {
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /forums/{forum_id}/topics/{topic_id} [delete]
-func DeleteTopic(c *gin.Context) {
+func DeleteTopic(ctx *gin.Context) {
 	//
 }

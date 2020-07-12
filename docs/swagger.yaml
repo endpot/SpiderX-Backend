@@ -826,7 +826,7 @@ definitions:
         example: 1
         type: integer
     type: object
-host: spiderx.endpot.com
+host: localhost:8888
 info:
   contact:
     name: EndPot
@@ -3260,7 +3260,7 @@ paths:
       tags:
       - Subtitle
 schemes:
-- https
+- http
 securityDefinitions:
   Bearer:
     in: header

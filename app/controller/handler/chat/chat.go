@@ -17,7 +17,7 @@ import "github.com/gin-gonic/gin"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /chats [get]
-func GetChatList(c *gin.Context) {
+func GetChatList(ctx *gin.Context) {
 	//
 }
 
@@ -35,7 +35,7 @@ func GetChatList(c *gin.Context) {
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /chats/{chat_id} [get]
-func GetChat(c *gin.Context) {
+func GetChat(ctx *gin.Context) {
 	//
 }
 
@@ -53,7 +53,7 @@ func GetChat(c *gin.Context) {
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /chats [post]
-func CreateChat(c *gin.Context) {
+func CreateChat(ctx *gin.Context) {
 	//
 }
 
@@ -72,7 +72,7 @@ func CreateChat(c *gin.Context) {
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /chats/{chat_id} [patch]
-func UpdateChat(c *gin.Context) {
+func UpdateChat(ctx *gin.Context) {
 	//
 }
 
@@ -90,6 +90,6 @@ func UpdateChat(c *gin.Context) {
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /chats/{chat_id} [delete]
-func DeleteChat(c *gin.Context) {
+func DeleteChat(ctx *gin.Context) {
 	//
 }

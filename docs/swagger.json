@@ -1,6 +1,6 @@
 {
     "schemes": [
-        "https"
+        "http"
     ],
     "swagger": "2.0",
     "info": {
@@ -16,7 +16,7 @@
         },
         "version": "0.0.1"
     },
-    "host": "spiderx.endpot.com",
+    "host": "localhost:8888",
     "basePath": "/",
     "paths": {
         "/auth.getMine": {

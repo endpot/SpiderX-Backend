@@ -18,7 +18,7 @@ import "github.com/gin-gonic/gin"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /torrents/{torrent_id}/comments [get]
-func GetCommentList(c *gin.Context) {
+func GetCommentList(ctx *gin.Context) {
 	//
 }
 
@@ -37,7 +37,7 @@ func GetCommentList(c *gin.Context) {
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /torrents/{torrent_id}/comments/{comment_id} [get]
-func GetComment(c *gin.Context) {
+func GetComment(ctx *gin.Context) {
 	//
 }
 
@@ -56,7 +56,7 @@ func GetComment(c *gin.Context) {
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /torrents/{torrent_id}/comments [post]
-func CreateComment(c *gin.Context) {
+func CreateComment(ctx *gin.Context) {
 	//
 }
 
@@ -76,7 +76,7 @@ func CreateComment(c *gin.Context) {
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /torrents/{torrent_id}/comments/{comment_id} [patch]
-func UpdateComment(c *gin.Context) {
+func UpdateComment(ctx *gin.Context) {
 	//
 }
 
@@ -95,6 +95,6 @@ func UpdateComment(c *gin.Context) {
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /torrents/{torrent_id}/comments/{comment_id} [delete]
-func DeleteComment(c *gin.Context) {
+func DeleteComment(ctx *gin.Context) {
 	//
 }

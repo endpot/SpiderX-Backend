@@ -2,9 +2,10 @@ package main
 
 import (
 	"context"
-	. "github.com/endpot/SpiderX-Backend/app/infra/config"
-	. "github.com/endpot/SpiderX-Backend/app/infra/db"
-	. "github.com/endpot/SpiderX-Backend/app/router"
+	"github.com/endpot/SpiderX-Backend/app/infra/config"
+	"github.com/endpot/SpiderX-Backend/app/infra/db"
+	"github.com/endpot/SpiderX-Backend/app/infra/oss"
+	"github.com/endpot/SpiderX-Backend/app/router"
 	_ "github.com/joho/godotenv/autoload"
 	"log"
 	"net/http"
@@ -24,10 +25,10 @@ import (
 // @license.name MIT
 // @license.url https://opensource.org/licenses/MIT
 
-// @host spiderx.endpot.com
+// @host localhost:8888
 // @BasePath /
 
-// @schemes https
+// @schemes http
 
 // @securityDefinitions.apikey Bearer
 // @in header
@@ -37,16 +38,17 @@ func main() {
 	printLogo()
 
 	// Init
-	InitConfig()
-	InitEloquent()
+	config.InitConfig()
+	db.InitDB()
+	oss.InitClient()
 
 	// Close DB Connection
-	defer Eloquent.Close()
+	defer db.DB.Close()
 
 	// Construct server
-	r := InitRouter()
+	r := router.InitRouter()
 	srv := &http.Server{
-		Addr:    Config.GetString("APP_LISTEN_ADDR"),
+		Addr:    config.Config.GetString("APP_LISTEN_ADDR"),
 		Handler: r,
 	}
 
@@ -57,8 +59,8 @@ func main() {
 		}
 	}()
 
-	log.Println("Server URL: http://" + Config.GetString("APP_LISTEN_ADDR") + "/")
-	log.Println("API Doc URL: http://" + Config.GetString("APP_LISTEN_ADDR") + "/_doc/index.html")
+	log.Println("Server URL: http://" + config.Config.GetString("APP_LISTEN_ADDR") + "/")
+	log.Println("API Doc URL: http://" + config.Config.GetString("APP_LISTEN_ADDR") + "/_doc/index.html")
 	log.Println("Enter Control + C Shutdown Server")
 
 	// Wait for interrupt signal to gracefully shutdown the server with a timeout of 5 seconds.

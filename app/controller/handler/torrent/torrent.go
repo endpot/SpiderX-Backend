@@ -1,6 +1,9 @@
 package torrent
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/endpot/SpiderX-Backend/app/domain/service/torrent"
+	"github.com/gin-gonic/gin"
+)
 
 // 获取种子列表
 // @Summary 获取种子列表
@@ -17,7 +20,7 @@ import "github.com/gin-gonic/gin"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /torrents [get]
-func GetTorrentList(c *gin.Context) {
+func GetTorrentList(ctx *gin.Context) {
 	//
 }
 
@@ -35,7 +38,7 @@ func GetTorrentList(c *gin.Context) {
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /torrents/{torrent_id} [get]
-func GetTorrent(c *gin.Context) {
+func GetTorrent(ctx *gin.Context) {
 	//
 }
 
@@ -53,7 +56,7 @@ func GetTorrent(c *gin.Context) {
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /torrents [post]
-func CreateTorrent(c *gin.Context) {
+func CreateTorrent(ctx *gin.Context) {
 	//
 }
 
@@ -71,8 +74,10 @@ func CreateTorrent(c *gin.Context) {
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /torrents.preUpload [post]
-func PreUploadTorrent(c *gin.Context) {
-	//
+func PreUploadTorrent(ctx *gin.Context) {
+	if torrent.PreUploadTorrent(ctx) != nil {
+		//
+	}
 }
 
 // 更新种子
@@ -90,7 +95,7 @@ func PreUploadTorrent(c *gin.Context) {
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /torrents/{torrent_id} [patch]
-func UpdateTorrent(c *gin.Context) {
+func UpdateTorrent(ctx *gin.Context) {
 	//
 }
 
@@ -108,6 +113,6 @@ func UpdateTorrent(c *gin.Context) {
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /torrents/{torrent_id} [delete]
-func DeleteTorrent(c *gin.Context) {
+func DeleteTorrent(ctx *gin.Context) {
 	//
 }

@@ -18,7 +18,7 @@ import "github.com/gin-gonic/gin"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /topics/{topic_id}/posts [get]
-func GetPostList(c *gin.Context) {
+func GetPostList(ctx *gin.Context) {
 	//
 }
 
@@ -37,7 +37,7 @@ func GetPostList(c *gin.Context) {
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /topics/{topic_id}/posts/{post_id} [get]
-func GetPost(c *gin.Context) {
+func GetPost(ctx *gin.Context) {
 	//
 }
 
@@ -56,7 +56,7 @@ func GetPost(c *gin.Context) {
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /topics/{topic_id}/posts [post]
-func CreatePost(c *gin.Context) {
+func CreatePost(ctx *gin.Context) {
 	//
 }
 
@@ -76,7 +76,7 @@ func CreatePost(c *gin.Context) {
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /topics/{topic_id}/posts/{post_id} [patch]
-func UpdatePost(c *gin.Context) {
+func UpdatePost(ctx *gin.Context) {
 	//
 }
 
@@ -95,6 +95,6 @@ func UpdatePost(c *gin.Context) {
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /topics/{topic_id}/posts/{post_id} [delete]
-func DeletePost(c *gin.Context) {
+func DeletePost(ctx *gin.Context) {
 	//
 }

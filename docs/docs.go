@@ -5169,9 +5169,9 @@ type swaggerInfo struct {
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = swaggerInfo{
 	Version:     "0.0.1",
-	Host:        "spiderx.endpot.com",
+	Host:        "localhost:8888",
 	BasePath:    "/",
-	Schemes:     []string{"https"},
+	Schemes:     []string{"http"},
 	Title:       "SpiderX API",
 	Description: "SpiderX is a private tracker server.",
 }

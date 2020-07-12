@@ -2,22 +2,22 @@ package message
 
 import "github.com/gin-gonic/gin"
 
-func GetMessageList(c *gin.Context) {
+func GetMessageList(ctx *gin.Context) {
 	//
 }
 
-func GetMessage(c *gin.Context) {
+func GetMessage(ctx *gin.Context) {
 	//
 }
 
-func CreateMessage(c *gin.Context) {
+func CreateMessage(ctx *gin.Context) {
 	//
 }
 
-func UpdateMessage(c *gin.Context) {
+func UpdateMessage(ctx *gin.Context) {
 	//
 }
 
-func DeleteMessage(c *gin.Context) {
+func DeleteMessage(ctx *gin.Context) {
 	//
 }

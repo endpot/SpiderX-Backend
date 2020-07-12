@@ -15,7 +15,7 @@ import "github.com/gin-gonic/gin"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /auth.register [post]
-func Register(c *gin.Context) {
+func Register(ctx *gin.Context) {
 	//
 }
 
@@ -32,7 +32,7 @@ func Register(c *gin.Context) {
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /auth.login [post]
-func Login(c *gin.Context) {
+func Login(ctx *gin.Context) {
 	//
 }
 
@@ -49,7 +49,7 @@ func Login(c *gin.Context) {
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /auth.logout [post]
-func Logout(c *gin.Context) {
+func Logout(ctx *gin.Context) {
 	//
 }
 
@@ -66,7 +66,7 @@ func Logout(c *gin.Context) {
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /auth.reset [post]
-func Reset(c *gin.Context) {
+func Reset(ctx *gin.Context) {
 	//
 }
 
@@ -83,7 +83,7 @@ func Reset(c *gin.Context) {
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /auth.getMine [post]
-func GetMine(c *gin.Context) {
+func GetMine(ctx *gin.Context) {
 	//
 }
 
@@ -100,7 +100,7 @@ func GetMine(c *gin.Context) {
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /auth.sendCode [post]
-func SendCode(c *gin.Context) {
+func SendCode(ctx *gin.Context) {
 	//
 }
 
@@ -117,6 +117,6 @@ func SendCode(c *gin.Context) {
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /auth.refreshToken [post]
-func RefreshToken(c *gin.Context) {
+func RefreshToken(ctx *gin.Context) {
 	//
 }
