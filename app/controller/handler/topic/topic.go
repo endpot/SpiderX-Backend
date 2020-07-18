@@ -14,7 +14,8 @@ import "github.com/gin-gonic/gin"
 // @Param per_page query int false "每页数量" default(15)
 // @Success 200 {object} response.PageResponse{data=[]topic.Topic{user=topic.User,forum=topic.Forum}} "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
-// @Failure 401 {object} response.ErrResponse "没有操作权限"
+// @Failure 401 {object} response.ErrResponse "用户身份信息异常"
+// @Failure 403 {object} response.ErrResponse "没有操作权限"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /forums/{forum_id}/topics [get]
@@ -32,7 +33,8 @@ func GetTopicList(ctx *gin.Context) {
 // @Param forum_id path int true "论坛版块ID"
 // @Success 200 {object} response.Response{data=topic.Topic{user=topic.User,forum=topic.Forum}} "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
-// @Failure 401 {object} response.ErrResponse "没有操作权限"
+// @Failure 401 {object} response.ErrResponse "用户身份信息异常"
+// @Failure 403 {object} response.ErrResponse "没有操作权限"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /forums/{forum_id}/topics/{topic_id} [get]
@@ -51,7 +53,8 @@ func GetTopic(ctx *gin.Context) {
 // @Param topic body CreateTopicRequest true "创建主题请求参数"
 // @Success 200 {object} response.Response{data=topic.Topic{user=topic.User,forum=topic.Forum}} "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
-// @Failure 401 {object} response.ErrResponse "没有操作权限"
+// @Failure 401 {object} response.ErrResponse "用户身份信息异常"
+// @Failure 403 {object} response.ErrResponse "没有操作权限"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /forums/{forum_id}/topics [post]
@@ -71,7 +74,8 @@ func CreateTopic(ctx *gin.Context) {
 // @Param topic body UpdateTopicRequest true "更新主题请求参数"
 // @Success 200 {object} response.Response{data=topic.Topic{user=topic.User,forum=topic.Forum}} "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
-// @Failure 401 {object} response.ErrResponse "没有操作权限"
+// @Failure 401 {object} response.ErrResponse "用户身份信息异常"
+// @Failure 403 {object} response.ErrResponse "没有操作权限"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /forums/{forum_id}/topics/{topic_id} [patch]
@@ -88,9 +92,10 @@ func UpdateTopic(ctx *gin.Context) {
 // @Security ApiKeyAuth
 // @Param forum_id path int true "论坛版块ID"
 // @Param topic_id path int true "主题ID"
-// @Success 204 "请求成功"
+// @Success 200 {object} response.Response "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
-// @Failure 401 {object} response.ErrResponse "没有操作权限"
+// @Failure 401 {object} response.ErrResponse "用户身份信息异常"
+// @Failure 403 {object} response.ErrResponse "没有操作权限"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /forums/{forum_id}/topics/{topic_id} [delete]

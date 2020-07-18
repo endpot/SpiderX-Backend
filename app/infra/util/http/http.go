@@ -3,8 +3,7 @@ package http
 import "net/http"
 
 const (
-	StatusOK        = http.StatusOK        // Response with content
-	StatusNoContent = http.StatusNoContent // Response without content
+	StatusOK = http.StatusOK // Response OK
 
 	StatusBadRequest   = http.StatusBadRequest   // Invalid request
 	StatusUnauthorized = http.StatusUnauthorized // Need to login

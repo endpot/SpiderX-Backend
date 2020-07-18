@@ -1,13 +1,15 @@
 package response
 
 type Response struct {
-	Code int         `json:"code" example:"200"` // 业务状态码
-	Data interface{} `json:"data"`               // 数据
+	Code    int         `json:"code" example:"200"` // 业务状态码
+	Data    interface{} `json:"data"`               // 数据
+	Message string      `json:"message"`            // 消息
 }
 
 type ErrResponse struct {
-	Code    int    `json:"code" example:"500"` // 业务状态码
-	Message string `json:"message"`            // 消息
+	Code    int         `json:"code" example:"500"` // 业务状态码
+	Data    interface{} `json:"data"`               // 数据
+	Message string      `json:"message"`            // 消息
 }
 
 type PageMeta struct {

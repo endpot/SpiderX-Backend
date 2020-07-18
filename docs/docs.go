@@ -75,6 +75,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -157,6 +163,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -196,8 +208,11 @@ var doc = `{
                 ],
                 "summary": "用户登出",
                 "responses": {
-                    "204": {
-                        "description": "请求成功"
+                    "200": {
+                        "description": "请求成功",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
                     },
                     "400": {
                         "description": "请求参数异常",
@@ -206,6 +221,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -282,6 +303,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -327,8 +354,11 @@ var doc = `{
                     }
                 ],
                 "responses": {
-                    "204": {
-                        "description": "请求成功"
+                    "200": {
+                        "description": "请求成功",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
                     },
                     "400": {
                         "description": "请求参数异常",
@@ -337,6 +367,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -382,8 +418,11 @@ var doc = `{
                     }
                 ],
                 "responses": {
-                    "204": {
-                        "description": "请求成功"
+                    "200": {
+                        "description": "请求成功",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
                     },
                     "400": {
                         "description": "请求参数异常",
@@ -392,6 +431,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -437,8 +482,11 @@ var doc = `{
                     }
                 ],
                 "responses": {
-                    "204": {
-                        "description": "请求成功"
+                    "200": {
+                        "description": "请求成功",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
                     },
                     "400": {
                         "description": "请求参数异常",
@@ -447,6 +495,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -542,6 +596,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -627,6 +687,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -712,6 +778,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -758,8 +830,11 @@ var doc = `{
                     }
                 ],
                 "responses": {
-                    "204": {
-                        "description": "请求成功"
+                    "200": {
+                        "description": "请求成功",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
                     },
                     "400": {
                         "description": "请求参数异常",
@@ -768,6 +843,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -860,6 +941,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -943,6 +1030,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -1016,6 +1109,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -1089,6 +1188,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -1135,8 +1240,11 @@ var doc = `{
                     }
                 ],
                 "responses": {
-                    "204": {
-                        "description": "请求成功"
+                    "200": {
+                        "description": "请求成功",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
                     },
                     "400": {
                         "description": "请求参数异常",
@@ -1145,6 +1253,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -1225,6 +1339,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -1330,6 +1450,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -1425,6 +1551,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -1513,6 +1645,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -1566,8 +1704,11 @@ var doc = `{
                     }
                 ],
                 "responses": {
-                    "204": {
-                        "description": "请求成功"
+                    "200": {
+                        "description": "请求成功",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
                     },
                     "400": {
                         "description": "请求参数异常",
@@ -1576,6 +1717,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -1678,6 +1825,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -1761,6 +1914,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -1834,6 +1993,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -1907,6 +2072,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -1953,8 +2124,11 @@ var doc = `{
                     }
                 ],
                 "responses": {
-                    "204": {
-                        "description": "请求成功"
+                    "200": {
+                        "description": "请求成功",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
                     },
                     "400": {
                         "description": "请求参数异常",
@@ -1963,6 +2137,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -2043,6 +2223,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -2148,6 +2334,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -2243,6 +2435,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -2338,6 +2536,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -2391,8 +2595,11 @@ var doc = `{
                     }
                 ],
                 "responses": {
-                    "204": {
-                        "description": "请求成功"
+                    "200": {
+                        "description": "请求成功",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
                     },
                     "400": {
                         "description": "请求参数异常",
@@ -2401,6 +2608,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -2503,6 +2716,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -2604,6 +2823,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -2695,6 +2920,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -2780,6 +3011,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -2871,6 +3108,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -2917,8 +3160,11 @@ var doc = `{
                     }
                 ],
                 "responses": {
-                    "204": {
-                        "description": "请求成功"
+                    "200": {
+                        "description": "请求成功",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
                     },
                     "400": {
                         "description": "请求参数异常",
@@ -2927,6 +3173,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -3025,6 +3277,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -3130,6 +3388,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -3225,6 +3489,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -3320,6 +3590,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -3373,8 +3649,11 @@ var doc = `{
                     }
                 ],
                 "responses": {
-                    "204": {
-                        "description": "请求成功"
+                    "200": {
+                        "description": "请求成功",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
                     },
                     "400": {
                         "description": "请求参数异常",
@@ -3383,6 +3662,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -3485,6 +3770,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -3590,6 +3881,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -3685,6 +3982,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -3770,6 +4073,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -3865,6 +4174,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -3918,8 +4233,11 @@ var doc = `{
                     }
                 ],
                 "responses": {
-                    "204": {
-                        "description": "请求成功"
+                    "200": {
+                        "description": "请求成功",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
                     },
                     "400": {
                         "description": "请求参数异常",
@@ -3928,6 +4246,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -4030,6 +4354,12 @@ var doc = `{
                         }
                     },
                     "401": {
+                        "description": "用户身份信息异常",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrResponse"
+                        }
+                    },
+                    "403": {
                         "description": "没有操作权限",
                         "schema": {
                             "$ref": "#/definitions/response.ErrResponse"
@@ -4592,6 +4922,10 @@ var doc = `{
                     "type": "integer",
                     "example": 500
                 },
+                "data": {
+                    "description": "数据",
+                    "type": "object"
+                },
                 "message": {
                     "description": "消息",
                     "type": "string"
@@ -4648,6 +4982,10 @@ var doc = `{
                 "data": {
                     "description": "数据",
                     "type": "object"
+                },
+                "message": {
+                    "description": "消息",
+                    "type": "string"
                 }
             }
         },

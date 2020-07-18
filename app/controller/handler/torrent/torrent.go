@@ -16,7 +16,8 @@ import (
 // @Param per_page query int false "每页数量" default(15)
 // @Success 200 {object} response.PageResponse{data=[]torrent.Torrent{category=torrent.Category,uploader=torrent.User,owner=torrent.User}} "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
-// @Failure 401 {object} response.ErrResponse "没有操作权限"
+// @Failure 401 {object} response.ErrResponse "用户身份信息异常"
+// @Failure 403 {object} response.ErrResponse "没有操作权限"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /torrents [get]
@@ -34,7 +35,8 @@ func GetTorrentList(ctx *gin.Context) {
 // @Param torrent_id path int true "种子ID"
 // @Success 200 {object} response.Response{data=torrent.Torrent{category=torrent.Category,uploader=torrent.User,owner=torrent.User}} "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
-// @Failure 401 {object} response.ErrResponse "没有操作权限"
+// @Failure 401 {object} response.ErrResponse "用户身份信息异常"
+// @Failure 403 {object} response.ErrResponse "没有操作权限"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /torrents/{torrent_id} [get]
@@ -52,7 +54,8 @@ func GetTorrent(ctx *gin.Context) {
 // @Param torrent body CreateTorrentRequest true "创建种子请求参数"
 // @Success 200 {object} response.Response{data=torrent.Torrent{category=torrent.Category,uploader=torrent.User,owner=torrent.User}} "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
-// @Failure 401 {object} response.ErrResponse "没有操作权限"
+// @Failure 401 {object} response.ErrResponse "用户身份信息异常"
+// @Failure 403 {object} response.ErrResponse "没有操作权限"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /torrents [post]
@@ -70,7 +73,8 @@ func CreateTorrent(ctx *gin.Context) {
 // @Param torrent formData file true "种子文件"
 // @Success 200 {object} response.Response{data=object{info_hash=string}} "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
-// @Failure 401 {object} response.ErrResponse "没有操作权限"
+// @Failure 401 {object} response.ErrResponse "用户身份信息异常"
+// @Failure 403 {object} response.ErrResponse "没有操作权限"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /torrents.preUpload [post]
@@ -91,7 +95,8 @@ func PreUploadTorrent(ctx *gin.Context) {
 // @Param torrent body UpdateTorrentRequest true "更新种子请求参数"
 // @Success 200 {object} response.Response{data=torrent.Torrent{category=torrent.Category,uploader=torrent.User,owner=torrent.User}} "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
-// @Failure 401 {object} response.ErrResponse "没有操作权限"
+// @Failure 401 {object} response.ErrResponse "用户身份信息异常"
+// @Failure 403 {object} response.ErrResponse "没有操作权限"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /torrents/{torrent_id} [patch]
@@ -107,9 +112,10 @@ func UpdateTorrent(ctx *gin.Context) {
 // @Produce	json
 // @Security ApiKeyAuth
 // @Param torrent_id path int true "种子ID"
-// @Success 204 "请求成功"
+// @Success 200 {object} response.Response "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
-// @Failure 401 {object} response.ErrResponse "没有操作权限"
+// @Failure 401 {object} response.ErrResponse "用户身份信息异常"
+// @Failure 403 {object} response.ErrResponse "没有操作权限"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /torrents/{torrent_id} [delete]

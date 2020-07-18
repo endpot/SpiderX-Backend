@@ -403,6 +403,9 @@ definitions:
         description: 业务状态码
         example: 500
         type: integer
+      data:
+        description: 数据
+        type: object
       message:
         description: 消息
         type: string
@@ -445,6 +448,9 @@ definitions:
       data:
         description: 数据
         type: object
+      message:
+        description: 消息
+        type: string
     type: object
   subtitle.CreateSubtitleRequest:
     properties:
@@ -860,6 +866,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -910,6 +920,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -932,13 +946,19 @@ paths:
       produces:
       - application/json
       responses:
-        "204":
+        "200":
           description: 请求成功
+          schema:
+            $ref: '#/definitions/response.Response'
         "400":
           description: 请求参数异常
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -982,6 +1002,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -1013,13 +1037,19 @@ paths:
       produces:
       - application/json
       responses:
-        "204":
+        "200":
           description: 请求成功
+          schema:
+            $ref: '#/definitions/response.Response'
         "400":
           description: 请求参数异常
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -1049,13 +1079,19 @@ paths:
       produces:
       - application/json
       responses:
-        "204":
+        "200":
           description: 请求成功
+          schema:
+            $ref: '#/definitions/response.Response'
         "400":
           description: 请求参数异常
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -1085,13 +1121,19 @@ paths:
       produces:
       - application/json
       responses:
-        "204":
+        "200":
           description: 请求成功
+          schema:
+            $ref: '#/definitions/response.Response'
         "400":
           description: 请求参数异常
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -1146,6 +1188,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -1195,6 +1241,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -1225,13 +1275,19 @@ paths:
       produces:
       - application/json
       responses:
-        "204":
+        "200":
           description: 请求成功
+          schema:
+            $ref: '#/definitions/response.Response'
         "400":
           description: 请求参数异常
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -1280,6 +1336,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -1334,6 +1394,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -1385,6 +1449,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -1429,6 +1497,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -1459,13 +1531,19 @@ paths:
       produces:
       - application/json
       responses:
-        "204":
+        "200":
           description: 请求成功
+          schema:
+            $ref: '#/definitions/response.Response'
         "400":
           description: 请求参数异常
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -1509,6 +1587,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -1558,6 +1640,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -1621,6 +1707,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -1677,6 +1767,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -1712,13 +1806,19 @@ paths:
       produces:
       - application/json
       responses:
-        "204":
+        "200":
           description: 请求成功
+          schema:
+            $ref: '#/definitions/response.Response'
         "400":
           description: 请求参数异常
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -1769,6 +1869,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -1830,6 +1934,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -1881,6 +1989,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -1925,6 +2037,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -1955,13 +2071,19 @@ paths:
       produces:
       - application/json
       responses:
-        "204":
+        "200":
           description: 请求成功
+          schema:
+            $ref: '#/definitions/response.Response'
         "400":
           description: 请求参数异常
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -2005,6 +2127,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -2054,6 +2180,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -2117,6 +2247,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -2173,6 +2307,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -2208,13 +2346,19 @@ paths:
       produces:
       - application/json
       responses:
-        "204":
+        "200":
           description: 请求成功
+          schema:
+            $ref: '#/definitions/response.Response'
         "400":
           description: 请求参数异常
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -2270,6 +2414,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -2331,6 +2479,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -2391,6 +2543,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -2444,6 +2600,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -2493,6 +2653,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -2523,13 +2687,19 @@ paths:
       produces:
       - application/json
       responses:
-        "204":
+        "200":
           description: 请求成功
+          schema:
+            $ref: '#/definitions/response.Response'
         "400":
           description: 请求参数异常
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -2582,6 +2752,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -2640,6 +2814,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -2703,6 +2881,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -2759,6 +2941,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -2794,13 +2980,19 @@ paths:
       produces:
       - application/json
       responses:
-        "204":
+        "200":
           description: 请求成功
+          schema:
+            $ref: '#/definitions/response.Response'
         "400":
           description: 请求参数异常
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -2856,6 +3048,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -2917,6 +3113,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -2980,6 +3180,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -3036,6 +3240,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -3085,6 +3293,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -3120,13 +3332,19 @@ paths:
       produces:
       - application/json
       responses:
-        "204":
+        "200":
           description: 请求成功
+          schema:
+            $ref: '#/definitions/response.Response'
         "400":
           description: 请求参数异常
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -3182,6 +3400,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'
@@ -3243,6 +3465,10 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrResponse'
         "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
           description: 没有操作权限
           schema:
             $ref: '#/definitions/response.ErrResponse'

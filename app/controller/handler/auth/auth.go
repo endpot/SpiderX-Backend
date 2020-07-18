@@ -9,9 +9,10 @@ import "github.com/gin-gonic/gin"
 // @Accept json
 // @Produce	json
 // @Param auth body RegisterRequest true "用户注册参数"
-// @Success 204 "请求成功"
+// @Success 200 {object} response.Response "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
-// @Failure 401 {object} response.ErrResponse "没有操作权限"
+// @Failure 401 {object} response.ErrResponse "用户身份信息异常"
+// @Failure 403 {object} response.ErrResponse "没有操作权限"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /auth.register [post]
@@ -28,7 +29,8 @@ func Register(ctx *gin.Context) {
 // @Param auth body LoginRequest true "用户登录参数"
 // @Success 200 {object} response.Response{data=object{token=string}} "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
-// @Failure 401 {object} response.ErrResponse "没有操作权限"
+// @Failure 401 {object} response.ErrResponse "用户身份信息异常"
+// @Failure 403 {object} response.ErrResponse "没有操作权限"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /auth.login [post]
@@ -43,9 +45,10 @@ func Login(ctx *gin.Context) {
 // @Accept json
 // @Produce	json
 // @Security ApiKeyAuth
-// @Success 204 "请求成功"
+// @Success 200 {object} response.Response "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
-// @Failure 401 {object} response.ErrResponse "没有操作权限"
+// @Failure 401 {object} response.ErrResponse "用户身份信息异常"
+// @Failure 403 {object} response.ErrResponse "没有操作权限"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /auth.logout [post]
@@ -60,9 +63,10 @@ func Logout(ctx *gin.Context) {
 // @Accept json
 // @Produce	json
 // @Param auth body ResetRequest true "重置密码参数"
-// @Success 204 "请求成功"
+// @Success 200 {object} response.Response "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
-// @Failure 401 {object} response.ErrResponse "没有操作权限"
+// @Failure 401 {object} response.ErrResponse "用户身份信息异常"
+// @Failure 403 {object} response.ErrResponse "没有操作权限"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /auth.reset [post]
@@ -79,7 +83,8 @@ func Reset(ctx *gin.Context) {
 // @Security ApiKeyAuth
 // @Success 200 {object} response.Response{data=auth.Mine} "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
-// @Failure 401 {object} response.ErrResponse "没有操作权限"
+// @Failure 401 {object} response.ErrResponse "用户身份信息异常"
+// @Failure 403 {object} response.ErrResponse "没有操作权限"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /auth.getMine [post]
@@ -94,9 +99,10 @@ func GetMine(ctx *gin.Context) {
 // @Accept json
 // @Produce	json
 // @Param auth body SendCodeRequest true "发送校验码参数"
-// @Success 204 "请求成功"
+// @Success 200 {object} response.Response "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
-// @Failure 401 {object} response.ErrResponse "没有操作权限"
+// @Failure 401 {object} response.ErrResponse "用户身份信息异常"
+// @Failure 403 {object} response.ErrResponse "没有操作权限"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /auth.sendCode [post]
@@ -113,7 +119,8 @@ func SendCode(ctx *gin.Context) {
 // @Security ApiKeyAuth
 // @Success 200 {object} response.Response{data=object{token=string}} "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
-// @Failure 401 {object} response.ErrResponse "没有操作权限"
+// @Failure 401 {object} response.ErrResponse "用户身份信息异常"
+// @Failure 403 {object} response.ErrResponse "没有操作权限"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /auth.refreshToken [post]

@@ -13,7 +13,8 @@ import "github.com/gin-gonic/gin"
 // @Param per_page query int false "每页数量" default(15)
 // @Success 200 {object} response.PageResponse{data=[]chat.Chat{user=chat.User}} "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
-// @Failure 401 {object} response.ErrResponse "没有操作权限"
+// @Failure 401 {object} response.ErrResponse "用户身份信息异常"
+// @Failure 403 {object} response.ErrResponse "没有操作权限"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /chats [get]
@@ -31,7 +32,8 @@ func GetChatList(ctx *gin.Context) {
 // @Param chat_id path int true "群聊ID"
 // @Success 200 {object} response.Response{data=chat.Chat{user=chat.User}} "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
-// @Failure 401 {object} response.ErrResponse "没有操作权限"
+// @Failure 401 {object} response.ErrResponse "用户身份信息异常"
+// @Failure 403 {object} response.ErrResponse "没有操作权限"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /chats/{chat_id} [get]
@@ -49,7 +51,8 @@ func GetChat(ctx *gin.Context) {
 // @Param chat body CreateChatRequest true "创建聊天消息请求参数"
 // @Success 200 {object} response.Response{data=chat.Chat{user=chat.User}} "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
-// @Failure 401 {object} response.ErrResponse "没有操作权限"
+// @Failure 401 {object} response.ErrResponse "用户身份信息异常"
+// @Failure 403 {object} response.ErrResponse "没有操作权限"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /chats [post]
@@ -68,7 +71,8 @@ func CreateChat(ctx *gin.Context) {
 // @Param chat body UpdateChatRequest true "更新群聊请求参数"
 // @Success 200 {object} response.Response{data=chat.Chat{user=chat.User}} "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
-// @Failure 401 {object} response.ErrResponse "没有操作权限"
+// @Failure 401 {object} response.ErrResponse "用户身份信息异常"
+// @Failure 403 {object} response.ErrResponse "没有操作权限"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /chats/{chat_id} [patch]
@@ -84,9 +88,10 @@ func UpdateChat(ctx *gin.Context) {
 // @Produce	json
 // @Security ApiKeyAuth
 // @Param chat_id path int true "群聊ID"
-// @Success 204 "请求成功"
+// @Success 200 {object} response.Response "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
-// @Failure 401 {object} response.ErrResponse "没有操作权限"
+// @Failure 401 {object} response.ErrResponse "用户身份信息异常"
+// @Failure 403 {object} response.ErrResponse "没有操作权限"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /chats/{chat_id} [delete]

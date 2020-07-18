@@ -14,7 +14,8 @@ import "github.com/gin-gonic/gin"
 // @Param per_page query int false "每页数量" default(15)
 // @Success 200 {object} response.PageResponse{data=[]subtitle.Subtitle{uploader=subtitle.User,torrent=subtitle.Torrent}} "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
-// @Failure 401 {object} response.ErrResponse "没有操作权限"
+// @Failure 401 {object} response.ErrResponse "用户身份信息异常"
+// @Failure 403 {object} response.ErrResponse "没有操作权限"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /torrents/{torrent_id}/subtitles [get]
@@ -33,7 +34,8 @@ func GetSubtitleList(ctx *gin.Context) {
 // @Param subtitle_id path int true "字幕ID"
 // @Success 200 {object} response.Response{data=subtitle.Subtitle{uploader=subtitle.User,torrent=subtitle.Torrent}} "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
-// @Failure 401 {object} response.ErrResponse "没有操作权限"
+// @Failure 401 {object} response.ErrResponse "用户身份信息异常"
+// @Failure 403 {object} response.ErrResponse "没有操作权限"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /torrents/{torrent_id}/subtitles/{subtitle_id} [get]
@@ -52,7 +54,8 @@ func GetSubtitle(ctx *gin.Context) {
 // @Param subtitle body CreateSubtitleRequest true "创建种子字幕请求参数"
 // @Success 200 {object} response.Response{data=subtitle.Subtitle{uploader=subtitle.User,torrent=subtitle.Torrent}} "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
-// @Failure 401 {object} response.ErrResponse "没有操作权限"
+// @Failure 401 {object} response.ErrResponse "用户身份信息异常"
+// @Failure 403 {object} response.ErrResponse "没有操作权限"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /torrents/{torrent_id}/subtitles [post]
@@ -70,7 +73,8 @@ func CreateSubtitle(ctx *gin.Context) {
 // @Param subtitle formData file true "字幕文件"
 // @Success 200 {object} response.Response{data=object{hash_code=string}} "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
-// @Failure 401 {object} response.ErrResponse "没有操作权限"
+// @Failure 401 {object} response.ErrResponse "用户身份信息异常"
+// @Failure 403 {object} response.ErrResponse "没有操作权限"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /torrents/{torrent_id}/subtitles.preUpload [post]
@@ -90,7 +94,8 @@ func PreUploadTorrent(ctx *gin.Context) {
 // @Param subtitle body UpdateSubtitleRequest true "更新种子字幕请求参数"
 // @Success 200 {object} response.Response{data=subtitle.Subtitle{uploader=subtitle.User,torrent=subtitle.Torrent}} "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
-// @Failure 401 {object} response.ErrResponse "没有操作权限"
+// @Failure 401 {object} response.ErrResponse "用户身份信息异常"
+// @Failure 403 {object} response.ErrResponse "没有操作权限"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /torrents/{torrent_id}/subtitles/{subtitle_id} [patch]
@@ -107,9 +112,10 @@ func UpdateSubtitle(ctx *gin.Context) {
 // @Security ApiKeyAuth
 // @Param torrent_id path int true "种子ID"
 // @Param subtitle_id path int true "字幕ID"
-// @Success 204 "请求成功"
+// @Success 200 {object} response.Response "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
-// @Failure 401 {object} response.ErrResponse "没有操作权限"
+// @Failure 401 {object} response.ErrResponse "用户身份信息异常"
+// @Failure 403 {object} response.ErrResponse "没有操作权限"
 // @Failure 404 {object} response.ErrResponse "没有对象"
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /torrents/{torrent_id}/subtitles/{subtitle_id} [delete]
