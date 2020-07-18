@@ -4918,16 +4918,12 @@ var doc = `{
             "type": "object",
             "properties": {
                 "code": {
-                    "description": "业务状态码",
+                    "description": "业务错误码",
                     "type": "integer",
                     "example": 500
                 },
-                "data": {
-                    "description": "数据",
-                    "type": "object"
-                },
                 "message": {
-                    "description": "消息",
+                    "description": "业务错误信息",
                     "type": "string"
                 }
             }

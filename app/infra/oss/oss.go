@@ -17,7 +17,7 @@ func InitClient() {
 		config.Config.GetString("OSS_ENDPOINT"),
 		config.Config.GetString("OSS_KEY"),
 		config.Config.GetString("OSS_SECRET"),
-		config.Config.GetBool("OSS_USE_SLL"),
+		config.Config.GetBool("OSS_USE_SSL"),
 	)
 	if err != nil {
 		log.Fatalf("Err: %v", err)

@@ -41,7 +41,7 @@ type Torrent struct {
 	PositionLevel uint8     `boil:"position_level" json:"position_level" toml:"position_level" yaml:"position_level"`
 	UploaderID    uint      `boil:"uploader_id" json:"uploader_id" toml:"uploader_id" yaml:"uploader_id"`
 	OwnerID       uint      `boil:"owner_id" json:"owner_id" toml:"owner_id" yaml:"owner_id"`
-	IsInactive    uint8     `boil:"is_inactive" json:"is_inactive" toml:"is_inactive" yaml:"is_inactive"`
+	State         uint8     `boil:"state" json:"state" toml:"state" yaml:"state"`
 	CreatedAt     null.Time `boil:"created_at" json:"created_at,omitempty" toml:"created_at" yaml:"created_at,omitempty"`
 	UpdatedAt     null.Time `boil:"updated_at" json:"updated_at,omitempty" toml:"updated_at" yaml:"updated_at,omitempty"`
 	DeletedAt     null.Time `boil:"deleted_at" json:"deleted_at,omitempty" toml:"deleted_at" yaml:"deleted_at,omitempty"`
@@ -68,7 +68,7 @@ var TorrentColumns = struct {
 	PositionLevel string
 	UploaderID    string
 	OwnerID       string
-	IsInactive    string
+	State         string
 	CreatedAt     string
 	UpdatedAt     string
 	DeletedAt     string
@@ -90,7 +90,7 @@ var TorrentColumns = struct {
 	PositionLevel: "position_level",
 	UploaderID:    "uploader_id",
 	OwnerID:       "owner_id",
-	IsInactive:    "is_inactive",
+	State:         "state",
 	CreatedAt:     "created_at",
 	UpdatedAt:     "updated_at",
 	DeletedAt:     "deleted_at",
@@ -254,7 +254,7 @@ var TorrentWhere = struct {
 	PositionLevel whereHelperuint8
 	UploaderID    whereHelperuint
 	OwnerID       whereHelperuint
-	IsInactive    whereHelperuint8
+	State         whereHelperuint8
 	CreatedAt     whereHelpernull_Time
 	UpdatedAt     whereHelpernull_Time
 	DeletedAt     whereHelpernull_Time
@@ -276,7 +276,7 @@ var TorrentWhere = struct {
 	PositionLevel: whereHelperuint8{field: "`torrents`.`position_level`"},
 	UploaderID:    whereHelperuint{field: "`torrents`.`uploader_id`"},
 	OwnerID:       whereHelperuint{field: "`torrents`.`owner_id`"},
-	IsInactive:    whereHelperuint8{field: "`torrents`.`is_inactive`"},
+	State:         whereHelperuint8{field: "`torrents`.`state`"},
 	CreatedAt:     whereHelpernull_Time{field: "`torrents`.`created_at`"},
 	UpdatedAt:     whereHelpernull_Time{field: "`torrents`.`updated_at`"},
 	DeletedAt:     whereHelpernull_Time{field: "`torrents`.`deleted_at`"},
@@ -299,9 +299,9 @@ func (*torrentR) NewStruct() *torrentR {
 type torrentL struct{}
 
 var (
-	torrentAllColumns            = []string{"id", "info_hash", "category_id", "title", "simple_desc", "desc", "size", "comment_count", "view_count", "seeder_count", "leecher_count", "snatcher_count", "reward_bonus", "is_anonymous", "position_level", "uploader_id", "owner_id", "is_inactive", "created_at", "updated_at", "deleted_at"}
+	torrentAllColumns            = []string{"id", "info_hash", "category_id", "title", "simple_desc", "desc", "size", "comment_count", "view_count", "seeder_count", "leecher_count", "snatcher_count", "reward_bonus", "is_anonymous", "position_level", "uploader_id", "owner_id", "state", "created_at", "updated_at", "deleted_at"}
 	torrentColumnsWithoutDefault = []string{"info_hash", "title", "simple_desc", "desc", "created_at", "updated_at", "deleted_at"}
-	torrentColumnsWithDefault    = []string{"id", "category_id", "size", "comment_count", "view_count", "seeder_count", "leecher_count", "snatcher_count", "reward_bonus", "is_anonymous", "position_level", "uploader_id", "owner_id", "is_inactive"}
+	torrentColumnsWithDefault    = []string{"id", "category_id", "size", "comment_count", "view_count", "seeder_count", "leecher_count", "snatcher_count", "reward_bonus", "is_anonymous", "position_level", "uploader_id", "owner_id", "state"}
 	torrentPrimaryKeyColumns     = []string{"id"}
 )
 
@@ -582,7 +582,7 @@ func (q torrentQuery) Exists(ctx context.Context, exec boil.ContextExecutor) (bo
 
 // Torrents retrieves all the records using an executor.
 func Torrents(mods ...qm.QueryMod) torrentQuery {
-	mods = append(mods, qm.From("`torrents`"))
+	mods = append(mods, qm.From("`torrents`"), qmhelper.WhereIsNull("`torrents`.`deleted_at`"))
 	return torrentQuery{NewQuery(mods...)}
 }
 
@@ -596,7 +596,7 @@ func FindTorrent(ctx context.Context, exec boil.ContextExecutor, iD uint, select
 		sel = strings.Join(strmangle.IdentQuoteSlice(dialect.LQ, dialect.RQ, selectCols), ",")
 	}
 	query := fmt.Sprintf(
-		"select %s from `torrents` where `id`=?", sel,
+		"select %s from `torrents` where `id`=? and `deleted_at` is null", sel,
 	)
 
 	q := queries.Raw(query, iD)
@@ -1021,7 +1021,7 @@ CacheNoHooks:
 
 // Delete deletes a single Torrent record with an executor.
 // Delete will match against the primary key column to find the record to delete.
-func (o *Torrent) Delete(ctx context.Context, exec boil.ContextExecutor) (int64, error) {
+func (o *Torrent) Delete(ctx context.Context, exec boil.ContextExecutor, hardDelete bool) (int64, error) {
 	if o == nil {
 		return 0, errors.New("model: no Torrent provided for delete")
 	}
@@ -1030,8 +1030,26 @@ func (o *Torrent) Delete(ctx context.Context, exec boil.ContextExecutor) (int64,
 		return 0, err
 	}
 
-	args := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(o)), torrentPrimaryKeyMapping)
-	sql := "DELETE FROM `torrents` WHERE `id`=?"
+	var (
+		sql  string
+		args []interface{}
+	)
+	if hardDelete {
+		args = queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(o)), torrentPrimaryKeyMapping)
+		sql = "DELETE FROM `torrents` WHERE `id`=?"
+	} else {
+		currTime := time.Now().In(boil.GetLocation())
+		o.DeletedAt = null.TimeFrom(currTime)
+		wl := []string{"deleted_at"}
+		sql = fmt.Sprintf("UPDATE `torrents` SET %s WHERE `id`=?",
+			strmangle.SetParamNames("`", "`", 0, wl),
+		)
+		valueMapping, err := queries.BindMapping(torrentType, torrentMapping, append(wl, torrentPrimaryKeyColumns...))
+		if err != nil {
+			return 0, err
+		}
+		args = queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(o)), valueMapping)
+	}
 
 	if boil.IsDebug(ctx) {
 		writer := boil.DebugWriterFrom(ctx)
@@ -1056,12 +1074,17 @@ func (o *Torrent) Delete(ctx context.Context, exec boil.ContextExecutor) (int64,
 }
 
 // DeleteAll deletes all matching rows.
-func (q torrentQuery) DeleteAll(ctx context.Context, exec boil.ContextExecutor) (int64, error) {
+func (q torrentQuery) DeleteAll(ctx context.Context, exec boil.ContextExecutor, hardDelete bool) (int64, error) {
 	if q.Query == nil {
 		return 0, errors.New("model: no torrentQuery provided for delete all")
 	}
 
-	queries.SetDelete(q.Query)
+	if hardDelete {
+		queries.SetDelete(q.Query)
+	} else {
+		currTime := time.Now().In(boil.GetLocation())
+		queries.SetUpdate(q.Query, M{"deleted_at": currTime})
+	}
 
 	result, err := q.Query.ExecContext(ctx, exec)
 	if err != nil {
@@ -1077,7 +1100,7 @@ func (q torrentQuery) DeleteAll(ctx context.Context, exec boil.ContextExecutor) 
 }
 
 // DeleteAll deletes all rows in the slice, using an executor.
-func (o TorrentSlice) DeleteAll(ctx context.Context, exec boil.ContextExecutor) (int64, error) {
+func (o TorrentSlice) DeleteAll(ctx context.Context, exec boil.ContextExecutor, hardDelete bool) (int64, error) {
 	if len(o) == 0 {
 		return 0, nil
 	}
@@ -1090,14 +1113,31 @@ func (o TorrentSlice) DeleteAll(ctx context.Context, exec boil.ContextExecutor) 
 		}
 	}
 
-	var args []interface{}
-	for _, obj := range o {
-		pkeyArgs := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(obj)), torrentPrimaryKeyMapping)
-		args = append(args, pkeyArgs...)
+	var (
+		sql  string
+		args []interface{}
+	)
+	if hardDelete {
+		for _, obj := range o {
+			pkeyArgs := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(obj)), torrentPrimaryKeyMapping)
+			args = append(args, pkeyArgs...)
+		}
+		sql = "DELETE FROM `torrents` WHERE " +
+			strmangle.WhereClauseRepeated(string(dialect.LQ), string(dialect.RQ), 0, torrentPrimaryKeyColumns, len(o))
+	} else {
+		currTime := time.Now().In(boil.GetLocation())
+		for _, obj := range o {
+			pkeyArgs := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(obj)), torrentPrimaryKeyMapping)
+			args = append(args, pkeyArgs...)
+			obj.DeletedAt = null.TimeFrom(currTime)
+		}
+		wl := []string{"deleted_at"}
+		sql = fmt.Sprintf("UPDATE `torrents` SET %s WHERE "+
+			strmangle.WhereClauseRepeated(string(dialect.LQ), string(dialect.RQ), 0, torrentPrimaryKeyColumns, len(o)),
+			strmangle.SetParamNames("`", "`", 0, wl),
+		)
+		args = append([]interface{}{currTime}, args...)
 	}
-
-	sql := "DELETE FROM `torrents` WHERE " +
-		strmangle.WhereClauseRepeated(string(dialect.LQ), string(dialect.RQ), 0, torrentPrimaryKeyColumns, len(o))
 
 	if boil.IsDebug(ctx) {
 		writer := boil.DebugWriterFrom(ctx)
@@ -1152,7 +1192,8 @@ func (o *TorrentSlice) ReloadAll(ctx context.Context, exec boil.ContextExecutor)
 	}
 
 	sql := "SELECT `torrents`.* FROM `torrents` WHERE " +
-		strmangle.WhereClauseRepeated(string(dialect.LQ), string(dialect.RQ), 0, torrentPrimaryKeyColumns, len(*o))
+		strmangle.WhereClauseRepeated(string(dialect.LQ), string(dialect.RQ), 0, torrentPrimaryKeyColumns, len(*o)) +
+		"and `deleted_at` is null"
 
 	q := queries.Raw(sql, args...)
 
@@ -1169,7 +1210,7 @@ func (o *TorrentSlice) ReloadAll(ctx context.Context, exec boil.ContextExecutor)
 // TorrentExists checks if the Torrent row exists.
 func TorrentExists(ctx context.Context, exec boil.ContextExecutor, iD uint) (bool, error) {
 	var exists bool
-	sql := "select exists(select 1 from `torrents` where `id`=? limit 1)"
+	sql := "select exists(select 1 from `torrents` where `id`=? and `deleted_at` is null limit 1)"
 
 	if boil.IsDebug(ctx) {
 		writer := boil.DebugWriterFrom(ctx)

@@ -1,7 +1,10 @@
 package torrent
 
 import (
-	"github.com/endpot/SpiderX-Backend/app/domain/service/torrent"
+	"github.com/endpot/SpiderX-Backend/app/controller/request"
+	torrentRequest "github.com/endpot/SpiderX-Backend/app/controller/request/torrent"
+	torrentService "github.com/endpot/SpiderX-Backend/app/domain/service/torrent"
+	"github.com/endpot/SpiderX-Backend/app/infra/util/http"
 	"github.com/gin-gonic/gin"
 )
 
@@ -79,9 +82,25 @@ func CreateTorrent(ctx *gin.Context) {
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /torrents.preUpload [post]
 func PreUploadTorrent(ctx *gin.Context) {
-	if torrent.PreUploadTorrent(ctx) != nil {
-		//
+	// 使用 PreUploadTorrentRequest 校验请求
+	if _, err := request.Validator.Validate(
+		&torrentRequest.PreUploadTorrentRequest{},
+		ctx,
+	); err != nil {
+		ctx.JSON(err.Status, err.Serialize())
+		return
 	}
+
+	// 调用 PreUploadTorrent 服务
+	torrent, err := torrentService.PreUploadTorrent(ctx)
+	if err != nil {
+		ctx.JSON(err.Status, err.Serialize())
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"info_hash": torrent.InfoHash,
+	})
 }
 
 // 更新种子

@@ -15,7 +15,7 @@ type Torrent struct {
 	SnacherCount  int         `json:"snacher_count" example:"0"`                                    // 完成都数量
 	CommentCount  int         `json:"comment_count" example:"0"`                                    // 评论数
 	ViewCount     int         `json:"view_count" example:"0"`                                       // 查看次数
-	IsInactive    bool        `json:"is_inactive" example:"false"`                                  // 就否断种
+	State         bool        `json:"state" example:"0"`                                            // 种子状态 0: 待发布，1: 正常，2: 断种
 	IsAnonymous   bool        `json:"is_anonymous" example:"false"`                                 // 是否匿名
 	PositionLevel int         `json:"position_level" example:"0"`                                   // 置顶位置
 	RewardBonus   int         `json:"reward_bonus" example:"0"`                                     // 获赠魔力豆

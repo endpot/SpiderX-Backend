@@ -7,9 +7,8 @@ type Response struct {
 }
 
 type ErrResponse struct {
-	Code    int         `json:"code" example:"500"` // 业务状态码
-	Data    interface{} `json:"data"`               // 数据
-	Message string      `json:"message"`            // 消息
+	Code    int    `json:"code" example:"500"` // 业务错误码
+	Message string `json:"message"`            // 业务错误信息
 }
 
 type PageMeta struct {

@@ -400,14 +400,11 @@ definitions:
   response.ErrResponse:
     properties:
       code:
-        description: 业务状态码
+        description: 业务错误码
         example: 500
         type: integer
-      data:
-        description: 数据
-        type: object
       message:
-        description: 消息
+        description: 业务错误信息
         type: string
     type: object
   response.PageMeta:
