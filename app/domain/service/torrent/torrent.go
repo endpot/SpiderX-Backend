@@ -6,20 +6,20 @@ import (
 	"errors"
 	"fmt"
 	"github.com/anacrolix/torrent/bencode"
+	torrentReq "github.com/endpot/SpiderX-Backend/app/controller/request/torrent"
 	"github.com/endpot/SpiderX-Backend/app/domain/model"
+	torrentExt "github.com/endpot/SpiderX-Backend/app/domain/modext/torrent"
 	"github.com/endpot/SpiderX-Backend/app/infra/db"
+	"github.com/endpot/SpiderX-Backend/app/infra/util/convert"
 	customError "github.com/endpot/SpiderX-Backend/app/infra/util/error"
 	"github.com/endpot/SpiderX-Backend/app/infra/util/fs"
 	"github.com/gin-gonic/gin"
+	"github.com/volatiletech/null/v8"
 	"github.com/volatiletech/sqlboiler/v4/boil"
 	"mime/multipart"
+	"os"
 	"path"
-)
-
-const (
-	TORRENT_PENDING_STATE = iota
-	TORRENT_NORMAL_STATE
-	TORRENT_DEAD_STATE
+	"time"
 )
 
 type BencodeTorrent struct {
@@ -28,12 +28,12 @@ type BencodeTorrent struct {
 	CreatedAt int    `bencode:"creation date,omitempty"`
 	Info      struct {
 		Files []struct {
-			Length int      `bencode:"length"`
+			Length uint64   `bencode:"length"`
 			Path   []string `bencode:"path"`
 		} `bencode:"files"`
 		Name        string `bencode:"name"`
 		Pieces      string `bencode:"pieces"`
-		PieceLength int    `bencode:"piece length"`
+		PieceLength uint64 `bencode:"piece length"`
 		Private     int    `bencode:"private"`
 		Source      string `bencode:"source"`
 	} `bencode:"info"`
@@ -46,17 +46,37 @@ func GetTorrentList(ctx *gin.Context) (model.TorrentSlice, error) {
 	return torrentSlice, err
 }
 
-// 预上传种子
-func PreUploadTorrent(ctx *gin.Context) (*model.Torrent, *customError.CustomError) {
-	// 检查携带种子文件
-	torrentFileHeader, err := ctx.FormFile("torrent")
-	if err != nil {
-		return nil, customError.NewBadRequestError("TORRENT__EMPTY_TORRENT_FILE")
+// 创建种子
+func CreateTorrent(ctx *gin.Context, req *torrentReq.CreateTorrentRequest) (*model.Torrent, *customError.CustomError) {
+	torrent, err := getTorrentByInfoHash(ctx, req.InfoHash)
+	if err != nil || torrent == nil {
+		return nil, customError.NewBadRequestError("TORRENT__INVALID_HASH")
 	}
 
+	torrent.CategoryID = req.CategoryID
+	torrent.Title = req.Title
+	torrent.SimpleDesc = req.SimpleDesc
+	torrent.Description = req.Description
+	torrent.IsAnonymous = convert.ParseBoolToUint8(req.IsAnonymous)
+	torrent.PositionLevel = req.PositionLevel
+	torrent.State = torrentExt.NORMAL_STATE
+	// TODO: UploaderID/OwnerID 从 ctx 的用户信息中取
+	torrent.UploaderID = 1
+	torrent.OwnerID = 1
+	torrent.CreatedAt = null.TimeFrom(time.Now().In(boil.GetLocation()))
+
+	if _, err := torrent.Update(ctx, db.DB, boil.Infer()); err != nil {
+		return nil, customError.NewBadRequestError("TORRENT__CREATE_FAILED")
+	}
+
+	return torrent, nil
+}
+
+// 预上传种子
+func PreUploadTorrent(ctx *gin.Context, req *torrentReq.PreUploadTorrentRequest) (*model.Torrent, *customError.CustomError) {
 	// 计算种子的 HASH 值
-	infoHash, err := calTorrentHash(torrentFileHeader)
-	if err != nil {
+	bencodeTorrent, infoHash, err := repackTorrent(req.Torrent)
+	if err != nil || bencodeTorrent == nil {
 		return nil, customError.NewBadRequestError("TORRENT__HASH_FAILED")
 	}
 
@@ -69,23 +89,30 @@ func PreUploadTorrent(ctx *gin.Context) (*model.Torrent, *customError.CustomErro
 
 	// 种子已存在
 	if torrent != nil {
-		if torrent.State == TORRENT_PENDING_STATE {
+		if torrent.State == torrentExt.PENDING_STATE {
 			return torrent, nil
 		} else {
 			return nil, customError.NewBadRequestError("TORRENT__TORRENT_EXISTS")
 		}
 	}
 
+	// 计算种子体积
+	torrentSize, err := calTorrentSize(bencodeTorrent)
+	if err != nil {
+		return nil, customError.NewBadRequestError("TORRENT__HASH_FAILED")
+	}
+
 	// 种子不存在，插入数据库表
 	torrent = &model.Torrent{
 		InfoHash: infoHash,
+		Size:     torrentSize,
 	}
 	if torrent.Insert(ctx, db.DB, boil.Infer()) != nil {
 		return nil, customError.NewInternalServerError("TORRENT__INSERT_FAILED")
 	}
 
 	// 保存种子文件
-	if saveTorrentFile(ctx, torrentFileHeader, torrent) != nil {
+	if saveTorrentFile(bencodeTorrent, torrent) != nil {
 		// 保存失败的种子，从 DB 中硬删除
 		_, _ = torrent.Delete(ctx, db.DB, true)
 		return nil, customError.NewInternalServerError("TORRENT__SAVE_FAILED")
@@ -107,12 +134,12 @@ func getTorrentByInfoHash(ctx *gin.Context, infoHash string) (*model.Torrent, er
 	return torrent, nil
 }
 
-// 计算种子文件的 HASH 值
-func calTorrentHash(torrent *multipart.FileHeader) (string, error) {
+// 改装种子文件，去除原 Tracker 信息，修改 Source 信息
+func repackTorrent(fh *multipart.FileHeader) (*BencodeTorrent, string, error) {
 	// open file
-	fileReader, err := torrent.Open()
+	fileReader, err := fh.Open()
 	if err != nil {
-		return "", err
+		return nil, "", err
 	}
 
 	// Decode
@@ -121,20 +148,36 @@ func calTorrentHash(torrent *multipart.FileHeader) (string, error) {
 	bencodeTorrent := &BencodeTorrent{}
 	decodeErr := decoder.Decode(bencodeTorrent)
 	if decodeErr != nil {
-		return "", decodeErr
+		return nil, "", decodeErr
 	}
+
+	// Re-pack torrent
+	// TODO: 根据配置修改
+	bencodeTorrent.Announce = ""
+	bencodeTorrent.Info.Source = "[Alpha] SpiderX"
+	bencodeTorrent.Info.Private = 1
 
 	// marshal info part and calculate SHA1
 	marshaledInfo, marshalErr := bencode.Marshal(bencodeTorrent.Info)
 	if marshalErr != nil {
-		return "", nil
+		return nil, "", nil
 	}
 
-	return fmt.Sprintf("%x", sha1.Sum(marshaledInfo)), nil
+	return bencodeTorrent, fmt.Sprintf("%x", sha1.Sum(marshaledInfo)), nil
+}
+
+// 计算种子体积
+func calTorrentSize(bencodeTorrent *BencodeTorrent) (uint64, error) {
+	var totalSize uint64
+	for _, file := range bencodeTorrent.Info.Files {
+		totalSize += file.Length
+	}
+
+	return totalSize, nil
 }
 
 // 保存种子到本地缓存目录和 OSS
-func saveTorrentFile(ctx *gin.Context, torrentFile *multipart.FileHeader, torrent *model.Torrent) error {
+func saveTorrentFile(bencodeTorrent *BencodeTorrent, torrent *model.Torrent) error {
 	if torrent.ID <= 0 {
 		return errors.New("invalid torrent")
 	}
@@ -144,7 +187,13 @@ func saveTorrentFile(ctx *gin.Context, torrentFile *multipart.FileHeader, torren
 	remotePath := "torrents/" + torrentName
 
 	// 保存到本地
-	if ctx.SaveUploadedFile(torrentFile, localPath) != nil {
+	fileWriter, err := os.Create(localPath)
+	if err != nil {
+		return errors.New("create file failed")
+	}
+
+	encoder := bencode.NewEncoder(fileWriter)
+	if err := encoder.Encode(bencodeTorrent); err != nil {
 		return errors.New("save to local failed")
 	}
 

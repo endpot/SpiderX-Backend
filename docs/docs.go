@@ -2872,7 +2872,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/torrent.CreateTorrentRequest"
+                            "$ref": "#/definitions/torrent.CreateTorrentRequestBody"
                         }
                     }
                 ],
@@ -4920,7 +4920,7 @@ var doc = `{
                 "code": {
                     "description": "业务错误码",
                     "type": "integer",
-                    "example": 500
+                    "example": 400
                 },
                 "message": {
                     "description": "业务错误信息",
@@ -4954,7 +4954,7 @@ var doc = `{
                 "code": {
                     "description": "业务状态码",
                     "type": "integer",
-                    "example": 200
+                    "example": 0
                 },
                 "data": {
                     "description": "数据",
@@ -4973,15 +4973,11 @@ var doc = `{
                 "code": {
                     "description": "业务状态码",
                     "type": "integer",
-                    "example": 200
+                    "example": 0
                 },
                 "data": {
                     "description": "数据",
                     "type": "object"
-                },
-                "message": {
-                    "description": "消息",
-                    "type": "string"
                 }
             }
         },
@@ -5277,11 +5273,10 @@ var doc = `{
                 }
             }
         },
-        "torrent.CreateTorrentRequest": {
+        "torrent.CreateTorrentRequestBody": {
             "type": "object",
             "required": [
                 "category_id",
-                "description",
                 "info_hash",
                 "title"
             ],
@@ -5298,20 +5293,17 @@ var doc = `{
                 },
                 "info_hash": {
                     "description": "唯一哈希码",
-                    "type": "string",
-                    "example": "001460cb52f9154f4ce2b510eae0dcb705210433"
+                    "type": "string"
                 },
                 "is_anonymous": {
                     "description": "是否匿名",
                     "type": "boolean",
-                    "default": false,
-                    "example": false
+                    "default": false
                 },
                 "position_level": {
                     "description": "置顶位置",
                     "type": "integer",
-                    "default": 0,
-                    "example": 0
+                    "default": 0
                 },
                 "simple_desc": {
                     "description": "简介",
@@ -5321,6 +5313,7 @@ var doc = `{
                 "title": {
                     "description": "种子标题",
                     "type": "string",
+                    "maxLength": 255,
                     "example": "Title"
                 }
             }
@@ -5359,11 +5352,6 @@ var doc = `{
                 },
                 "is_anonymous": {
                     "description": "是否匿名",
-                    "type": "boolean",
-                    "example": false
-                },
-                "is_inactive": {
-                    "description": "就否断种",
                     "type": "boolean",
                     "example": false
                 },
@@ -5406,6 +5394,11 @@ var doc = `{
                     "type": "integer",
                     "example": 0
                 },
+                "state": {
+                    "description": "种子状态 0: 待发布，1: 正常，2: 断种",
+                    "type": "integer",
+                    "example": 0
+                },
                 "title": {
                     "description": "种子标题",
                     "type": "string",
@@ -5444,11 +5437,6 @@ var doc = `{
                     "type": "boolean",
                     "example": false
                 },
-                "is_inactive": {
-                    "description": "就否断种",
-                    "type": "boolean",
-                    "example": false
-                },
                 "position_level": {
                     "description": "置顶位置",
                     "type": "integer",
@@ -5458,6 +5446,11 @@ var doc = `{
                     "description": "简介",
                     "type": "string",
                     "example": "simple desc"
+                },
+                "state": {
+                    "description": "种子状态 0: 待发布，1: 正常，2: 断种",
+                    "type": "integer",
+                    "example": 0
                 },
                 "title": {
                     "description": "种子标题",

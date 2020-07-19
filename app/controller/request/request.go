@@ -13,7 +13,7 @@ type IRequest interface {
 type ReqValidator struct {
 }
 
-func (validator *ReqValidator) Validate(request IRequest, ctx *gin.Context) (bool, *customError.CustomError) {
+func (validator *ReqValidator) Validate(ctx *gin.Context, request IRequest) (bool, *customError.CustomError) {
 	if err := request.ValidateRequest(ctx); err != nil {
 		return false, err
 	}

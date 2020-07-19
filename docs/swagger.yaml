@@ -401,7 +401,7 @@ definitions:
     properties:
       code:
         description: 业务错误码
-        example: 500
+        example: 400
         type: integer
       message:
         description: 业务错误信息
@@ -426,7 +426,7 @@ definitions:
     properties:
       code:
         description: 业务状态码
-        example: 200
+        example: 0
         type: integer
       data:
         description: 数据
@@ -440,14 +440,11 @@ definitions:
     properties:
       code:
         description: 业务状态码
-        example: 200
+        example: 0
         type: integer
       data:
         description: 数据
         type: object
-      message:
-        description: 消息
-        type: string
     type: object
   subtitle.CreateSubtitleRequest:
     properties:
@@ -670,7 +667,7 @@ definitions:
         example: 1
         type: integer
     type: object
-  torrent.CreateTorrentRequest:
+  torrent.CreateTorrentRequestBody:
     properties:
       category_id:
         description: 分类ID
@@ -682,17 +679,14 @@ definitions:
         type: string
       info_hash:
         description: 唯一哈希码
-        example: 001460cb52f9154f4ce2b510eae0dcb705210433
         type: string
       is_anonymous:
         default: false
         description: 是否匿名
-        example: false
         type: boolean
       position_level:
         default: 0
         description: 置顶位置
-        example: 0
         type: integer
       simple_desc:
         description: 简介
@@ -701,10 +695,10 @@ definitions:
       title:
         description: 种子标题
         example: Title
+        maxLength: 255
         type: string
     required:
     - category_id
-    - description
     - info_hash
     - title
     type: object
@@ -735,10 +729,6 @@ definitions:
         type: string
       is_anonymous:
         description: 是否匿名
-        example: false
-        type: boolean
-      is_inactive:
-        description: 就否断种
         example: false
         type: boolean
       leecher_count:
@@ -772,6 +762,10 @@ definitions:
         description: 完成都数量
         example: 0
         type: integer
+      state:
+        description: '种子状态 0: 待发布，1: 正常，2: 断种'
+        example: 0
+        type: integer
       title:
         description: 种子标题
         example: Title
@@ -801,10 +795,6 @@ definitions:
         description: 是否匿名
         example: false
         type: boolean
-      is_inactive:
-        description: 就否断种
-        example: false
-        type: boolean
       position_level:
         description: 置顶位置
         example: 0
@@ -813,6 +803,10 @@ definitions:
         description: 简介
         example: simple desc
         type: string
+      state:
+        description: '种子状态 0: 待发布，1: 正常，2: 断种'
+        example: 0
+        type: integer
       title:
         description: 种子标题
         example: Title
@@ -2570,7 +2564,7 @@ paths:
         name: torrent
         required: true
         schema:
-          $ref: '#/definitions/torrent.CreateTorrentRequest'
+          $ref: '#/definitions/torrent.CreateTorrentRequestBody'
       produces:
       - application/json
       responses:

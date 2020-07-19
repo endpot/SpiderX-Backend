@@ -26,12 +26,12 @@ import (
 type Torrent struct {
 	ID            uint      `boil:"id" json:"id" toml:"id" yaml:"id"`
 	InfoHash      string    `boil:"info_hash" json:"info_hash" toml:"info_hash" yaml:"info_hash"`
-	CategoryID    uint8     `boil:"category_id" json:"category_id" toml:"category_id" yaml:"category_id"`
+	CategoryID    uint      `boil:"category_id" json:"category_id" toml:"category_id" yaml:"category_id"`
 	Title         string    `boil:"title" json:"title" toml:"title" yaml:"title"`
 	SimpleDesc    string    `boil:"simple_desc" json:"simple_desc" toml:"simple_desc" yaml:"simple_desc"`
-	Desc          string    `boil:"desc" json:"desc" toml:"desc" yaml:"desc"`
+	Description   string    `boil:"description" json:"description" toml:"description" yaml:"description"`
 	Size          uint64    `boil:"size" json:"size" toml:"size" yaml:"size"`
-	CommentCount  uint32    `boil:"comment_count" json:"comment_count" toml:"comment_count" yaml:"comment_count"`
+	CommentCount  uint      `boil:"comment_count" json:"comment_count" toml:"comment_count" yaml:"comment_count"`
 	ViewCount     uint      `boil:"view_count" json:"view_count" toml:"view_count" yaml:"view_count"`
 	SeederCount   uint      `boil:"seeder_count" json:"seeder_count" toml:"seeder_count" yaml:"seeder_count"`
 	LeecherCount  uint      `boil:"leecher_count" json:"leecher_count" toml:"leecher_count" yaml:"leecher_count"`
@@ -56,7 +56,7 @@ var TorrentColumns = struct {
 	CategoryID    string
 	Title         string
 	SimpleDesc    string
-	Desc          string
+	Description   string
 	Size          string
 	CommentCount  string
 	ViewCount     string
@@ -78,7 +78,7 @@ var TorrentColumns = struct {
 	CategoryID:    "category_id",
 	Title:         "title",
 	SimpleDesc:    "simple_desc",
-	Desc:          "desc",
+	Description:   "description",
 	Size:          "size",
 	CommentCount:  "comment_count",
 	ViewCount:     "view_count",
@@ -144,29 +144,6 @@ func (w whereHelperstring) NIN(slice []string) qm.QueryMod {
 	return qm.WhereNotIn(fmt.Sprintf("%s NOT IN ?", w.field), values...)
 }
 
-type whereHelperuint8 struct{ field string }
-
-func (w whereHelperuint8) EQ(x uint8) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.EQ, x) }
-func (w whereHelperuint8) NEQ(x uint8) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.NEQ, x) }
-func (w whereHelperuint8) LT(x uint8) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.LT, x) }
-func (w whereHelperuint8) LTE(x uint8) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.LTE, x) }
-func (w whereHelperuint8) GT(x uint8) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.GT, x) }
-func (w whereHelperuint8) GTE(x uint8) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.GTE, x) }
-func (w whereHelperuint8) IN(slice []uint8) qm.QueryMod {
-	values := make([]interface{}, 0, len(slice))
-	for _, value := range slice {
-		values = append(values, value)
-	}
-	return qm.WhereIn(fmt.Sprintf("%s IN ?", w.field), values...)
-}
-func (w whereHelperuint8) NIN(slice []uint8) qm.QueryMod {
-	values := make([]interface{}, 0, len(slice))
-	for _, value := range slice {
-		values = append(values, value)
-	}
-	return qm.WhereNotIn(fmt.Sprintf("%s NOT IN ?", w.field), values...)
-}
-
 type whereHelperuint64 struct{ field string }
 
 func (w whereHelperuint64) EQ(x uint64) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.EQ, x) }
@@ -190,22 +167,22 @@ func (w whereHelperuint64) NIN(slice []uint64) qm.QueryMod {
 	return qm.WhereNotIn(fmt.Sprintf("%s NOT IN ?", w.field), values...)
 }
 
-type whereHelperuint32 struct{ field string }
+type whereHelperuint8 struct{ field string }
 
-func (w whereHelperuint32) EQ(x uint32) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.EQ, x) }
-func (w whereHelperuint32) NEQ(x uint32) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.NEQ, x) }
-func (w whereHelperuint32) LT(x uint32) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.LT, x) }
-func (w whereHelperuint32) LTE(x uint32) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.LTE, x) }
-func (w whereHelperuint32) GT(x uint32) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.GT, x) }
-func (w whereHelperuint32) GTE(x uint32) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.GTE, x) }
-func (w whereHelperuint32) IN(slice []uint32) qm.QueryMod {
+func (w whereHelperuint8) EQ(x uint8) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.EQ, x) }
+func (w whereHelperuint8) NEQ(x uint8) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.NEQ, x) }
+func (w whereHelperuint8) LT(x uint8) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.LT, x) }
+func (w whereHelperuint8) LTE(x uint8) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.LTE, x) }
+func (w whereHelperuint8) GT(x uint8) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.GT, x) }
+func (w whereHelperuint8) GTE(x uint8) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.GTE, x) }
+func (w whereHelperuint8) IN(slice []uint8) qm.QueryMod {
 	values := make([]interface{}, 0, len(slice))
 	for _, value := range slice {
 		values = append(values, value)
 	}
 	return qm.WhereIn(fmt.Sprintf("%s IN ?", w.field), values...)
 }
-func (w whereHelperuint32) NIN(slice []uint32) qm.QueryMod {
+func (w whereHelperuint8) NIN(slice []uint8) qm.QueryMod {
 	values := make([]interface{}, 0, len(slice))
 	for _, value := range slice {
 		values = append(values, value)
@@ -239,12 +216,12 @@ func (w whereHelpernull_Time) GTE(x null.Time) qm.QueryMod {
 var TorrentWhere = struct {
 	ID            whereHelperuint
 	InfoHash      whereHelperstring
-	CategoryID    whereHelperuint8
+	CategoryID    whereHelperuint
 	Title         whereHelperstring
 	SimpleDesc    whereHelperstring
-	Desc          whereHelperstring
+	Description   whereHelperstring
 	Size          whereHelperuint64
-	CommentCount  whereHelperuint32
+	CommentCount  whereHelperuint
 	ViewCount     whereHelperuint
 	SeederCount   whereHelperuint
 	LeecherCount  whereHelperuint
@@ -261,12 +238,12 @@ var TorrentWhere = struct {
 }{
 	ID:            whereHelperuint{field: "`torrents`.`id`"},
 	InfoHash:      whereHelperstring{field: "`torrents`.`info_hash`"},
-	CategoryID:    whereHelperuint8{field: "`torrents`.`category_id`"},
+	CategoryID:    whereHelperuint{field: "`torrents`.`category_id`"},
 	Title:         whereHelperstring{field: "`torrents`.`title`"},
 	SimpleDesc:    whereHelperstring{field: "`torrents`.`simple_desc`"},
-	Desc:          whereHelperstring{field: "`torrents`.`desc`"},
+	Description:   whereHelperstring{field: "`torrents`.`description`"},
 	Size:          whereHelperuint64{field: "`torrents`.`size`"},
-	CommentCount:  whereHelperuint32{field: "`torrents`.`comment_count`"},
+	CommentCount:  whereHelperuint{field: "`torrents`.`comment_count`"},
 	ViewCount:     whereHelperuint{field: "`torrents`.`view_count`"},
 	SeederCount:   whereHelperuint{field: "`torrents`.`seeder_count`"},
 	LeecherCount:  whereHelperuint{field: "`torrents`.`leecher_count`"},
@@ -299,8 +276,8 @@ func (*torrentR) NewStruct() *torrentR {
 type torrentL struct{}
 
 var (
-	torrentAllColumns            = []string{"id", "info_hash", "category_id", "title", "simple_desc", "desc", "size", "comment_count", "view_count", "seeder_count", "leecher_count", "snatcher_count", "reward_bonus", "is_anonymous", "position_level", "uploader_id", "owner_id", "state", "created_at", "updated_at", "deleted_at"}
-	torrentColumnsWithoutDefault = []string{"info_hash", "title", "simple_desc", "desc", "created_at", "updated_at", "deleted_at"}
+	torrentAllColumns            = []string{"id", "info_hash", "category_id", "title", "simple_desc", "description", "size", "comment_count", "view_count", "seeder_count", "leecher_count", "snatcher_count", "reward_bonus", "is_anonymous", "position_level", "uploader_id", "owner_id", "state", "created_at", "updated_at", "deleted_at"}
+	torrentColumnsWithoutDefault = []string{"info_hash", "title", "simple_desc", "description", "created_at", "updated_at", "deleted_at"}
 	torrentColumnsWithDefault    = []string{"id", "category_id", "size", "comment_count", "view_count", "seeder_count", "leecher_count", "snatcher_count", "reward_bonus", "is_anonymous", "position_level", "uploader_id", "owner_id", "state"}
 	torrentPrimaryKeyColumns     = []string{"id"}
 )

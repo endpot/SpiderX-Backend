@@ -3,6 +3,8 @@ package torrent
 import (
 	"github.com/endpot/SpiderX-Backend/app/controller/request"
 	torrentRequest "github.com/endpot/SpiderX-Backend/app/controller/request/torrent"
+	"github.com/endpot/SpiderX-Backend/app/controller/response"
+	torrentResonse "github.com/endpot/SpiderX-Backend/app/controller/response/torrent"
 	torrentService "github.com/endpot/SpiderX-Backend/app/domain/service/torrent"
 	"github.com/endpot/SpiderX-Backend/app/infra/util/http"
 	"github.com/gin-gonic/gin"
@@ -54,7 +56,7 @@ func GetTorrent(ctx *gin.Context) {
 // @Accept json
 // @Produce	json
 // @Security ApiKeyAuth
-// @Param torrent body CreateTorrentRequest true "创建种子请求参数"
+// @Param torrent body CreateTorrentRequestBody true "创建种子请求参数"
 // @Success 200 {object} response.Response{data=torrent.Torrent{category=torrent.Category,uploader=torrent.User,owner=torrent.User}} "请求成功"
 // @Failure 400 {object} response.ErrResponse "请求参数异常"
 // @Failure 401 {object} response.ErrResponse "用户身份信息异常"
@@ -63,7 +65,27 @@ func GetTorrent(ctx *gin.Context) {
 // @Failure 500 {object} response.ErrResponse "内部错误"
 // @Router /torrents [post]
 func CreateTorrent(ctx *gin.Context) {
-	//
+	// 使用 CreateTorrentRequest 校验请求
+	req := &torrentRequest.CreateTorrentRequest{}
+	if _, err := request.Validator.Validate(
+		ctx,
+		req,
+	); err != nil {
+		ctx.JSON(err.Status, err.Serialize())
+		return
+	}
+
+	// 调用 CreateTorrent 服务
+	torrent, err := torrentService.CreateTorrent(ctx, req)
+	if err != nil {
+		ctx.JSON(err.Status, err.Serialize())
+		return
+	}
+
+	resp := &torrentResonse.Response{}
+	ctx.JSON(http.StatusOK, response.RespSerializer.Serialize(
+		resp, torrent,
+	))
 }
 
 // 预创建种子
@@ -83,16 +105,17 @@ func CreateTorrent(ctx *gin.Context) {
 // @Router /torrents.preUpload [post]
 func PreUploadTorrent(ctx *gin.Context) {
 	// 使用 PreUploadTorrentRequest 校验请求
+	req := &torrentRequest.PreUploadTorrentRequest{}
 	if _, err := request.Validator.Validate(
-		&torrentRequest.PreUploadTorrentRequest{},
 		ctx,
+		req,
 	); err != nil {
 		ctx.JSON(err.Status, err.Serialize())
 		return
 	}
 
 	// 调用 PreUploadTorrent 服务
-	torrent, err := torrentService.PreUploadTorrent(ctx)
+	torrent, err := torrentService.PreUploadTorrent(ctx, req)
 	if err != nil {
 		ctx.JSON(err.Status, err.Serialize())
 		return

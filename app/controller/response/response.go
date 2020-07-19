@@ -1,13 +1,17 @@
 package response
 
+type IResponse interface {
+	Serialize(singleModel interface{}) interface{}
+	Paginate(modelSlice interface{}) interface{}
+}
+
 type Response struct {
-	Code    int         `json:"code" example:"200"` // 业务状态码
-	Data    interface{} `json:"data"`               // 数据
-	Message string      `json:"message"`            // 消息
+	Code int         `json:"code" example:"0"` // 业务状态码
+	Data interface{} `json:"data"`             // 数据
 }
 
 type ErrResponse struct {
-	Code    int    `json:"code" example:"500"` // 业务错误码
+	Code    int    `json:"code" example:"400"` // 业务错误码
 	Message string `json:"message"`            // 业务错误信息
 }
 
@@ -18,33 +22,34 @@ type PageMeta struct {
 }
 
 type PageResponse struct {
-	Code int         `json:"code" example:"200"` // 业务状态码
-	Data interface{} `json:"data"`               // 数据
-	Meta PageMeta    `json:"meta"`               // 附加信息
+	Code int         `json:"code" example:"0"` // 业务状态码
+	Data interface{} `json:"data"`             // 数据
+	Meta PageMeta    `json:"meta"`             // 附加信息
 }
 
-func NewResponse(code int, data interface{}) *Response {
+type Serializer struct {
+}
+
+var RespSerializer *Serializer
+
+func init() {
+	RespSerializer = &Serializer{}
+}
+
+func (serializer *Serializer) Serialize(resp IResponse, singleModel interface{}) *Response {
 	return &Response{
-		Code: code,
-		Data: data,
+		Code: 0,
+		Data: resp.Serialize(singleModel),
 	}
 }
 
-func NewErrResponse(code int, message string) *ErrResponse {
-	return &ErrResponse{
-		Code:    code,
-		Message: message,
-	}
-}
-
-func NewPageResponse(code int, data interface{}, page int, perPage int, total int) *PageResponse {
+func (serializer *Serializer) Paginate(resp IResponse, modelSlice interface{}, page int, perPage int) *PageResponse {
 	return &PageResponse{
-		Code: code,
-		Data: data,
+		Code: 0,
+		Data: resp.Paginate(modelSlice),
 		Meta: PageMeta{
 			Page:    page,
 			PerPage: perPage,
-			Total:   total,
 		},
 	}
 }

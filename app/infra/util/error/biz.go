@@ -21,6 +21,11 @@ var BizErrorMap = map[string]BizErrorStruct{
 	"TORRENT__TORRENT_EXISTS":     {Code: 1005, Message: "种子已存在"},
 	"TORRENT__INSERT_FAILED":      {Code: 1006, Message: "添加种子失败"},
 	"TORRENT__SAVE_FAILED":        {Code: 1007, Message: "保存种子失败"},
+	"TORRENT__INVALID_REQ_FORMAT": {Code: 1008, Message: "请求参数格式不正确"},
+	"TORRENT__INVALID_CATEGORY":   {Code: 1009, Message: "种子分类不存在"},
+	"TORRENT__INVALID_HASH":       {Code: 1010, Message: "种子已存在或未预上传种子文件"},
+	"TORRENT__INVALID_POSITION":   {Code: 1011, Message: "置顶参数不正确"},
+	"TORRENT__CREATE_FAILED":      {Code: 1012, Message: "创建种子失败"},
 
 	// 2001~3000: Comment
 }
