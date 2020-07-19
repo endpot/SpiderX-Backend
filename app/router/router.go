@@ -12,6 +12,7 @@ import (
 	"github.com/endpot/SpiderX-Backend/app/controller/handler/subtitle"
 	"github.com/endpot/SpiderX-Backend/app/controller/handler/topic"
 	"github.com/endpot/SpiderX-Backend/app/controller/handler/torrent"
+	"github.com/endpot/SpiderX-Backend/app/controller/handler/tracker"
 	"github.com/endpot/SpiderX-Backend/app/controller/handler/user"
 	"github.com/endpot/SpiderX-Backend/app/controller/middleware"
 	_ "github.com/endpot/SpiderX-Backend/docs"
@@ -35,6 +36,12 @@ func InitRouter() *gin.Engine {
 
 	// Swagger Document
 	r.GET("/_doc/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
+	{
+		// Tracker related API
+		r.GET("/announce", tracker.Announce)
+		r.GET("/scrape", tracker.Scrape)
+	}
 
 	{
 		// Authentication related API
