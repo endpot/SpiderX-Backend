@@ -14,7 +14,7 @@ func (request *ScrapeRequest) ValidateRequest(ctx *gin.Context) *customError.Cus
 
 	// 校验参数格式
 	if err := ctx.ShouldBind(request); err != nil {
-		return customError.NewBadRequestError("TORRENT__INVALID_REQ_FORMAT")
+		return customError.NewBadRequestError("TRACKER__INVALID_PARAMS")
 	}
 
 	// 校验参数业务合法性

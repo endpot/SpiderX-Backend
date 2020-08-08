@@ -11,7 +11,6 @@ func RestoreToHexString(str string) string {
 }
 
 // 将 Hex 字符串再还原为 20-byte 字符串
-// TODO: 优化代码
 func RestoreToByteString(str string) string {
 	byteSlice, err := hex.DecodeString(str)
 	if err != nil {

@@ -4,7 +4,11 @@
 package model
 
 var TableNames = struct {
-	Torrents string
+	Peers     string
+	Snatchers string
+	Torrents  string
 }{
-	Torrents: "torrents",
+	Peers:     "peers",
+	Snatchers: "snatchers",
+	Torrents:  "torrents",
 }

@@ -31,7 +31,7 @@ func (s ScrapeResponse) Bencode(modelSlice interface{}) string {
 	torrentSlice, ok := modelSlice.(model.TorrentSlice)
 	if !ok {
 		return string(bencode.MustMarshal(map[string]string{
-			"failure reason": "Torrent not registered with this tracker.",
+			"failure reason": "Bad Torrent",
 		}))
 	}
 
