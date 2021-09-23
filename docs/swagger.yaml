@@ -1,0 +1,3486 @@
+basePath: /
+definitions:
+  auth.LoginRequest:
+    properties:
+      display_name:
+        description: 用户名
+        example: spider
+        type: string
+      password:
+        description: 密码
+        example: "123456789"
+        type: string
+    required:
+    - display_name
+    - password
+    type: object
+  auth.Mine:
+    properties:
+      avatar:
+        description: 头像地址
+        example: https://i.endpot.com/x/xxx.jpg
+        type: string
+      display_name:
+        description: 用户名
+        example: spider
+        type: string
+      down_traffic:
+        description: 下载量
+        example: 1
+        type: integer
+      email:
+        description: 用户邮箱
+        example: spider@spider.com
+        type: string
+      grade:
+        description: 用户等级
+        example: 1
+        type: integer
+      id:
+        description: ID
+        example: 1
+        type: integer
+      roles:
+        description: 用户角色
+        items:
+          type: string
+        type: array
+      up_traffic:
+        description: 上传量
+        example: 1
+        type: integer
+    type: object
+  auth.RegisterRequest:
+    properties:
+      display_name:
+        description: 用户名
+        example: spider
+        maxLength: 32
+        minLength: 1
+        type: string
+      email:
+        description: 邮箱
+        example: spider@spider.com
+        type: string
+      invite_code:
+        description: 邀请码
+        example: spider
+        type: string
+      password:
+        description: 密码
+        example: "123456789"
+        maxLength: 32
+        minLength: 8
+        type: string
+      password_confirm:
+        description: 密码确认
+        example: "123456789"
+        type: string
+      verify_code:
+        description: 校验码
+        example: spider
+        type: string
+    required:
+    - display_name
+    - email
+    - password
+    - password_confirm
+    type: object
+  auth.ResetRequest:
+    properties:
+      email:
+        description: 邮箱
+        example: spider@spider.com
+        type: string
+      password:
+        description: 密码
+        example: "123456789"
+        maxLength: 32
+        minLength: 8
+        type: string
+      password_confirm:
+        description: 密码确认
+        example: "123456789"
+        type: string
+      verify_code:
+        description: 校验码
+        example: spider
+        type: string
+    required:
+    - email
+    - password
+    - password_confirm
+    type: object
+  auth.SendCodeRequest:
+    properties:
+      email:
+        description: 用户邮箱
+        example: spider@spider.com
+        type: string
+    required:
+    - email
+    type: object
+  chat.Chat:
+    properties:
+      content:
+        description: 聊天内容
+        example: This is a notice
+        type: string
+      created_at:
+        description: 创建时间戳（秒）
+        example: 1591974665
+        type: integer
+      id:
+        description: ID
+        example: 1
+        type: integer
+      updated_at:
+        description: 更新时间戳（秒）
+        example: 1591974665
+        type: integer
+      user:
+        description: 用户
+        type: object
+    type: object
+  chat.CreateChatRequest:
+    properties:
+      content:
+        description: 聊天内容
+        example: This is a chat
+        type: string
+    required:
+    - content
+    type: object
+  chat.UpdateChatRequest:
+    properties:
+      content:
+        description: 聊天内容
+        example: This is a chat
+        type: string
+    required:
+    - content
+    type: object
+  chat.User:
+    properties:
+      display_name:
+        description: 用户名
+        example: spider
+        type: string
+      id:
+        description: 用户ID
+        example: 1
+        type: integer
+    type: object
+  comment.Comment:
+    properties:
+      content:
+        description: 回复内容
+        example: This is a content
+        type: string
+      created_at:
+        description: 创建时间戳（秒）
+        example: 1591974665
+        type: integer
+      id:
+        description: ID
+        example: 1
+        type: integer
+      torrent:
+        description: 种子
+        type: object
+      updated_at:
+        description: 更新时间戳（秒）
+        example: 1591974665
+        type: integer
+      user:
+        description: 用户
+        type: object
+    type: object
+  comment.CreateCommentRequest:
+    properties:
+      content:
+        description: 评论内容
+        example: This is a content
+        type: string
+    required:
+    - content
+    type: object
+  comment.Torrent:
+    properties:
+      id:
+        description: 种子ID
+        example: 1
+        type: integer
+      title:
+        description: 种子标题
+        example: This is a title
+        type: string
+    type: object
+  comment.UpdateCommentRequest:
+    properties:
+      content:
+        description: 评论内容
+        example: This is a content
+        type: string
+    type: object
+  comment.User:
+    properties:
+      display_name:
+        description: 用户名
+        example: spider
+        type: string
+      id:
+        description: 用户ID
+        example: 1
+        type: integer
+    type: object
+  forum.CreateForumRequest:
+    properties:
+      name:
+        description: 论坛版块名
+        example: This is a forum
+        type: string
+      sort:
+        description: 排序
+        example: 1
+        type: integer
+    required:
+    - name
+    type: object
+  forum.Forum:
+    properties:
+      created_at:
+        description: 创建时间戳（秒）
+        example: 1591974665
+        type: integer
+      id:
+        description: ID
+        example: 1
+        type: integer
+      name:
+        description: 版块名称
+        example: This is a forum name
+        type: string
+      sort:
+        description: 排序
+        example: 1
+        type: integer
+      updated_at:
+        description: 更新时间戳（秒）
+        example: 1591974665
+        type: integer
+    type: object
+  forum.UpdateForumRequest:
+    properties:
+      name:
+        description: 论坛版块名
+        example: This is a forum
+        type: string
+      sort:
+        description: 排序
+        example: 1
+        type: integer
+    required:
+    - name
+    type: object
+  notice.CreateNoticeRequest:
+    properties:
+      content:
+        description: 公告内容
+        example: This is a notice
+        type: string
+      title:
+        description: 公告标题
+        example: title
+        type: string
+    required:
+    - content
+    - title
+    type: object
+  notice.Notice:
+    properties:
+      content:
+        description: 公告内容
+        example: This is a notice
+        type: string
+      created_at:
+        description: 创建时间戳（秒）
+        example: 1591974665
+        type: integer
+      id:
+        description: ID
+        example: 1
+        type: integer
+      title:
+        description: 公告标题
+        example: title
+        type: string
+      updated_at:
+        description: 更新时间戳（秒）
+        example: 1591974665
+        type: integer
+    type: object
+  notice.UpdateNoticeRequest:
+    properties:
+      content:
+        description: 公告内容
+        example: This is a notice
+        type: string
+      title:
+        description: 公告标题
+        example: title
+        type: string
+    required:
+    - content
+    - title
+    type: object
+  post.CreatePostRequest:
+    properties:
+      content:
+        description: 回复内容
+        example: This is a content
+        type: string
+    required:
+    - content
+    type: object
+  post.Post:
+    properties:
+      content:
+        description: 回复内容
+        example: This is a content
+        type: string
+      created_at:
+        description: 创建时间戳（秒）
+        example: 1591974665
+        type: integer
+      id:
+        description: ID
+        example: 1
+        type: integer
+      topic:
+        description: 主题
+        type: object
+      updated_at:
+        description: 更新时间戳（秒）
+        example: 1591974665
+        type: integer
+      user:
+        description: 用户
+        type: object
+    type: object
+  post.Topic:
+    properties:
+      id:
+        description: 主题ID
+        example: 1
+        type: integer
+      title:
+        description: 主题标题
+        example: This is a title
+        type: string
+    type: object
+  post.UpdatePostRequest:
+    properties:
+      content:
+        description: 回复内容
+        example: This is a content
+        type: string
+    type: object
+  post.User:
+    properties:
+      display_name:
+        description: 用户名
+        example: spider
+        type: string
+      id:
+        description: 用户ID
+        example: 1
+        type: integer
+    type: object
+  response.ErrResponse:
+    properties:
+      code:
+        description: 业务错误码
+        example: 400
+        type: integer
+      message:
+        description: 业务错误信息
+        type: string
+    type: object
+  response.PageMeta:
+    properties:
+      page:
+        description: 页码
+        example: 1
+        type: integer
+      per_page:
+        description: 每页数量
+        example: 15
+        type: integer
+      total:
+        description: 总数
+        example: 100
+        type: integer
+    type: object
+  response.PageResponse:
+    properties:
+      code:
+        description: 业务状态码
+        example: 0
+        type: integer
+      data:
+        description: 数据
+        type: object
+      meta:
+        $ref: '#/definitions/response.PageMeta'
+        description: 附加信息
+        type: object
+    type: object
+  response.Response:
+    properties:
+      code:
+        description: 业务状态码
+        example: 0
+        type: integer
+      data:
+        description: 数据
+        type: object
+    type: object
+  subtitle.CreateSubtitleRequest:
+    properties:
+      hash_code:
+        description: HASH码
+        type: string
+      is_anonymous:
+        default: false
+        description: 是否匿名
+        example: false
+        type: boolean
+      language:
+        description: 语言
+        example: en
+        type: string
+      title:
+        description: 标题
+        example: Title
+        type: string
+    required:
+    - hash_code
+    - language
+    type: object
+  subtitle.Subtitle:
+    properties:
+      created_at:
+        description: 创建时间戳（秒）
+        example: 1591974665
+        type: integer
+      download_count:
+        description: 下载次数
+        example: 0
+        type: integer
+      extension:
+        description: 后缀
+        example: zip
+        type: string
+      filename:
+        description: 文件名
+        example: abc.zip
+        type: string
+      hash_code:
+        description: HASH码
+        type: string
+      id:
+        description: ID
+        example: 1
+        type: integer
+      is_anonymous:
+        description: 是否匿名
+        example: false
+        type: boolean
+      is_available:
+        description: 就否可用
+        example: false
+        type: boolean
+      language:
+        description: 语言
+        example: en
+        type: string
+      title:
+        description: 标题
+        example: Title
+        type: string
+      torrent:
+        description: 种子
+        type: object
+      updated_at:
+        description: 更新时间戳（秒）
+        example: 1591974665
+        type: integer
+      uploader:
+        description: 上传者
+        type: object
+    type: object
+  subtitle.Torrent:
+    properties:
+      id:
+        description: 种子ID
+        example: 1
+        type: integer
+      title:
+        description: 种子标题
+        example: title
+        type: string
+    type: object
+  subtitle.UpdateSubtitleRequest:
+    properties:
+      is_anonymous:
+        description: 是否匿名
+        example: false
+        type: boolean
+      language:
+        description: 语言
+        example: en
+        type: string
+      title:
+        description: 标题
+        example: Title
+        type: string
+    required:
+    - language
+    type: object
+  subtitle.User:
+    properties:
+      display_name:
+        description: 用户名
+        example: spider
+        type: string
+      id:
+        description: 用户ID
+        example: 1
+        type: integer
+    type: object
+  topic.CreateTopicRequest:
+    properties:
+      content:
+        description: 主题内容
+        example: This is a content
+        type: string
+      position:
+        default: 0
+        description: 置顶位置
+        example: 0
+        type: integer
+      title:
+        description: 主题标题
+        example: This is a title
+        type: string
+    required:
+    - content
+    - title
+    type: object
+  topic.Forum:
+    properties:
+      id:
+        description: 版块ID
+        example: 1
+        type: integer
+      name:
+        description: 版块名称
+        example: This is a forum name
+        type: string
+    type: object
+  topic.Topic:
+    properties:
+      content:
+        description: 主题内容
+        example: This is a content
+        type: string
+      created_at:
+        description: 创建时间戳（秒）
+        example: 1591974665
+        type: integer
+      forum:
+        description: 论坛版块
+        type: object
+      id:
+        description: ID
+        example: 1
+        type: integer
+      is_hot:
+        description: 是否热门
+        example: false
+        type: boolean
+      position:
+        description: 置顶位置
+        example: 0
+        type: integer
+      title:
+        description: 主题标题
+        example: This is a title
+        type: string
+      updated_at:
+        description: 更新时间戳（秒）
+        example: 1591974665
+        type: integer
+      user:
+        description: 用户
+        type: object
+      view_count:
+        description: 查看次数
+        example: 0
+        type: integer
+    type: object
+  topic.UpdateTopicRequest:
+    properties:
+      content:
+        description: 主题内容
+        example: This is a content
+        type: string
+      position:
+        description: 置顶位置
+        example: 0
+        type: integer
+      title:
+        description: 主题标题
+        example: This is a title
+        type: string
+    type: object
+  topic.User:
+    properties:
+      display_name:
+        description: 用户名
+        example: spider
+        type: string
+      id:
+        description: 用户ID
+        example: 1
+        type: integer
+    type: object
+  torrent.Category:
+    properties:
+      display_name:
+        description: 分类名
+        example: document
+        type: string
+      id:
+        description: 分类ID
+        example: 1
+        type: integer
+    type: object
+  torrent.CreateTorrentRequestBody:
+    properties:
+      category_id:
+        description: 分类ID
+        example: 401
+        type: integer
+      description:
+        description: 种子介绍
+        example: long long desc content
+        type: string
+      info_hash:
+        description: 唯一哈希码
+        type: string
+      is_anonymous:
+        default: false
+        description: 是否匿名
+        type: boolean
+      position_level:
+        default: 0
+        description: 置顶位置
+        type: integer
+      simple_desc:
+        description: 简介
+        example: simple desc
+        type: string
+      title:
+        description: 种子标题
+        example: Title
+        maxLength: 255
+        type: string
+    required:
+    - category_id
+    - info_hash
+    - title
+    type: object
+  torrent.Torrent:
+    properties:
+      category:
+        description: 分类
+        type: object
+      comment_count:
+        description: 评论数
+        example: 0
+        type: integer
+      created_at:
+        description: 创建时间戳（秒）
+        example: 1591974665
+        type: integer
+      description:
+        description: 种子介绍
+        example: long long desc content
+        type: string
+      id:
+        description: ID
+        example: 1
+        type: integer
+      info_hash:
+        description: 唯一哈希码
+        example: 001460cb52f9154f4ce2b510eae0dcb705210433
+        type: string
+      is_anonymous:
+        description: 是否匿名
+        example: false
+        type: boolean
+      leecher_count:
+        description: 下载者数量
+        example: 0
+        type: integer
+      owner:
+        description: 拥有者
+        type: object
+      position_level:
+        description: 置顶位置
+        example: 0
+        type: integer
+      reward_bonus:
+        description: 获赠魔力豆
+        example: 0
+        type: integer
+      seeder_count:
+        description: 做种者数量
+        example: 0
+        type: integer
+      simple_desc:
+        description: 简介
+        example: simple desc
+        type: string
+      size:
+        description: 资源体积
+        example: 12345
+        type: integer
+      snacher_count:
+        description: 完成都数量
+        example: 0
+        type: integer
+      state:
+        description: '种子状态 0: 待发布，1: 正常，2: 断种'
+        example: 0
+        type: integer
+      title:
+        description: 种子标题
+        example: Title
+        type: string
+      updated_at:
+        description: 更新时间戳（秒）
+        example: 1591974665
+        type: integer
+      uploader:
+        description: 发布者
+        type: object
+      view_count:
+        description: 查看次数
+        example: 0
+        type: integer
+    type: object
+  torrent.UpdateTorrentRequest:
+    properties:
+      category_id:
+        description: 分类ID
+        type: integer
+      description:
+        description: 种子介绍
+        example: long long desc content
+        type: string
+      is_anonymous:
+        description: 是否匿名
+        example: false
+        type: boolean
+      position_level:
+        description: 置顶位置
+        example: 0
+        type: integer
+      simple_desc:
+        description: 简介
+        example: simple desc
+        type: string
+      state:
+        description: '种子状态 0: 待发布，1: 正常，2: 断种'
+        example: 0
+        type: integer
+      title:
+        description: 种子标题
+        example: Title
+        type: string
+    type: object
+  torrent.User:
+    properties:
+      display_name:
+        description: 用户名
+        example: spider
+        type: string
+      id:
+        description: 用户ID
+        example: 1
+        type: integer
+    type: object
+host: localhost:8888
+info:
+  contact:
+    name: EndPot
+    url: https://github.com/endpot
+  description: SpiderX is a private tracker server.
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  title: SpiderX API
+  version: 0.0.1
+paths:
+  /auth.getMine:
+    post:
+      consumes:
+      - application/json
+      description: 获取个人信息
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/auth.Mine'
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取个人信息
+      tags:
+      - Auth
+  /auth.login:
+    post:
+      consumes:
+      - application/json
+      description: 用户使用用户名密码登录
+      parameters:
+      - description: 用户登录参数
+        in: body
+        name: auth
+        required: true
+        schema:
+          $ref: '#/definitions/auth.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - type: object
+                  - properties:
+                      token:
+                        type: string
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      summary: 用户登录
+      tags:
+      - Auth
+  /auth.logout:
+    post:
+      consumes:
+      - application/json
+      description: 用户退出登录态
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 用户登出
+      tags:
+      - Auth
+  /auth.refreshToken:
+    post:
+      consumes:
+      - application/json
+      description: 刷新登录密钥
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - type: object
+                  - properties:
+                      token:
+                        type: string
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 刷新登录密钥
+      tags:
+      - Auth
+  /auth.register:
+    post:
+      consumes:
+      - application/json
+      description: 用户自主注册
+      parameters:
+      - description: 用户注册参数
+        in: body
+        name: auth
+        required: true
+        schema:
+          $ref: '#/definitions/auth.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      summary: 用户注册
+      tags:
+      - Auth
+  /auth.reset:
+    post:
+      consumes:
+      - application/json
+      description: 重置密码
+      parameters:
+      - description: 重置密码参数
+        in: body
+        name: auth
+        required: true
+        schema:
+          $ref: '#/definitions/auth.ResetRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      summary: 重置密码
+      tags:
+      - Auth
+  /auth.sendCode:
+    post:
+      consumes:
+      - application/json
+      description: 发送校验码
+      parameters:
+      - description: 发送校验码参数
+        in: body
+        name: auth
+        required: true
+        schema:
+          $ref: '#/definitions/auth.SendCodeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      summary: 发送校验码
+      tags:
+      - Auth
+  /chats:
+    get:
+      consumes:
+      - application/json
+      description: 获取群聊消息列表
+      parameters:
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 15
+        description: 每页数量
+        in: query
+        name: per_page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.PageResponse'
+            - properties:
+                data:
+                  items:
+                    allOf:
+                    - $ref: '#/definitions/chat.Chat'
+                    - properties:
+                        user:
+                          $ref: '#/definitions/chat.User'
+                      type: object
+                  type: array
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取群聊消息列表
+      tags:
+      - Chat
+    post:
+      consumes:
+      - application/json
+      description: 创建群聊
+      parameters:
+      - description: 创建聊天消息请求参数
+        in: body
+        name: chat
+        required: true
+        schema:
+          $ref: '#/definitions/chat.CreateChatRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/chat.Chat'
+                  - properties:
+                      user:
+                        $ref: '#/definitions/chat.User'
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 创建群聊
+      tags:
+      - Chat
+  /chats/{chat_id}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除群聊消息
+      parameters:
+      - description: 群聊ID
+        in: path
+        name: chat_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除群聊消息
+      tags:
+      - Chat
+    get:
+      consumes:
+      - application/json
+      description: 获取群聊消息
+      parameters:
+      - description: 群聊ID
+        in: path
+        name: chat_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/chat.Chat'
+                  - properties:
+                      user:
+                        $ref: '#/definitions/chat.User'
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取群聊消息
+      tags:
+      - Chat
+    patch:
+      consumes:
+      - application/json
+      description: 更新群聊消息
+      parameters:
+      - description: 群聊ID
+        in: path
+        name: chat_id
+        required: true
+        type: integer
+      - description: 更新群聊请求参数
+        in: body
+        name: chat
+        required: true
+        schema:
+          $ref: '#/definitions/chat.UpdateChatRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/chat.Chat'
+                  - properties:
+                      user:
+                        $ref: '#/definitions/chat.User'
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新群聊消息
+      tags:
+      - Chat
+  /forums:
+    get:
+      consumes:
+      - application/json
+      description: 获取论坛版块列表
+      parameters:
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 15
+        description: 每页数量
+        in: query
+        name: per_page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.PageResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/forum.Forum'
+                  type: array
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取论坛版块列表
+      tags:
+      - Forum
+    post:
+      consumes:
+      - application/json
+      description: 创建论坛版块
+      parameters:
+      - description: 创建论坛版块请求参数
+        in: body
+        name: forum
+        required: true
+        schema:
+          $ref: '#/definitions/forum.CreateForumRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/forum.Forum'
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 创建论坛版块
+      tags:
+      - Forum
+  /forums/{forum_id}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除论坛版块
+      parameters:
+      - description: 论坛版块ID
+        in: path
+        name: forum_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除论坛版块
+      tags:
+      - Forum
+    get:
+      consumes:
+      - application/json
+      description: 获取论坛版块信息
+      parameters:
+      - description: 论坛版块ID
+        in: path
+        name: forum_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/forum.Forum'
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取论坛版块信息
+      tags:
+      - Forum
+    patch:
+      consumes:
+      - application/json
+      description: 更新论坛版块
+      parameters:
+      - description: 论坛版块ID
+        in: path
+        name: forum_id
+        required: true
+        type: integer
+      - description: 更新论坛版块请求参数
+        in: body
+        name: forum
+        required: true
+        schema:
+          $ref: '#/definitions/forum.UpdateForumRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/forum.Forum'
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新论坛版块
+      tags:
+      - Forum
+  /forums/{forum_id}/topics:
+    get:
+      consumes:
+      - application/json
+      description: 获取主题列表
+      parameters:
+      - description: 论坛版块ID
+        in: path
+        name: forum_id
+        required: true
+        type: integer
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 15
+        description: 每页数量
+        in: query
+        name: per_page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.PageResponse'
+            - properties:
+                data:
+                  items:
+                    allOf:
+                    - $ref: '#/definitions/topic.Topic'
+                    - properties:
+                        forum:
+                          $ref: '#/definitions/topic.Forum'
+                        user:
+                          $ref: '#/definitions/topic.User'
+                      type: object
+                  type: array
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取主题列表
+      tags:
+      - Topic
+    post:
+      consumes:
+      - application/json
+      description: 创建主题
+      parameters:
+      - description: 论坛版块ID
+        in: path
+        name: forum_id
+        required: true
+        type: integer
+      - description: 创建主题请求参数
+        in: body
+        name: topic
+        required: true
+        schema:
+          $ref: '#/definitions/topic.CreateTopicRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/topic.Topic'
+                  - properties:
+                      forum:
+                        $ref: '#/definitions/topic.Forum'
+                      user:
+                        $ref: '#/definitions/topic.User'
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 创建主题
+      tags:
+      - Topic
+  /forums/{forum_id}/topics/{topic_id}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除主题
+      parameters:
+      - description: 论坛版块ID
+        in: path
+        name: forum_id
+        required: true
+        type: integer
+      - description: 主题ID
+        in: path
+        name: topic_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除主题
+      tags:
+      - Topic
+    get:
+      consumes:
+      - application/json
+      description: 获取主题信息
+      parameters:
+      - description: 论坛版块ID
+        in: path
+        name: forum_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/topic.Topic'
+                  - properties:
+                      forum:
+                        $ref: '#/definitions/topic.Forum'
+                      user:
+                        $ref: '#/definitions/topic.User'
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取主题信息
+      tags:
+      - Topic
+    patch:
+      consumes:
+      - application/json
+      description: 更新主题
+      parameters:
+      - description: 论坛版块ID
+        in: path
+        name: forum_id
+        required: true
+        type: integer
+      - description: 主题ID
+        in: path
+        name: topic_id
+        required: true
+        type: integer
+      - description: 更新主题请求参数
+        in: body
+        name: topic
+        required: true
+        schema:
+          $ref: '#/definitions/topic.UpdateTopicRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/topic.Topic'
+                  - properties:
+                      forum:
+                        $ref: '#/definitions/topic.Forum'
+                      user:
+                        $ref: '#/definitions/topic.User'
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新主题
+      tags:
+      - Topic
+  /notices:
+    get:
+      consumes:
+      - application/json
+      description: 获取站点公告列表
+      parameters:
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 15
+        description: 每页数量
+        in: query
+        name: per_page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.PageResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/notice.Notice'
+                  type: array
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取站点公告列表
+      tags:
+      - Notice
+    post:
+      consumes:
+      - application/json
+      description: 创建公告
+      parameters:
+      - description: 创建公告请求参数
+        in: body
+        name: notice
+        required: true
+        schema:
+          $ref: '#/definitions/notice.CreateNoticeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/notice.Notice'
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 创建公告
+      tags:
+      - Notice
+  /notices/{notice_id}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除公告
+      parameters:
+      - description: 公告ID
+        in: path
+        name: notice_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除公告
+      tags:
+      - Notice
+    get:
+      consumes:
+      - application/json
+      description: 获取站点公告
+      parameters:
+      - description: 公告ID
+        in: path
+        name: notice_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/notice.Notice'
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取站点公告
+      tags:
+      - Notice
+    patch:
+      consumes:
+      - application/json
+      description: 更新公告
+      parameters:
+      - description: 公告ID
+        in: path
+        name: notice_id
+        required: true
+        type: integer
+      - description: 更新公告请求参数
+        in: body
+        name: notice
+        required: true
+        schema:
+          $ref: '#/definitions/notice.UpdateNoticeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/notice.Notice'
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新公告
+      tags:
+      - Notice
+  /topics/{topic_id}/posts:
+    get:
+      consumes:
+      - application/json
+      description: 获取主题回复列表
+      parameters:
+      - description: 主题ID
+        in: path
+        name: topic_id
+        required: true
+        type: integer
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 15
+        description: 每页数量
+        in: query
+        name: per_page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.PageResponse'
+            - properties:
+                data:
+                  items:
+                    allOf:
+                    - $ref: '#/definitions/post.Post'
+                    - properties:
+                        topic:
+                          $ref: '#/definitions/post.Topic'
+                        user:
+                          $ref: '#/definitions/post.User'
+                      type: object
+                  type: array
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取主题回复列表
+      tags:
+      - Post
+    post:
+      consumes:
+      - application/json
+      description: 创建回复
+      parameters:
+      - description: 主题ID
+        in: path
+        name: topic_id
+        required: true
+        type: integer
+      - description: 创建回复请求参数
+        in: body
+        name: post
+        required: true
+        schema:
+          $ref: '#/definitions/post.CreatePostRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/post.Post'
+                  - properties:
+                      topic:
+                        $ref: '#/definitions/post.Topic'
+                      user:
+                        $ref: '#/definitions/post.User'
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 创建回复
+      tags:
+      - Post
+  /topics/{topic_id}/posts/{post_id}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除回复
+      parameters:
+      - description: 主题ID
+        in: path
+        name: topic_id
+        required: true
+        type: integer
+      - description: 回复ID
+        in: path
+        name: post_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除回复
+      tags:
+      - Post
+    get:
+      consumes:
+      - application/json
+      description: 获取主题回复
+      parameters:
+      - description: 主题ID
+        in: path
+        name: topic_id
+        required: true
+        type: integer
+      - description: 回复ID
+        in: path
+        name: post_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/post.Post'
+                  - properties:
+                      topic:
+                        $ref: '#/definitions/post.Topic'
+                      user:
+                        $ref: '#/definitions/post.User'
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取主题回复
+      tags:
+      - Post
+    patch:
+      consumes:
+      - application/json
+      description: 更新回复
+      parameters:
+      - description: 主题ID
+        in: path
+        name: topic_id
+        required: true
+        type: integer
+      - description: 回复ID
+        in: path
+        name: post_id
+        required: true
+        type: integer
+      - description: 更新回复请求参数
+        in: body
+        name: post
+        required: true
+        schema:
+          $ref: '#/definitions/post.UpdatePostRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/post.Post'
+                  - properties:
+                      topic:
+                        $ref: '#/definitions/post.Topic'
+                      user:
+                        $ref: '#/definitions/post.User'
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新回复
+      tags:
+      - Post
+  /torrents:
+    get:
+      consumes:
+      - application/json
+      description: 获取种子列表
+      parameters:
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 15
+        description: 每页数量
+        in: query
+        name: per_page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.PageResponse'
+            - properties:
+                data:
+                  items:
+                    allOf:
+                    - $ref: '#/definitions/torrent.Torrent'
+                    - properties:
+                        category:
+                          $ref: '#/definitions/torrent.Category'
+                        owner:
+                          $ref: '#/definitions/torrent.User'
+                        uploader:
+                          $ref: '#/definitions/torrent.User'
+                      type: object
+                  type: array
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取种子列表
+      tags:
+      - Torrent
+    post:
+      consumes:
+      - application/json
+      description: 创建种子
+      parameters:
+      - description: 创建种子请求参数
+        in: body
+        name: torrent
+        required: true
+        schema:
+          $ref: '#/definitions/torrent.CreateTorrentRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/torrent.Torrent'
+                  - properties:
+                      category:
+                        $ref: '#/definitions/torrent.Category'
+                      owner:
+                        $ref: '#/definitions/torrent.User'
+                      uploader:
+                        $ref: '#/definitions/torrent.User'
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 创建种子
+      tags:
+      - Torrent
+  /torrents.preUpload:
+    post:
+      consumes:
+      - multipart/form-data
+      description: 预创建种子
+      parameters:
+      - description: 种子文件
+        in: formData
+        name: torrent
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - type: object
+                  - properties:
+                      info_hash:
+                        type: string
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 预创建种子
+      tags:
+      - Torrent
+  /torrents/{torrent_id}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除种子
+      parameters:
+      - description: 种子ID
+        in: path
+        name: torrent_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除种子
+      tags:
+      - Torrent
+    get:
+      consumes:
+      - application/json
+      description: 获取种子信息
+      parameters:
+      - description: 种子ID
+        in: path
+        name: torrent_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/torrent.Torrent'
+                  - properties:
+                      category:
+                        $ref: '#/definitions/torrent.Category'
+                      owner:
+                        $ref: '#/definitions/torrent.User'
+                      uploader:
+                        $ref: '#/definitions/torrent.User'
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取种子信息
+      tags:
+      - Torrent
+    patch:
+      consumes:
+      - application/json
+      description: 更新种子
+      parameters:
+      - description: 种子ID
+        in: path
+        name: torrent_id
+        required: true
+        type: integer
+      - description: 更新种子请求参数
+        in: body
+        name: torrent
+        required: true
+        schema:
+          $ref: '#/definitions/torrent.UpdateTorrentRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/torrent.Torrent'
+                  - properties:
+                      category:
+                        $ref: '#/definitions/torrent.Category'
+                      owner:
+                        $ref: '#/definitions/torrent.User'
+                      uploader:
+                        $ref: '#/definitions/torrent.User'
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新种子
+      tags:
+      - Torrent
+  /torrents/{torrent_id}/comments:
+    get:
+      consumes:
+      - application/json
+      description: 获取种子评论列表
+      parameters:
+      - description: 种子ID
+        in: path
+        name: torrent_id
+        required: true
+        type: integer
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 15
+        description: 每页数量
+        in: query
+        name: per_page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.PageResponse'
+            - properties:
+                data:
+                  items:
+                    allOf:
+                    - $ref: '#/definitions/comment.Comment'
+                    - properties:
+                        torrent:
+                          $ref: '#/definitions/comment.Torrent'
+                        user:
+                          $ref: '#/definitions/comment.User'
+                      type: object
+                  type: array
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取种子评论列表
+      tags:
+      - Comment
+    post:
+      consumes:
+      - application/json
+      description: 创建种子评论
+      parameters:
+      - description: 种子ID
+        in: path
+        name: torrent_id
+        required: true
+        type: integer
+      - description: 创建种子评论请求参数
+        in: body
+        name: comment
+        required: true
+        schema:
+          $ref: '#/definitions/comment.CreateCommentRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/comment.Comment'
+                  - properties:
+                      torrent:
+                        $ref: '#/definitions/comment.Torrent'
+                      user:
+                        $ref: '#/definitions/comment.User'
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 创建种子评论
+      tags:
+      - Comment
+  /torrents/{torrent_id}/comments/{comment_id}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除种子评论
+      parameters:
+      - description: 种子ID
+        in: path
+        name: torrent_id
+        required: true
+        type: integer
+      - description: 评论ID
+        in: path
+        name: comment_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除种子评论
+      tags:
+      - Comment
+    get:
+      consumes:
+      - application/json
+      description: 获取种子评论
+      parameters:
+      - description: 种子ID
+        in: path
+        name: torrent_id
+        required: true
+        type: integer
+      - description: 评论ID
+        in: path
+        name: comment_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/comment.Comment'
+                  - properties:
+                      torrent:
+                        $ref: '#/definitions/comment.Torrent'
+                      user:
+                        $ref: '#/definitions/comment.User'
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取种子评论
+      tags:
+      - Comment
+    patch:
+      consumes:
+      - application/json
+      description: 更新种子评论
+      parameters:
+      - description: 种子ID
+        in: path
+        name: torrent_id
+        required: true
+        type: integer
+      - description: 评论ID
+        in: path
+        name: comment_id
+        required: true
+        type: integer
+      - description: 更新种子评论请求参数
+        in: body
+        name: comment
+        required: true
+        schema:
+          $ref: '#/definitions/comment.UpdateCommentRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/comment.Comment'
+                  - properties:
+                      torrent:
+                        $ref: '#/definitions/comment.Torrent'
+                      user:
+                        $ref: '#/definitions/comment.User'
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新种子评论
+      tags:
+      - Comment
+  /torrents/{torrent_id}/subtitles:
+    get:
+      consumes:
+      - application/json
+      description: 获取种子字幕列表
+      parameters:
+      - description: 种子ID
+        in: path
+        name: torrent_id
+        required: true
+        type: integer
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 15
+        description: 每页数量
+        in: query
+        name: per_page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.PageResponse'
+            - properties:
+                data:
+                  items:
+                    allOf:
+                    - $ref: '#/definitions/subtitle.Subtitle'
+                    - properties:
+                        torrent:
+                          $ref: '#/definitions/subtitle.Torrent'
+                        uploader:
+                          $ref: '#/definitions/subtitle.User'
+                      type: object
+                  type: array
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取种子字幕列表
+      tags:
+      - Subtitle
+    post:
+      consumes:
+      - application/json
+      description: 创建种子字幕
+      parameters:
+      - description: 种子ID
+        in: path
+        name: torrent_id
+        required: true
+        type: integer
+      - description: 创建种子字幕请求参数
+        in: body
+        name: subtitle
+        required: true
+        schema:
+          $ref: '#/definitions/subtitle.CreateSubtitleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/subtitle.Subtitle'
+                  - properties:
+                      torrent:
+                        $ref: '#/definitions/subtitle.Torrent'
+                      uploader:
+                        $ref: '#/definitions/subtitle.User'
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 创建种子字幕
+      tags:
+      - Subtitle
+  /torrents/{torrent_id}/subtitles.preUpload:
+    post:
+      consumes:
+      - multipart/form-data
+      description: 预创建字幕
+      parameters:
+      - description: 字幕文件
+        in: formData
+        name: subtitle
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - type: object
+                  - properties:
+                      hash_code:
+                        type: string
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 预创建字幕
+      tags:
+      - Subtitle
+  /torrents/{torrent_id}/subtitles/{subtitle_id}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除种子字幕
+      parameters:
+      - description: 种子ID
+        in: path
+        name: torrent_id
+        required: true
+        type: integer
+      - description: 字幕ID
+        in: path
+        name: subtitle_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除种子字幕
+      tags:
+      - Subtitle
+    get:
+      consumes:
+      - application/json
+      description: 获取种子字幕
+      parameters:
+      - description: 种子ID
+        in: path
+        name: torrent_id
+        required: true
+        type: integer
+      - description: 字幕ID
+        in: path
+        name: subtitle_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/subtitle.Subtitle'
+                  - properties:
+                      torrent:
+                        $ref: '#/definitions/subtitle.Torrent'
+                      uploader:
+                        $ref: '#/definitions/subtitle.User'
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取种子字幕
+      tags:
+      - Subtitle
+    patch:
+      consumes:
+      - application/json
+      description: 更新种子字幕
+      parameters:
+      - description: 种子ID
+        in: path
+        name: torrent_id
+        required: true
+        type: integer
+      - description: 字幕ID
+        in: path
+        name: subtitle_id
+        required: true
+        type: integer
+      - description: 更新种子字幕请求参数
+        in: body
+        name: subtitle
+        required: true
+        schema:
+          $ref: '#/definitions/subtitle.UpdateSubtitleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/subtitle.Subtitle'
+                  - properties:
+                      torrent:
+                        $ref: '#/definitions/subtitle.Torrent'
+                      uploader:
+                        $ref: '#/definitions/subtitle.User'
+                    type: object
+              type: object
+        "400":
+          description: 请求参数异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "401":
+          description: 用户身份信息异常
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "403":
+          description: 没有操作权限
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "404":
+          description: 没有对象
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/response.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新种子字幕
+      tags:
+      - Subtitle
+schemes:
+- http
+securityDefinitions:
+  Bearer:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
